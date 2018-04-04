@@ -1,0 +1,161 @@
+* {
+    font-family: 'Work Sans', sans-serif;
+}
+
+body {
+    margin: 0;
+}
+
+.DayPickerNavigation_button__default {
+    border: 0;
+    background-color: transparent;
+}
+
+.DayPicker {
+    padding: 0 0 10px;
+    background-color: rgba(255, 255, 255, 0.9);
+}
+
+.DayPicker__withBorder {
+    border: 0;
+    box-shadow: 0 0 0 0;
+}
+
+.DayPickerNavigation_button__default:focus,
+.DayPickerNavigation_button__default:hover {
+    border: 0;
+    outline: 0;
+}
+
+.DayPickerNavigation_svg__horizontal {
+    fill: black;
+}
+
+.CalendarMonth {
+    background: transparent;
+}
+
+.CalendarMonth_caption {
+    font-size: 28px;
+}
+
+.DayPicker_weekHeader_ul {
+    font-size: 22px;
+}
+
+.CalendarMonthGrid {
+    background: transparent;
+}
+
+.CalendarDay {
+    font-size: 18px;
+}
+
+.CalendarDay__default {
+    background-color: transparent;
+    border: 0;
+    color: black;
+}
+
+.CalendarDay__selected,
+.CalendarDay__selected:active,
+.CalendarDay__selected:hover {
+    background-color: rgba(97, 196, 119, .9);
+    border: 0;
+    color: rgba(255,255,255,1);
+}
+
+.CalendarDay__blocked_out_of_range,
+.CalendarDay__blocked_out_of_range:active,
+.CalendarDay__blocked_out_of_range:hover {
+    background-color: transparent;
+    border: 0;
+    color: rgba(0, 0, 0, 0.3);
+}
+
+.CalendarDay__selected_span {
+    background-color: rgba(97, 196, 119, .7);
+    border: 0;
+    color: rgba(255,255,255,1);
+}
+
+.CalendarMonth_table {
+    margin-top: 10px;
+}
+
+.CalendarMonth_caption {
+    color: rgba(0, 0, 0, 1);
+}
+
+.App {
+
+}
+
+.App__bg {
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: -1;
+    width: 100%;
+}
+
+.App__homeInfo {
+    display: flex;
+    flex-flow: row nowrap;
+    align-items: center;
+    margin-left: 32px;
+    margin-top: 32px;
+    width: 600px;
+}
+
+.App__logo {
+    width: 150px;
+    margin-right: 18px; 
+}
+
+.App__homeInfo h1 {
+    margin: 0;
+    font-size: 42px;
+    color: white;
+}
+
+.App__homeInfo h2 {
+    margin: 0;
+    font-size: 28px;
+    font-weight: lighter;
+    color: white;
+}
+
+.Calendar {
+    width: 361px;
+    margin: 32px 0 0 32px;
+}
+
+.Calendar__confirmation {
+    display: grid;
+    grid: auto / 1fr 1fr;
+    grid-gap: 10px;
+    justify-items: center;
+    text-align: center;
+    font-size: 22px;
+    padding: 22px;
+    margin: 22px 0 22px;
+    background-color: rgba(255, 255, 255, 0.9)
+}
+
+.Calendar__date {
+    font-size: 28px;
+    height: 64px;
+    font-weight: bold;
+}
+
+.Calendar__confirm {
+    width: 100%;
+    text-align: center;
+    box-sizing: border-box;
+    padding: 18px;
+    background-color: rgba(97, 196, 119, 1);
+    color: white;
+    font-size: 28px;
+    font-weight: bold;
+}

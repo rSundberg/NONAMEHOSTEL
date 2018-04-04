@@ -4,43 +4,26 @@ import fetch from 'isomorphic-fetch'
 import React from 'react'
 import ReactDOM from 'react-dom'
 
-import 'react-dates/initialize'
-import {DateRangePicker, SingleDatePicker, DayPickerRangeController} from 'react-dates'
+import Calendar from './components/calendar'
+import bg from './bg.jpg'
+import logo from './logo.jpg'
 
-import { isInclusivelyAfterDay } from './utils/utils'
-
-import 'react-dates/lib/css/_datepicker.css';
+import './app.css'
 
 class App extends React.Component {
-    state = {
-        startDate: null,
-        endDate : null,
-        focusedInput : 'startDate'
-    }
-
-    handleChange = ({startDate, endDate}) => this.setState({startDate, endDate})
-
-    handleFocus = input => this.setState({
-        focusedInput: !input ? 'startDate' : 'endDate'
-    })
-
-    componentDidMount() {
-
-    }
-
     render() {
         return (
-            <DayPickerRangeController
-                numberOfMonths = {2}
-                isOutsideRange = {
-                    day => !isInclusivelyAfterDay(day, moment())
-                }
-                startDate = {this.state.startDate}
-                endDate = {this.state.endDate}
-                focusedInput = {this.state.focusedInput}
-                onDatesChange = {this.handleChange}
-                onFocusChange = {this.handleFocus}
-            />
+            <div className={'App'}>
+                <div className={'App__homeInfo'}>
+                    <img className={'App__logo'} src={logo} />
+                    <div>
+                        <h1>No name hostel</h1>
+                        <h2>Crowdfunded, Volunteer-Based Traveler Community</h2>
+                    </div>
+                </div>
+                <Calendar />
+                <img className={'App__bg'} src={bg} />
+            </div>
         )
     }
 }
