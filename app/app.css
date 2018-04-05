@@ -1,3 +1,9 @@
+:root {
+    --font-big: 18px;
+    --font-small: 16px;
+    --font-tiny: 12px;
+}
+
 * {
     font-family: 'Work Sans', sans-serif;
 }
@@ -12,13 +18,13 @@ body {
 }
 
 .DayPicker {
-    padding: 0 0 10px;
-    background-color: rgba(255, 255, 255, 0.9);
+    margin-top: 10px;
 }
 
 .DayPicker__withBorder {
     border: 0;
     box-shadow: 0 0 0 0;
+    border-radius: 0;
 }
 
 .DayPickerNavigation_button__default:focus,
@@ -36,11 +42,11 @@ body {
 }
 
 .CalendarMonth_caption {
-    font-size: 28px;
+    font-size: var(--font-big);
 }
 
 .DayPicker_weekHeader_ul {
-    font-size: 22px;
+    font-size: var(--font-small);
 }
 
 .CalendarMonthGrid {
@@ -48,13 +54,19 @@ body {
 }
 
 .CalendarDay {
-    font-size: 18px;
+    font-size: var(--font-tiny);
 }
 
 .CalendarDay__default {
     background-color: transparent;
     border: 0;
     color: black;
+}
+
+.CalendarDay__default:hover {
+    background-color: rgba(0, 0, 0, 0.1);
+    border: 0;
+    color: white;
 }
 
 .CalendarDay__selected,
@@ -79,6 +91,22 @@ body {
     color: rgba(255,255,255,1);
 }
 
+.CalendarDay__selected_span:hover {
+    background-color: rgba(97, 196, 119, .9);
+    border: 0;
+}
+
+.CalendarDay__hovered_span {
+    background-color: rgba(97, 196, 119, .7);
+    color: white;
+}
+
+.CalendarDay__hovered_span:hover {
+    background-color: rgba(97, 196, 119, .9);
+    border: 0;
+    color: white;
+}
+
 .CalendarMonth_table {
     margin-top: 10px;
 }
@@ -88,74 +116,119 @@ body {
 }
 
 .App {
-
-}
-
-.App__bg {
-    position: absolute;
-    top: 0;
-    left: 0;
-    z-index: -1;
-    width: 100%;
+    display: grid;
+    grid: 100vh / auto 4fr;
 }
 
 .App__homeInfo {
     display: flex;
     flex-flow: row nowrap;
     align-items: center;
-    margin-left: 32px;
-    margin-top: 32px;
     width: 600px;
 }
 
 .App__logo {
-    width: 150px;
+    width: 90px;
     margin-right: 18px; 
 }
 
 .App__homeInfo h1 {
     margin: 0;
-    font-size: 42px;
+    font-size: 32px;
     color: white;
 }
 
 .App__homeInfo h2 {
     margin: 0;
-    font-size: 28px;
+    font-size: 22px;
     font-weight: lighter;
     color: white;
 }
 
-.Calendar {
-    width: 361px;
-    margin: 32px 0 0 32px;
+.Background {
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: -1;
+    width: 100vw;
+    height: 100vh;
+    overflow: hidden;
+
+    &__img {
+        width: 100%;
+    }
 }
 
-.Calendar__confirmation {
-    display: grid;
-    grid: auto / 1fr 1fr;
-    grid-gap: 10px;
-    justify-items: center;
-    text-align: center;
-    font-size: 22px;
-    padding: 22px;
-    margin: 22px 0 22px;
-    background-color: rgba(255, 255, 255, 0.9)
-}
-
-.Calendar__date {
-    font-size: 28px;
-    height: 64px;
-    font-weight: bold;
-}
-
-.Calendar__confirm {
-    width: 100%;
-    text-align: center;
+.Scrollable {
+    overflow: scroll;
     box-sizing: border-box;
-    padding: 18px;
-    background-color: rgba(97, 196, 119, 1);
-    color: white;
-    font-size: 28px;
-    font-weight: bold;
+    padding: 30px;
+}
+
+.Calendar {
+    display: grid;
+    grid: auto 50px / 326px;
+    align-items: center;
+    background-color: rgba(255, 255, 255, 1);
+
+    &__title {
+        margin: 0;
+        text-align: center;
+        font-size: var(--font-big);
+        font-weight: lighter;
+    }
+
+    &__confirm {
+        width: 100%;
+        text-align: center;
+        box-sizing: border-box;
+        padding: 20px;
+        background-color: rgba(97, 196, 119, 1);
+        color: white;
+        font-size: var(--font-big);
+        font-weight: bold;
+
+        & span {
+            padding-left: 5px;
+        }
+
+        & span:nth(0) {
+            padding-left: 0;
+        }
+    }
+}
+
+.Locations {
+    display: grid;
+    grid: 90px / 1fr 1fr;
+    align-items: center;
+    width: 326px;
+    margin-bottom: 5px;
+    background-color: rgba(255, 255, 255, 1);
+
+    &__title {
+        grid-area: 1 / 1 / 1 / last-line;
+        margin: 0;
+        text-align: center;
+        font-size: var(--font-big);
+        font-weight: lighter;
+    }
+
+    &__card {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+
+        & h2 {
+            margin: 0;
+            text-align: center;
+            font-size: var(--font-big);
+        }
+
+        & img {
+            position: absolute;
+            top: 0;
+            left: 0;
+        }
+    }    
 }

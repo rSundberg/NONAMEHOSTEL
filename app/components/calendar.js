@@ -33,33 +33,39 @@ export default class Calendar extends React.Component {
             <div className={'Calendar'}>
                 <DayPickerRangeController
                     numberOfMonths={1}
-                    daySize={45}
+                    daySize={40}
                     hideKeyboardShortcutsPanel={true}
-                    isDayBlocked=
-                    {day => false}
-                    isOutsideRange=
-                    { day => !isInclusivelyAfterDay(day, moment()) }
+                    isDayBlocked={day => false}
+                    isOutsideRange={ day => !isInclusivelyAfterDay(day, moment()) }
                     startDate={startDate}
                     endDate={endDate}
                     focusedInput={focusedInput}
                     onDatesChange={this.handleChange}
                     onFocusChange={this.handleFocus}/>
-                <div className={'Calendar__confirmation'}>
-                    <div>
-                        From
+                {/* <div className={'Calendar__confirmation'}>
+                    <div className={'Calendar__date'}>
+                        {startDate ? startDate.format('MMMM Do').toString() : null}
                     </div>
                     <div>
-                        To
+                        -
                     </div>
                     <div className={'Calendar__date'}>
-                        {startDate ? startDate.format('MMMM Do YYYY').toString() : null}
+                        {endDate ? endDate.format('MMMM Do').toString() : null}
                     </div>
-                    <div className={'Calendar__date'}>
-                        {endDate ? endDate.format('MMMM Do YYYY').toString() : null}
-                    </div>
-                </div>
+                </div> */}
                 <div className={'Calendar__confirm'}>
-                    Book a stay
+                    <span>
+                        Book
+                    </span>
+                    <span>
+                        {startDate ? startDate.format('MMMM Do').toString() : null}
+                    </span>
+                    <span>
+                        {startDate ? '-' : ''}
+                    </span>
+                    <span>
+                        {endDate ? endDate.format('MMMM Do').toString() : null}
+                    </span>
                 </div>
             </div>
         )
