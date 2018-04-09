@@ -2,23 +2,24 @@
     --font-big: 18px;
     --font-small: 16px;
     --font-tiny: 12px;
+
+    --box-shadow: 0px 1px 2px 2px rgba(0,0,0,0.05);
+
+    --active-item: rgba(97, 196, 119, .9);
+    --selected-item: rgba(97, 196, 119, .7);
 }
 
 * {
-    font-family: 'Work Sans', sans-serif;
+    font-family: 'Space Mono', monospace;
 }
 
-body {
+body, h2 {
     margin: 0;
 }
 
 .DayPickerNavigation_button__default {
     border: 0;
     background-color: transparent;
-}
-
-.DayPicker {
-    margin-top: 10px;
 }
 
 .DayPicker__withBorder {
@@ -64,7 +65,7 @@ body {
 }
 
 .CalendarDay__default:hover {
-    background-color: rgba(0, 0, 0, 0.1);
+    background-color: var(--active-item);
     border: 0;
     color: white;
 }
@@ -72,7 +73,7 @@ body {
 .CalendarDay__selected,
 .CalendarDay__selected:active,
 .CalendarDay__selected:hover {
-    background-color: rgba(97, 196, 119, .9);
+    background-color: var(--active-item);
     border: 0;
     color: rgba(255,255,255,1);
 }
@@ -86,7 +87,7 @@ body {
 }
 
 .CalendarDay__selected_span {
-    background-color: rgba(97, 196, 119, .7);
+    background-color: var(--selected-item);
     border: 0;
     color: rgba(255,255,255,1);
 }
@@ -118,31 +119,25 @@ body {
 .App {
     display: grid;
     grid: 100vh / auto 4fr;
+
+    &__logo {
+        width: 300px;
+    }
 }
 
-.App__homeInfo {
+.StartSection {
     display: flex;
-    flex-flow: row nowrap;
+    flex-flow: column nowrap;
+    justify-content: center;
     align-items: center;
-    width: 600px;
-}
+    height: 100%;
+    width: 100%;
 
-.App__logo {
-    width: 90px;
-    margin-right: 18px; 
-}
-
-.App__homeInfo h1 {
-    margin: 0;
-    font-size: 32px;
-    color: white;
-}
-
-.App__homeInfo h2 {
-    margin: 0;
-    font-size: 22px;
-    font-weight: lighter;
-    color: white;
+    &__title {
+        font-size: 32px;
+        width: 400px;
+        margin: 0;
+    }
 }
 
 .Background {
@@ -162,14 +157,19 @@ body {
 .Scrollable {
     overflow: scroll;
     box-sizing: border-box;
-    padding: 30px;
+
+    &::-webkit-scrollbar {
+        width: 0px;
+        background: transparent;
+        box-shadow: none;
+    }
 }
 
 .Calendar {
-    display: grid;
-    grid: auto 50px / 326px;
+    display: flex;
+    justify-content: center;
     align-items: center;
-    background-color: rgba(255, 255, 255, 1);
+    box-shadow: var(--box-shadow);
 
     &__title {
         margin: 0;
@@ -182,8 +182,7 @@ body {
         width: 100%;
         text-align: center;
         box-sizing: border-box;
-        padding: 20px;
-        background-color: rgba(97, 196, 119, 1);
+        background-color: var(--active-item);
         color: white;
         font-size: var(--font-big);
         font-weight: bold;
@@ -200,11 +199,9 @@ body {
 
 .Locations {
     display: grid;
-    grid: 90px / 1fr 1fr;
+    grid: 105px / 1fr 1fr;
     align-items: center;
-    width: 326px;
-    margin-bottom: 5px;
-    background-color: rgba(255, 255, 255, 1);
+    box-shadow: var(--box-shadow);
 
     &__title {
         grid-area: 1 / 1 / 1 / last-line;
@@ -218,6 +215,8 @@ body {
         display: flex;
         justify-content: center;
         align-items: center;
+        align-self: stretch;
+        cursor: pointer;
 
         & h2 {
             margin: 0;
@@ -230,5 +229,124 @@ body {
             top: 0;
             left: 0;
         }
+
+        &:hover {
+            background-color: var(--active-item);
+            color: white;
+        }
+
+        &--active {
+            background-color: var(--selected-item);
+            color: white;
+        }
     }    
+}
+
+.Booking {
+    padding: 70px;
+    padding-right: 5px;
+    display: grid;
+    grid: auto / auto;
+    grid-gap: 10px;
+
+    &__title {
+        padding: 22px;
+    }
+}
+
+.Beds {
+    display: grid;
+    grid: 1fr / 1fr 1fr 1fr;
+    box-shadow: var(--box-shadow);
+
+    &__card {
+        height: 150px;
+        display: flex;
+        flex-flow: column nowrap;
+        justify-content: center;
+        align-items: center;
+        font-size: var(--font-big);
+        font-weight: bold;
+        cursor: pointer;
+
+        &:hover {
+            background-color: var(--active-item);
+            color: white;
+
+            & svg {
+                fill: white;
+                stroke: white;
+            }
+        }
+
+        & svg {
+            width: 60px;
+            margin-bottom: 15px;
+            stroke: black;
+            stroke-width: 26px;
+        }
+
+        & path {
+            stroke-width: 26px;
+        }
+
+        &--active {
+            background-color: var(--selected-item);
+            color: white;
+
+            & svg {
+                fill: white;
+                stroke: white;
+            }
+        }
+    }
+}
+
+.Details {
+    display: flex;
+    flex-flow: column nowrap;
+    justify-content: center;
+    margin-top: 5px;
+    box-shadow: var(--box-shadow);
+
+    & input {
+        height: 50px;
+        font-size: var(--font-small);
+        margin-bottom: 5px;
+        padding-left: 22px;
+        font-weight: bold;
+        border: 0;
+        outline: 0;
+
+        &::placeholder {
+            color: black;
+            font-weight: bold;
+        }
+
+        &:hover {
+            background-color: var(--active-item);
+            color: white;
+
+            &::placeholder {
+                color: white;
+            }
+        }
+    }
+
+    & textarea {
+        height: 200px;
+        font-size: var(--font-small);
+        padding: 22px;
+        font-weight: lighter;
+        border: 0;
+
+        &:focus {
+            outline: none;
+        }
+
+        &::placeholder {
+            color: black;
+            font-weight: bold;
+        }
+    }
 }

@@ -20,7 +20,7 @@ module.exports = {
                 use: ['style-loader', 'postcss-loader']
             },
             {
-                test: /\.(gif|png|jpe?g|svg)$/i,
+                test: /\.(gif|png|jpe?g)$/i,
                 use: [{
                         loader: 'file-loader',
                         options: {
@@ -30,6 +30,19 @@ module.exports = {
                         loader: 'image-webpack-loader',
                         options: {
                             bypassOnDebug: true
+                        }
+                    }
+                ]
+            },
+            {
+                test: /\.svg$/,
+                use: [
+                    {
+                        loader: "babel-loader"
+                    }, {
+                        loader: "react-svg-loader",
+                        options: {
+                            jsx: true
                         }
                     }
                 ]

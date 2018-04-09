@@ -53,7 +53,7 @@ export default class Calendar extends React.Component {
                         {endDate ? endDate.format('MMMM Do').toString() : null}
                     </div>
                 </div> */}
-                <div className={'Calendar__confirm'}>
+                {/* <div className={'Calendar__confirm'}>
                     <span>
                         Book
                     </span>
@@ -66,7 +66,7 @@ export default class Calendar extends React.Component {
                     <span>
                         {endDate ? endDate.format('MMMM Do').toString() : null}
                     </span>
-                </div>
+                </div> */}
             </div>
         )
     }
