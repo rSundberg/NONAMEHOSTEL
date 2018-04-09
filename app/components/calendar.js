@@ -17,6 +17,10 @@ export default class Calendar extends React.Component {
 
     handleChange = ({startDate, endDate}) => {
         console.log(startDate)
+        let {getDate} = this.props
+        console.log(getDate)
+        getDate(startDate, endDate);
+        
         this.setState({startDate, endDate})
     }
 
@@ -42,31 +46,6 @@ export default class Calendar extends React.Component {
                     focusedInput={focusedInput}
                     onDatesChange={this.handleChange}
                     onFocusChange={this.handleFocus}/>
-                {/* <div className={'Calendar__confirmation'}>
-                    <div className={'Calendar__date'}>
-                        {startDate ? startDate.format('MMMM Do').toString() : null}
-                    </div>
-                    <div>
-                        -
-                    </div>
-                    <div className={'Calendar__date'}>
-                        {endDate ? endDate.format('MMMM Do').toString() : null}
-                    </div>
-                </div> */}
-                {/* <div className={'Calendar__confirm'}>
-                    <span>
-                        Book
-                    </span>
-                    <span>
-                        {startDate ? startDate.format('MMMM Do').toString() : null}
-                    </span>
-                    <span>
-                        {startDate ? '-' : ''}
-                    </span>
-                    <span>
-                        {endDate ? endDate.format('MMMM Do').toString() : null}
-                    </span>
-                </div> */}
             </div>
         )
     }

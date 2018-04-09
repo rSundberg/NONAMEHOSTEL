@@ -8,7 +8,7 @@ export default class Beds extends Component {
         active: null
     }
 
-    setActive = card => this.setState({active: card})
+    setActive = card => this.setState({active: card}, () => this.props.getBed(this.state.active))
 
     render() {
         return (

@@ -5,7 +5,9 @@ export default class Locations extends React.Component {
         active: null
     }
 
-    setActive = card => this.setState({active: card})
+    setActive = card => this.setState({active: card}, () => {
+        this.props.getLocation(this.state.active)
+    })
 
     render() {
         return (
