@@ -5,8 +5,8 @@
 
     --box-shadow: 0px 1px 2px 2px rgba(0,0,0,0.05);
 
-    --active-item: rgba(97, 196, 119, .9);
-    --selected-item: rgba(97, 196, 119, .7);
+    --active-item: rgba(59, 141, 176, .9);
+    --selected-item: rgba(59, 141, 176, .7);
 }
 
 * {
@@ -93,17 +93,17 @@ body, h2 {
 }
 
 .CalendarDay__selected_span:hover {
-    background-color: rgba(97, 196, 119, .9);
+    background-color: var(--active-item);
     border: 0;
 }
 
 .CalendarDay__hovered_span {
-    background-color: rgba(97, 196, 119, .7);
+    background-color: var(--selected-item);
     color: white;
 }
 
 .CalendarDay__hovered_span:hover {
-    background-color: rgba(97, 196, 119, .9);
+    background-color: var(--active-item);
     border: 0;
     color: white;
 }
@@ -252,15 +252,71 @@ body, h2 {
     &__title {
         padding: 22px;
     }
+
+    &__confirm {
+        display: grid;
+        grid: 1fr / 1fr;
+        margin-bottom: 400px;
+        padding: 22px;
+        background-color: var(--active-item);
+        box-shadow: var(--box-shadow);
+        font-size: var(--font-small);
+        cursor: pointer;
+        text-transform: capitalize;
+        color: white;
+
+        & div:last-of-type {
+            margin-top: 5px;
+            font-weight: bold;
+        }
+
+        &:hover {
+            background-color: var(--selected-item);
+        }
+    }
 }
 
 .Beds {
     display: grid;
-    grid: 1fr / 1fr 1fr 1fr;
+    grid: 1fr auto / 1fr 1fr 1fr;
     box-shadow: var(--box-shadow);
+    position: relative;
+    max-width: 326px;
+
+    &__amount {
+        display: grid;
+        grid: 1fr 1fr / 1fr;
+        box-shadow: var(--box-shadow);
+        max-width: 326px;
+        text-align: center;
+        box-sizing: border-box;
+        padding: 22px;
+    }
+
+    &__counter {
+        display: grid;
+        grid: 1fr / 1fr 1fr 1fr;
+        font-size: var(--font-small);
+        font-weight: bold;
+        cursor: pointer;
+
+        & div {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+    }
+
+    &__alternatives {
+        grid-column: 1 / 4;
+        display: grid;
+        grid: 1fr / 1fr 1fr;
+    }
+
 
     &__card {
         height: 150px;
+        text-align: center;
         display: flex;
         flex-flow: column nowrap;
         justify-content: center;
@@ -300,6 +356,15 @@ body, h2 {
             }
         }
     }
+
+    &__alternative {
+        position: absolute;
+        top: 150px;
+        width: 100%;
+        display: grid;
+        grid: 1fr / 1fr 1fr 1fr;
+        align-items: center;
+    }
 }
 
 .Details {
@@ -336,7 +401,7 @@ body, h2 {
     & textarea {
         height: 200px;
         font-size: var(--font-small);
-        padding: 22px;
+        padding: 0 22px;
         font-weight: lighter;
         border: 0;
 
