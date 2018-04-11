@@ -2,6 +2,7 @@ import moment from 'moment'
 import fetch from 'isomorphic-fetch'
 import firebase from 'firebase/app'
 import 'firebase/firestore'
+import 'firebase/auth'
 
 import React from 'react'
 import ReactDOM from 'react-dom'

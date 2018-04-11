@@ -10,6 +10,7 @@
   "license": "ISC",
   "dependencies": {
     "@firebase/firestore": "^0.3.7",
+    "auth": "0.0.9",
     "firebase": "^4.12.1",
     "isomorphic-fetch": "^2.2.1",
     "moment": "^2.22.0",

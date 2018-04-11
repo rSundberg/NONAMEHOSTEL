@@ -16,10 +16,7 @@ export default class Calendar extends React.Component {
     }
 
     handleChange = ({startDate, endDate}) => {
-        console.log(startDate)
-        let {getDate} = this.props
-        console.log(getDate)
-        getDate(startDate, endDate);
+        this.props.getDate(startDate, endDate);
         
         this.setState({startDate, endDate})
     }
