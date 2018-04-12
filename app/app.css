@@ -117,6 +117,8 @@ body, h2 {
 }
 
 .App {
+    width: 100vw;
+    height: 100vh;
     display: grid;
     grid: 100vh / auto 4fr;
 
@@ -182,17 +184,17 @@ body, h2 {
     &__button {
         position: absolute;
         width: 56px;
-        height: 70px;
-        background-color: red;
+        height: 72px;
+        background-color: transparent;
 
         &--1 {
-            left: 62vw;
-            top: 32vh;
+            left: 63vw;
+            top: 31vh;
         }
 
         &--2 {
-            left: 62vw;
-            top: 48vh;
+            left: 63vw;
+            top: 47vh;
         }
     }
 }
@@ -204,10 +206,12 @@ body, h2 {
     align-items: center;
     height: 100%;
     width: 100%;
+    box-sizing: border-box;
+    padding: 10px;
 
     &__title {
         font-size: 32px;
-        width: 400px;
+        max-width: 400px;
         margin: 0;
     }
 }
@@ -229,6 +233,7 @@ body, h2 {
 .Scrollable {
     overflow: scroll;
     box-sizing: border-box;
+    height: 100vh;
 
     &::-webkit-scrollbar {
         width: 0px;
@@ -315,11 +320,29 @@ body, h2 {
 }
 
 .Booking {
-    padding: 70px;
-    padding-right: 5px;
+    width: 30vw;
+    min-height: 100%;
     display: grid;
     grid: auto / auto;
     grid-gap: 10px;
+    align-content: center;
+    justify-content: center;
+    box-sizing: border-box;
+    padding: 32px 0;
+
+    &__toggle-button {
+        z-index: 999;
+        position: absolute;
+        left: 0;
+        bottom: 0;
+        width: 100%;
+        padding: 22px;
+        font-size: var(--font-small);
+        box-sizing: border-box;
+        background-color: var(--active-item);
+        color: white;
+        text-align: center;
+    }
 
     &__title {
         padding: 22px;
@@ -328,7 +351,6 @@ body, h2 {
     &__confirm {
         display: grid;
         grid: 1fr / 1fr;
-        margin-bottom: 400px;
         padding: 22px;
         background-color: var(--active-item);
         box-shadow: var(--box-shadow);
@@ -354,6 +376,16 @@ body, h2 {
     box-shadow: var(--box-shadow);
     position: relative;
     max-width: 326px;
+
+    &__loader {
+        grid-column: 1 / 4;
+        box-sizing: border-box;
+        padding: 22px;
+        animation-duration: 0.4s;
+        animation-name: loaderz;
+        animation-direction: alternate;
+        animation-iteration-count: infinite;
+    }
 
     &__amount {
         display: grid;
@@ -488,5 +520,61 @@ body, h2 {
             color: black;
             font-weight: bold;
         }
+    }
+}
+
+@media only screen 
+and (min-device-width : 768px) 
+and (max-device-width : 1024px)  {
+    .Booking {
+        width: 45vw;
+        padding: 80px 0;
+    }
+
+    .StartSection {
+
+    }
+}
+
+@media only screen 
+and (max-device-width : 667px) {
+    .App {
+        display: flex;
+        flex-flow: column nowrap;
+        justify-content: center;
+
+    }
+
+    .Booking {
+        width: 100vw;
+        padding: 80px 0;
+
+        &--mobile {
+            position: absolute;
+            top: 0;
+            background-color: white;
+        }
+    }
+
+    .Scrollable {
+        left: -100vw;
+
+        &--visible {
+            left: 0;
+        }
+
+        &--absolute {
+            position: relative;
+        }
+    }
+}
+
+@keyframes loaderz {
+    from {
+        color: rgba(0,0, 0, 1);
+    }
+
+    to {
+        color: rgba(0,0, 0, 0.2);
     }
 }

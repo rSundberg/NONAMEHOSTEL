@@ -1,4 +1,4 @@
-import React, { Component } from 'react'
+import React, { Component, Fragment } from 'react'
 import firebase from 'firebase/app'
 import moment from 'moment'
 
@@ -25,7 +25,7 @@ export default class Booking extends Component {
 
     db = firebase.firestore();
 
-    bookings = this.db.collection("locations").doc("goa").collection('bookings');
+    bookings = null;
 
     dateRange = (start, end) => end ? 
         this.setState({start_date: start.format('YYYY-MM-DD'), end_date: end.format('YYYY-MM-DD')}) :
@@ -39,34 +39,71 @@ export default class Booking extends Component {
     customerDetails = (details) => this.setState(details)
 
     sendDetails = () => {
-        this.bookings.add(this.state).then(ref => console.log(ref.id))
+        this.bookings.add(this.state).then(ref => {
+            this.setState({
+                booking_date: moment().format('YYYY-MM-DD'),
+                start_date: null,
+                end_date: null,
+                location: null,
+                bed_type: null,
+                bed_count: null,
+                bed_alternative: null,
+                name: null,
+                email: null,
+                phone: null,
+                message: null,
+                country: null,
+                booked: true,
+                visible: false
+            })
+
+            console.log(ref.id)
+        })
     }
 
-    componentDidMount = () => {
-        this.bookings
-            .where("location", "==", "goa")
-            .where("start_date", ">", "2018-04-10")
-            .get().then(query => {
-                query.forEach(doc => {
-                    console.log(doc.data())
-                })
-            })
+    componentDidUpdate() {
+        if (this.state.location) {
+            this.bookings = this.db.collection("locations").doc(this.state.location).collection('bookings');
+        }
+    }
+
+    toggleVisibility = () => {
+        this.setState({visible: !this.state.visible})
     }
 
     render() {
-        const {start_date, end_date, location, bed_type, bed_count, bed_alternative, room_count, name, email, phone, message} = this.state
+        const {start_date, end_date, location, bed_type, bed_count, bed_alternative, room_count, name, email, phone, message, booked, visible} = this.state
+
+        const isMobile = /iPhone|iPod|Android/i.test(navigator.userAgent)
 
         return (
-            <div className={'Booking'}>
+            <Fragment>
+                {
+                    isMobile ?
+                        <div className={'Booking__toggle-button'} onClick={() => this.toggleVisibility()}>
+                            {visible ? 'Back home' : 'Book your stay'}
+                        </div> :
+                        null
+                }
+            <div className={`Scrollable ${isMobile ? 'Booking--mobile' : ''} ${visible ? 'Scrollable--visible' : ''}`}>
+            <div className={`Booking`}>
                 <h2 className={'Booking__title'}>
-                    Stay with us!
+                    {
+                        booked
+                            ? 'Thank you for staying with us!'
+                            : 'Stay with us!'
+                    }
                 </h2>
 
-                <Calendar getDate={this.dateRange}/>
+                {
+                    !booked ?
+                        <Calendar getDate={this.dateRange}/> :
+                        null
+                }
 
                 {start_date && end_date ? <Locations getLocation={this.currentLocation}/> : null}
 
-                {location ? <Beds getBed={this.pickBed}/> : null}
+                {location ? <Beds getBed={this.pickBed} location={this.state.location} start_date={start_date} end_date={end_date}/> : null}
                 
                 {bed_type ? <Details getDetails={this.customerDetails}/> : null}
 
@@ -105,6 +142,8 @@ export default class Booking extends Component {
                     </div> : null
                 }
             </div>
+            </div>
+            </Fragment>
         )
     }
 }

@@ -27,9 +27,7 @@ class App extends React.Component {
     render() {
         return (
             <div className={'App'}>
-                <div className={'Scrollable'}>
-                    <Booking />
-                </div>
+                <Booking />
 
                 <div className={'Scrollable'}>
                     <StartSection />
