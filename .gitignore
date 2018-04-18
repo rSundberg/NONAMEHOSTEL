@@ -4,6 +4,7 @@
 /node_modules
 functions/node_modules
 public/*.jpg
+firebase-debug.log
 
 # testing
 /coverage

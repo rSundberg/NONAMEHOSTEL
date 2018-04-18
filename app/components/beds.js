@@ -12,51 +12,16 @@ export default class Beds extends Component {
         bed_type: null,
         bed_alternative: null,
         bed_count: 1,
-        room_count: 1,
-        rooms_confirmed: false
+        room_count: 1
     }
 
-    db = firebase.firestore()
-
-    bookings = this.db.collection("locations").doc(this.props.location).collection('bookings');
-
-    pickBedDetails = obj => Object
-        .keys(obj)
-        .filter(key => key !== 'rooms_confirmed')
-        .reduce((obj, key) => {
-            return {
-                ...obj,
-                [key]: this.state[key]
-            }
-        }, {})
-
-    updateType = card => this.setState({
-        bed_type: card
-    }, () => this.props.getBed(this.pickBedDetails(this.state)))
+    updateType = type => this.setState({
+        bed_type: type
+    }, () => this.props.getBed(this.state))
 
     updateAlternative = alternative => this.setState({
         bed_alternative: alternative
-    }, () => this.props.getBed(this.pickBedDetails(this.state)))
-
-    componentDidMount() {
-        this.bookings
-            .where("location", "==", this.props.location)
-            .where("end_date", ">", this.props.start_date)
-            .get().then(doc => {
-                if (doc.exists) {
-                    doc.forEach(item => {
-                        console.log('ey')
-                        console.log(item.data())
-                    })
-                } else {
-                    this.setState({rooms_confirmed: !this.state.rooms_confirmed})
-                }
-
-            })
-            .catch(err => {
-                console.log(err)
-            })
-    }
+    }, () => this.props.getBed(this.state))
 
     updateRoomCount = amount => {
         if (this.state.room_count === 1 && amount === -1) {
@@ -94,66 +59,60 @@ export default class Beds extends Component {
     }
 
     render() {
-        let {rooms_confirmed, bed_type, room_count, bed_count, bed_alternative} = this.state
+        let {bed_type, room_count, bed_count, bed_alternative} = this.state
 
         return (
             <Fragment>
-                {
-                    rooms_confirmed ? null :
-                        <div className={'Beds'}>
-                            <div className={'Beds__loader'}>
-                                Checking availability...
+                <div className={'Beds'}>
+                    <div
+                        className={`Beds__card ${bed_type === 'free' ? 'Beds__card--active' : ''} ${!this.props.isAvailable(this.props.beds, 'free') ? 'Beds--disabled' : ''}`}
+                        onClick={() => this.props.isAvailable(this.props.beds, 'free') ? this.updateType('free') : null}>
+                        < SleepingBagStay />
+                        Free
+                    </div>
+                    <div
+                        className={`Beds__card ${bed_type === 'dorm' ? 'Beds__card--active' : ''} ${!this.props.isAvailable(this.props.beds, 'dorm') ? 'Beds--disabled' : ''}`}
+                        onClick={() => this.props.isAvailable(this.props.beds, 'dorm') ? this.updateType('dorm') : null}>
+                        <DormStay/>
+                        Dorm
+                    </div>
+                    <div
+                        className={`Beds__card ${bed_type === 'room' ? 'Beds__card--active' : ''} ${!this.props.isAvailable(this.props.beds, 'room') ? 'Beds--disabled' : ''}`}
+                        onClick={() => this.props.isAvailable(this.props.beds, 'room') ? this.updateType('room') : null}>
+                        <RoomStay/>
+                        Room
+                    </div>
+                    { bed_type === 'free' ? 
+                        <div className={'Beds__alternatives'}>
+                            <div className={`Beds__card ${bed_alternative === 'campbed' ? 'Beds__card--active' : ''}`} onClick={() => this.updateAlternative('campbed')}>
+                                <CampStay />
+                                Camp beds
                             </div>
-                        </div>
-                }
-                { rooms_confirmed ?
-                    <div className={'Beds'}>
-                        <div className={`Beds__card ${bed_type === 'free' ? 'Beds__card--active' : ''}`} onClick={() => this.updateType('free')}>
-                            < SleepingBagStay />
-                            Free
-                        </div>
-                        <div className={`Beds__card ${bed_type === 'dorm' ? 'Beds__card--active' : ''}`} onClick={() => this.updateType('dorm')}>
-                            <DormStay/>
-                            Dorm
-                        </div>
-                        <div className={`Beds__card ${bed_type === 'room' ? 'Beds__card--active' : ''}`} onClick={() => this.updateType('room')}>
-                            <RoomStay/>
-                            Room
-                        </div>
-                        { bed_type === 'free' ? 
-                            <div className={'Beds__alternatives'}>
-                                <div className={`Beds__card ${bed_alternative === 'campbed' ? 'Beds__card--active' : ''}`} onClick={() => this.updateAlternative('campbed')}>
-                                    <CampStay />
-                                    Camp beds
-                                </div>
-                                <div className={`Beds__card ${bed_alternative === 'tent' ? 'Beds__card--active' : ''}`} onClick={() => this.updateAlternative('tent')}>
-                                    <FreeStay/>
-                                    Pitch your tent
-                                </div>
-                            </div> : null
-                        }
-                    </div> : null
-                }
+                            <div className={`Beds__card ${bed_alternative === 'tent' ? 'Beds__card--active' : ''}`} onClick={() => this.updateAlternative('tent')}>
+                                <FreeStay/>
+                                Pitch your tent
+                            </div>
+                        </div> : null
+                    }
+                </div>
 
-                { rooms_confirmed ?
-                    <div className={'Beds__amount'}>
-                        How many people are you booking for?
+                <div className={'Beds__amount'}>
+                    How many people are you booking for?
 
-                        <div className={'Beds__counter'}>
-                            <div onClick={() => this.updateBedCount(-1)}>
-                                {bed_count === 1 ? '' : '-'}
-                            </div>
-                            <div>
-                                {bed_count}
-                            </div>
-                            <div onClick={() => this.updateBedCount(1)}>
-                                +
-                            </div>
+                    <div className={'Beds__counter'}>
+                        <div onClick={() => this.updateBedCount(-1)}>
+                            {bed_count === 1 ? '' : '-'}
                         </div>
-                    </div> : null
-                }
+                        <div>
+                            {bed_count}
+                        </div>
+                        <div onClick={() => this.updateBedCount(1)}>
+                            +
+                        </div>
+                    </div>
+                </div>
 
-                { bed_type === 'room' && rooms_confirmed ?
+                { bed_type === 'room' ?
                     <div className={'Beds__amount'}>
                         Number of rooms
 

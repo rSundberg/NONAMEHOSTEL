@@ -117,8 +117,6 @@ body, h2 {
 }
 
 .App {
-    width: 100vw;
-    height: 100vh;
     display: grid;
     grid: 100vh / auto 4fr;
 
@@ -231,9 +229,9 @@ body, h2 {
 }
 
 .Scrollable {
-    overflow: scroll;
     box-sizing: border-box;
-    height: 100vh;
+    min-height: 100vh;
+    overflow: scroll;
 
     &::-webkit-scrollbar {
         width: 0px;
@@ -321,7 +319,7 @@ body, h2 {
 
 .Booking {
     width: 30vw;
-    min-height: 100%;
+    min-height: 98vh;
     display: grid;
     grid: auto / auto;
     grid-gap: 10px;
@@ -332,7 +330,7 @@ body, h2 {
 
     &__toggle-button {
         z-index: 999;
-        position: absolute;
+        position: fixed;
         left: 0;
         bottom: 0;
         width: 100%;
@@ -376,6 +374,10 @@ body, h2 {
     box-shadow: var(--box-shadow);
     position: relative;
     max-width: 326px;
+
+    &--disabled {
+        opacity: 0.25;
+    }
 
     &__loader {
         grid-column: 1 / 4;
@@ -547,17 +549,22 @@ and (max-device-width : 667px) {
 
     .Booking {
         width: 100vw;
+        height: 100vh;
         padding: 80px 0;
 
         &--mobile {
-            position: absolute;
+            position: fixed;
             top: 0;
+            left: -100vw;
             background-color: white;
+            overflow: scroll;
         }
     }
 
     .Scrollable {
-        left: -100vw;
+        &:first-of-type {
+            left: -100vw;
+        }
 
         &--visible {
             left: 0;
