@@ -5,20 +5,32 @@ export default class Locations extends React.Component {
         active: null
     }
 
-    setActive = card => this.setState({active: card}, () => {
-        this.props.getLocation(this.state.active)
+    setActive = card => this.setState({
+        active: card
+    }, () => {
+        this
+            .props
+            .getLocation(this.state.active)
     })
 
     render() {
         return (
             <div className={'Locations'}>
-                <div className={`Locations__card ${this.state.active === 'goa' ? 'Locations__card--active' : ''}`} onClick={() => this.setActive('goa')}>
+                <div
+                    className={`Locations__card ${this.props.currentLocation === 'goa'
+                    ? 'Locations__card--active'
+                    : ''}`}
+                    onClick={() => this.setActive('goa')}>
                     <h2>Goa</h2>
-                    <img />
+                    <img/>
                 </div>
-                <div className={`Locations__card ${this.state.active === 'himachal' ? 'Locations__card--active' : ''}`} onClick={() => this.setActive('himachal')}>
+                <div
+                    className={`Locations__card ${this.props.currentLocation === 'himachal'
+                    ? 'Locations__card--active'
+                    : ''}`}
+                    onClick={() => this.setActive('himachal')}>
                     <h2>Himachal</h2>
-                    <img />
+                    <img/>
                 </div>
             </div>
         )
