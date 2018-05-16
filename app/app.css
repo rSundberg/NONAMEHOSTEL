@@ -125,8 +125,13 @@ body, h1, h2, h3, h4 {
     display: grid;
     grid: 100vh / auto 4fr;
 
-    &__logo {
+    &__logo-container {
         width: 300px;
+        position: relative;
+    }
+
+    &__logo {
+        width: 100%;
     }
 
     &__toggleBooking {
@@ -134,13 +139,17 @@ body, h1, h2, h3, h4 {
     }
 }
 
-.Login {
-    left: 0;
+.Dashboard {
+    position: absolute;
     top: 0;
-    width: 100vw;
+    left: 0;
+    width: 0vw;
+    height: 100vh;
+    background-color: white;
+    overflow: hidden;
+    z-index: 9999;
 
-    &__dashboard {
-        position: absolute;
+    &__login {
         width: 30vw;
         height: 100vh;
         left: 0;
@@ -153,6 +162,11 @@ body, h1, h2, h3, h4 {
         align-items: center;
         box-sizing: border-box;
         padding: 22px;
+    }
+
+    &__home {
+        height: 100vh;
+        width: 100%;
     }
 
     &__inputs {
@@ -190,18 +204,18 @@ body, h1, h2, h3, h4 {
 
     &__button {
         position: absolute;
-        width: 56px;
-        height: 72px;
+        width: 80px;
+        height: 80px;
         background-color: transparent;
 
         &--1 {
-            left: 63vw;
-            top: 31vh;
+            left: 110px;
+            top: 40px;
         }
 
         &--2 {
-            left: 63vw;
-            top: 47vh;
+            left: 110px;
+            top: 187px;
         }
     }
 }
@@ -408,7 +422,6 @@ body, h1, h2, h3, h4 {
         grid: 1fr / 1fr 1fr;
     }
 
-
     &__card {
         height: 150px;
         text-align: center;
@@ -444,12 +457,12 @@ body, h1, h2, h3, h4 {
         }
 
         &--active {
-            background-color: var(--selected-item);
-            color: white;
+            background-color: var(--selected-item) !important;
+            color: white !important;
 
             & svg {
-                fill: white;
-                stroke: white;
+                fill: white !important;
+                stroke: white !important;
             }
         }
     }
@@ -582,21 +595,33 @@ and (max-device-width : 667px) {
         justify-content: center;
 
         &__toggleBooking {
-            top: 88vh;
-            height: 10vh;
-            width: 34vw;
+            bottom: 5vw;
             right: 5vw;
-            padding: 12px;
             z-index: 999;
-            box-sizing: border-box;
             box-shadow: var(--box-shadow);
+            padding: 22px;
+            box-sizing: border-box;
             background-color: white;
-            text-align: center;
-            font-size: var(--font-big);
-            font-weight: bold;
-            display: flex;
-            justify-content: center;
-            align-items: center;
+
+            & span {
+                text-align: center;
+                font-size: var(--font-big);
+                font-weight: bold;
+            }
+        }
+    }
+
+    .Beds {
+        &__card {
+            &:hover {
+                background-color: white;
+                color: black;
+
+                & svg {
+                    stroke: black;
+                    fill: black;
+                }
+            }
         }
     }
 

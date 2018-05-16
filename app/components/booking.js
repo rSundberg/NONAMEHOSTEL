@@ -11,10 +11,10 @@ import Locations from './locations'
 import Beds from './beds'
 import Details from './details'
 import Counter from './counter'
+import beds from './beds';
 
 import CampStay from '../camp_bed_stay.svg'
 import FreeStay from '../free_stay.svg'
-import beds from './beds';
 
 export default class Booking extends Component {
     state = {
@@ -24,7 +24,6 @@ export default class Booking extends Component {
         location: null,
         bed_type: null,
         bed_count: 1,
-        bed_alternative: null,
         room_count: null,
         name: null,
         email: null,
@@ -32,7 +31,8 @@ export default class Booking extends Component {
         message: null,
         country: null,
         rooms_confirmed: false,
-        free: [],
+        camp: [],
+        tent: [],
         dorm: [],
         room: [],
         booked: false,
@@ -43,10 +43,11 @@ export default class Booking extends Component {
 
     currentLocation = location => this.setState(this.resetState({location: location}))
 
+    toggleBedType = bed => this.state.location ? this.setState({activeBed: bed}) : null
+
     updateBedType = bed => this.state.location
         ? this.setState({
                 bed_type: bed,
-                bed_alternative: null,
                 room_count: null
             }, this.getLocationData)
         : null
@@ -54,8 +55,6 @@ export default class Booking extends Component {
     updateBedCount = count => this.setState({bed_count: count})
 
     updateRoomCount = count => this.setState({room_count: count})
-
-    updateAlternative = alternative => this.setState({bed_alternative: alternative})
 
     customerDetails = details => this.setState(details)
 
@@ -67,13 +66,13 @@ export default class Booking extends Component {
 
     resetState = (mergeObj = {}) => {
         let state = {
+            activeBed: null,
             booking_date: moment().format('YYYY-MM-DD'),
             start_date: null,
             end_date: null,
             location: null,
             bed_type: null,
             bed_count: 1,
-            bed_alternative: null,
             room_count: null,
             name: null,
             email: null,
@@ -81,7 +80,8 @@ export default class Booking extends Component {
             message: null,
             country: null,
             rooms_confirmed: false,
-            free: [],
+            tent: [],
+            camp: [],
             dorm: [],
             room: [],
             booked: false,
@@ -94,7 +94,7 @@ export default class Booking extends Component {
         }
     }
 
-    bookingInfo = ['start_date', 'end_date', 'booking_date', 'location', 'bed_count', 'bed_type', 'bed_alternative']
+    bookingInfo = ['start_date', 'end_date', 'booking_date', 'location', 'bed_count', 'bed_type', 'room_count']
 
     bookingDetails = ['name', 'email', 'message', 'phone', 'country']
 
@@ -122,13 +122,13 @@ export default class Booking extends Component {
                     .add(this.filterObj(this.state, [...this.bookingInfo, ...this.bookingDetails]))
                     .then(ref => {
                         this.setState(this.resetState({booked: true, booking: false}))
+
                         anime({
                             targets: "html, body",
                             scrollTop: [window.scrollY, 0],
                             easing: 'easeInQuart',
                             duration: window.scrollY > 0 ? 550 : 0
                         })
-                        console.log(ref.id)
                     })
                     .catch(err => console.log(err))
             })
@@ -164,38 +164,44 @@ export default class Booking extends Component {
         })
     }
 
-    blockedDateByLimit = (data, limit, alternative) => {
-        const bookingsPerDate = data
-            .filter(val => val.data().bed_alternative === alternative)
-            .reduce((obj, val) => {
-                const {start_date, end_date, bed_count} = val.data()
-                console.log(val)
-                const dateArr = getDateRange(moment(start_date), moment(end_date), 'YYYY-MM-DD')
+    blockedDateByLimit = (data, limit) => {
+        const bookingsPerDate = data.reduce((obj, val) => {
+            const {start_date, end_date, bed_count, room_count} = val.data()
+            const dateArr = getDateRange(moment(start_date), moment(end_date), 'YYYY-MM-DD')
+            const amountPerDay = dateArr.reduce((dateObj, date) => {
+                const amount = room_count
+                    ? obj[date]
+                        ? obj[date] + room_count
+                        : room_count
+                    : obj[date]
+                        ? obj[date] + bed_count
+                        : bed_count
 
-                const bedsPerDay = dateArr.reduce((dateObj, date) => {
-                    const bedAmount = obj[date] ? obj[date] + bed_count : bed_count
-
-                    return {
-                        ...dateObj,
-                        ...{
-                            [date]: bedAmount
-                        }
+                return {
+                    ...dateObj,
+                    ...{
+                        [date]: amount
                     }
-                }, {})
+                }
+            }, {})
 
             return {
                 ...obj,
-                ...bedsPerDay
+                ...amountPerDay
             }
         }, {})
 
-        const filteredDates = Object.keys(bookingsPerDate).filter(key => bookingsPerDate[key] > limit)
+        const filteredDates = Object.keys(bookingsPerDate).filter(key => bookingsPerDate[key] >= limit)
 
         return filteredDates
     }
 
+    bedLimit = () => {
+        this.db.collection
+    }
+
     render() {
-        const {start_date, end_date, location, bed_type, bed_count, bed_alternative, room_count, name, email, phone, message, booked, booking, rooms_confirmed} = this.state
+        const {start_date, end_date, location, bed_type, bed_count, room_count, name, email, phone, message, booked, booking, rooms_confirmed, activeBed} = this.state
 
         const isMobile = /iPhone|iPod|Android/i.test(navigator.userAgent)
 
@@ -215,26 +221,28 @@ export default class Booking extends Component {
                         <Counter title={'How many people are you booking for?'} count={bed_count} updateCount={this.updateBedCount}/>
 
                         <Beds
-                            getBed={this.updateBedType}
-                            beds={this.state[location]}
-                            active={bed_type}
+                            toggleBed={this.toggleBedType}
+                            addBed={this.updateBedType}
+                            activeBed={activeBed}
                             />
 
-                        {bed_type === 'room'
+                        {activeBed === 'room'
                             ? <Counter limit={8} showAll={true} title={'Number of rooms?'} count={room_count} updateCount={this.updateRoomCount} />
-                            : null}
+                            : null
+                        }
 
-                        {bed_type === 'free'
+                        {activeBed === 'free'
                             ? <div className={'Beds__alternatives'}>
                                 <div
-                                    className={`Beds__card ${bed_alternative === 'camp' ? 'Beds__card--active' : ''}`}
-                                    onClick={() => this.updateAlternative('camp')}>
+                                    className={`Beds__card ${bed_type === 'camp' ? 'Beds__card--active' : ''}`}
+                                    onClick={() => this.updateBedType('camp')}>
                                     <CampStay />
                                     Camp beds
-                                    </div>
+                                </div>
+
                                 <div
-                                    className={`Beds__card ${bed_alternative === 'tent' ? 'Beds__card--active' : ''}`}
-                                    onClick={() => this.updateAlternative('tent')}>
+                                    className={`Beds__card ${bed_type === 'tent' ? 'Beds__card--active' : ''}`}
+                                    onClick={() => this.updateBedType('tent')}>
                                     <FreeStay />
                                     Pitch your tent
                                 </div>
@@ -242,9 +250,9 @@ export default class Booking extends Component {
                             : null
                         }
 
-                        { location && bed_alternative || room_count || bed_type === 'dorm'
+                        { location && bed_type && bed_type !== 'room' || room_count
                             ? rooms_confirmed
-                                    ? <Calendar getDate={this.dateRange} blockedDays={this.blockedDateByLimit(this.state[bed_type], 4, bed_alternative)}/>
+                                    ? <Calendar getDate={this.dateRange} blockedDays={this.blockedDateByLimit(this.state[bed_type], 4)}/>
                             : <div className={'Booking__loader'}>Checking availability</div>
                             : null
                         }
@@ -260,12 +268,12 @@ export default class Booking extends Component {
                                     <div>
                                         {`${location} - `}
                                         {
-                                            bed_type === 'free'
-                                                ? `${bed_count} ${bed_alternative === 'camp'
+                                            bed_type === 'tent' || bed_type === 'camp'
+                                                ? `${bed_count} ${bed_type === 'camp'
                                                     ? `Camp ${bed_count > 1
                                                         ? 'beds'
                                                         : 'bed'}`
-                                                    : bed_alternative === 'tent'
+                                                    : bed_type === 'tent'
                                                         ? `Pitch your own ${bed_count > 1
                                                             ? 'tents'
                                                             : 'tent'}`

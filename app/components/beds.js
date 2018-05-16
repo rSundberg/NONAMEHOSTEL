@@ -7,25 +7,33 @@ import SleepingBagStay from '../sleepingbag_stay.svg'
 
 import Counter from './counter'
 
-export default ({active, getBed}) => 
+export default ({addBed, toggleBed, activeBed}) => 
     <div className={'Beds'}>
         <div
-            className={`Beds__card ${active === 'free' ? 'Beds__card--active' : ''}`}
-            onClick={() => getBed('free')}>
+            className={`Beds__card ${activeBed === 'free' ? 'Beds__card--active' : ''}`}
+            onClick={() => {
+                toggleBed('free')
+            }}>
             <SleepingBagStay />
             Free
         </div>
 
         <div
-            className={`Beds__card ${active === 'dorm' ? 'Beds__card--active' : ''}`}
-            onClick={() => getBed('dorm')}>
+            className={`Beds__card ${activeBed === 'dorm' ? 'Beds__card--active' : ''}`}
+            onClick={() => {
+                toggleBed('dorm')
+                addBed('dorm')
+            }}>
             <DormStay />
             Dorm
         </div>
 
         <div
-            className={`Beds__card ${active === 'room' ? 'Beds__card--active' : ''}`}
-            onClick={() => getBed('room')}>
+            className={`Beds__card ${activeBed === 'room' ? 'Beds__card--active' : ''}`}
+            onClick={() => {
+                toggleBed('room')
+                addBed('room')
+            }}>
             <RoomStay />
             Room
         </div>

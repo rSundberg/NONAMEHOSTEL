@@ -16,7 +16,7 @@
     "isomorphic-fetch": "^2.2.1",
     "localforage": "^1.7.1",
     "moment": "^2.22.0",
-    "npm": "^6.0.0",
+    "npm": "^6.0.1",
     "prop-types": "^15.6.1",
     "react-dates": "^16.4.0",
     "webpack": "^4.4.1"

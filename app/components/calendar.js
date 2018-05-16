@@ -45,7 +45,7 @@ export default class Calendar extends React.Component {
             <div className={'Calendar'}>
                 <DayPickerRangeController
                     numberOfMonths={1}
-                    daySize={40}
+                    daySize={38}
                     hideKeyboardShortcutsPanel={true}
                     isDayBlocked={day => {
                         const isBefore = day.isBefore(moment().format('YYYY-MM-DD'))
