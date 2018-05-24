@@ -26,6 +26,10 @@ export default class ToggleBooking extends Component {
         window.onscroll = this.onWindowScroll
     }
 
+    componentWillUnmount() {
+        window.onscroll = null
+    }
+
     onWindowScroll = e => {
         if (this.state.bookingToggled) {
             if (window.scrollY > this.props.getTarget().clientHeight) {
@@ -82,9 +86,9 @@ export default class ToggleBooking extends Component {
                         targets: this.props.getTarget(),
                         height: [0, window.innerHeight],
                         easing: 'easeOutQuart',
-                        duration: 850
+                        duration: 650
                     }).finished.then(() => {
-                        this.target.removeAttribute('style')
+                        this.props.getTarget().removeAttribute('style')
                     })
                 })
 

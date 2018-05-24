@@ -9,7 +9,7 @@ exports.home = functions.https.onRequest((req, res) => {
 
 exports.addMember = functions.firestore
     .document('locations/{locationId}/beds/{bedId}/bookings/{bookingId}')
-    .onWrite((change, context) => {
+    .onCreate((change, context) => {
         const {name, email, country, phone} = change.after.data()
         const members = admin.firestore().collection('members')
 

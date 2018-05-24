@@ -36,7 +36,8 @@ export default class Booking extends Component {
         dorm: [],
         room: [],
         booked: false,
-        booking: false
+        booking: false,
+        status: 'booked'
     }
 
     db = firebase.firestore()
@@ -85,7 +86,8 @@ export default class Booking extends Component {
             dorm: [],
             room: [],
             booked: false,
-            booking: false
+            booking: false,
+            status: 'booked'
         }
 
         return {
@@ -94,7 +96,7 @@ export default class Booking extends Component {
         }
     }
 
-    bookingInfo = ['start_date', 'end_date', 'booking_date', 'location', 'bed_count', 'bed_type', 'room_count']
+    bookingInfo = ['start_date', 'end_date', 'booking_date', 'location', 'bed_count', 'bed_type', 'room_count', 'status']
 
     bookingDetails = ['name', 'email', 'message', 'phone', 'country']
 
@@ -147,7 +149,6 @@ export default class Booking extends Component {
                 .doc(this.state.bed_type)
                 .collection('bookings')
                 .get().then(doc => {
-                    console.log(doc)
                     if (!doc.empty) {
                         this.setState({
                             rooms_confirmed: true,

@@ -20,9 +20,9 @@ export default class StartSection extends Component {
         if (this.state.click >= 2) {
             anime({
                 targets: this.logoRef.current,
-                rotate: '1turn',
-                easing: 'easeInBack',
-                duration: 1600
+                rotate: 180,
+                easing: 'easeInOutQuad',
+                duration: 850
             }).finished.then(() => {
               this.props.toggleDashboard()
             })

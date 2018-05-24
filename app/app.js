@@ -41,7 +41,12 @@ class App extends Component {
     showContainer = React.createRef()
 
     toggleDashboard = () => {
-        this.setState({ dashboardToggled: !this.state.dashboardToggled })
+        anime({
+            targets: [this.bookingContainer.current, this.showContainer.current, '.App__toggleBooking'],
+            opacity: [1, 0],
+            duration: 650,
+            easing: 'easeInQuart'
+        }).finished.then(() => this.setState({ dashboardToggled: !this.state.dashboardToggled }))
     }
 
     getBookingContainer = () => this.bookingContainer.current
@@ -54,21 +59,25 @@ class App extends Component {
                         ? <Dashboard />
                         : null
                     }
+                    {!this.state.dashboardToggled ?
+                        <div className={'Scrollable'} ref={this.bookingContainer}>
+                            <Booking />
+                        </div> : null
+                    }
 
-                    <div className={'Scrollable'} ref={this.bookingContainer}>
-                        <Booking />
-                    </div>
+                    {!this.state.dashboardToggled ?
+                        <div className={'Scrollable'} ref={this.showContainer}>
+                            <StartSection toggleDashboard={this.toggleDashboard} />
+                        </div> : null
+                    }
 
-                    <div className={'Scrollable'} ref={this.showContainer}>
-                        <StartSection toggleDashboard={this.toggleDashboard} />
-                    </div>
+                    { this.state.isMobile && !this.state.dashboardToggled
+                        ? <ToggleBooking
+                            getTarget={this.getBookingContainer}/>
+                        : null
+                    }
                 </div>
 
-                { this.state.isMobile
-                    ? <ToggleBooking
-                        getTarget={this.getBookingContainer}/>
-                    : null
-                }
             </Fragment>
         )
     }

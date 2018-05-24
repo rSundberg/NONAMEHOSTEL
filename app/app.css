@@ -1,4 +1,5 @@
 :root {
+    --font-reallyBig: 28px;
     --font-big: 18px;
     --font-small: 16px;
     --font-tiny: 12px;
@@ -7,6 +8,7 @@
 
     --active-item: rgba(59, 141, 176, .9);
     --selected-item: rgba(59, 141, 176, .7);
+    --dangerous-item: rgba(255, 84, 87);
 }
 
 * {
@@ -140,14 +142,13 @@ body, h1, h2, h3, h4 {
 }
 
 .Dashboard {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 0vw;
-    height: 100vh;
+    width: 100vw;
     background-color: white;
-    overflow: hidden;
     z-index: 9999;
+
+    &__content-box {
+
+    }
 
     &__login {
         width: 30vw;
@@ -165,8 +166,10 @@ body, h1, h2, h3, h4 {
     }
 
     &__home {
-        height: 100vh;
-        width: 100%;
+        width: 100vw;
+        min-height: 100vh;
+        display: flex;
+        box-sizing: border-box;
     }
 
     &__inputs {
@@ -182,7 +185,6 @@ body, h1, h2, h3, h4 {
         font-size: var(--font-small);
         margin-bottom: 5px;
         padding-left: 22px;
-        font-weight: bold;
         border: 0;
         outline: 0;
 
@@ -193,13 +195,14 @@ body, h1, h2, h3, h4 {
     }
 
     &__button-login {
-        height: 50px;
+        height: 70px;
         display: flex;
         align-items: center;
         color: black;
         width: 100%;
         padding-left: 22px;
         box-sizing: border-box;
+        font-weight: bold;
     }
 
     &__button {
@@ -216,6 +219,43 @@ body, h1, h2, h3, h4 {
         &--2 {
             left: 110px;
             top: 187px;
+        }
+    }
+}
+
+.CheckIn {
+    width: 100%;
+    box-sizing: border-box;
+    padding: 10px;
+
+    &__title {
+        font-size: var(--font-reallyBig);
+        padding: 10px 0;
+    }
+
+    &__locations {
+        width: 100%;
+        background-color: white;
+        display: grid;
+        grid: 10vh / 1fr 1fr;
+        align-items: center;
+        justify-items: center;
+        font-size: var(--font-big);
+        text-transform: capitalize;
+        box-shadow: var(--box-shadow);
+        margin-top: 15px;
+
+        & div {
+            padding: 3vw 9vw;
+        }
+    }
+
+    &__content-box {
+        box-sizing: border-box;
+        padding: 10px;
+
+        &:first-of-type {
+            padding-top: 0;
         }
     }
 }
@@ -334,7 +374,43 @@ body, h1, h2, h3, h4 {
             background-color: var(--selected-item);
             color: white;
         }
-    }    
+    }
+}
+
+.Ticket {
+    width: 100%;
+    overflow: hidden;
+    display: grid;
+    box-sizing: border-box;
+    padding: 15px;
+    grid: auto / 100%;
+    grid-gap: 5px;
+    margin: 10px 0;
+    box-shadow: var(--box-shadow);
+
+    &__info {
+        font-size: var(--font-small);
+        font-weight: normal;
+    }
+
+    &__action-button {
+        height: 62px;
+        margin-top: 10px;
+        color: white;
+        font-size: var(--font-big);
+        font-weight: bold;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+
+        &--cancel {
+            background-color: var(--dangerous-item);
+        }
+
+        &--confirm {
+            background-color: var(--selected-item);
+        }
+    }
 }
 
 .Booking {
@@ -366,6 +442,7 @@ body, h1, h2, h3, h4 {
         width: 23vw;
         box-sizing: border-box;
         padding: 22px;
+        font-size: var(--font-reallyBig);
     }
 
     &__confirm {
@@ -595,19 +672,65 @@ and (max-device-width : 667px) {
         justify-content: center;
 
         &__toggleBooking {
-            bottom: 5vw;
-            right: 5vw;
+            bottom: 2vw;
+            right: 2vw;
             z-index: 999;
             box-shadow: var(--box-shadow);
-            padding: 22px;
+            padding: 16px;
             box-sizing: border-box;
             background-color: white;
 
             & span {
                 text-align: center;
-                font-size: var(--font-big);
+                font-size: var(--font-small);
                 font-weight: bold;
             }
+        }
+    }
+
+    .Dashboard {
+        &__title {
+            margin-bottom: 22px;
+        }
+
+        &__login {
+            width: 100vw;
+        }
+
+        &__account-info {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            height: 10vh;
+            width: 100vw;
+            background-color: white;
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+        }
+
+        &__content-box {
+            width: 90vw;
+            min-height: 12vh;
+            margin: 10px 0;
+            box-shadow: var(--box-shadow);
+            display: flex;
+            flex-flow: column nowrap;
+            justify-content: center;
+            align-items: center;
+            font-weight: bold;
+            font-size: var(--font-big);
+
+            &:first-of-type {
+                margin-top: 0;
+            }
+        }
+
+        &__home {
+            flex-flow: column nowrap;
+            justify-content: center;
+            align-items: center;
+            padding-bottom: 10vh;
         }
     }
 
