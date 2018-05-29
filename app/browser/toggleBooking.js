@@ -77,7 +77,7 @@ export default class ToggleBooking extends Component {
             targets: "html, body",
             scrollTop: [window.scrollY, 0],
             easing: 'easeInQuart',
-            duration: window.scrollY > 0 ? 650 : 0,
+            duration: window.scrollY > 0 ? 350 : 0,
             complete: () => this.setState({ animating: false })
         }).finished.then(() => {
             if (!this.state.bookingToggled) {
@@ -87,14 +87,20 @@ export default class ToggleBooking extends Component {
                         height: [0, window.innerHeight],
                         easing: 'easeOutQuart',
                         duration: 650
-                    }).finished.then(() => {
-                        this.props.getTarget().removeAttribute('style')
                     })
+                    .finished
+                    .then(() => {
+                        return this.props.getTarget().removeAttribute('style')
+                    })
+                    .catch(err => console.log(err))
                 })
 
                 this.getAnimation().play()
             }
+
+            return true
         })
+        .catch(err => console.log(err))
     }
 
     render() {

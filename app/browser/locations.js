@@ -10,7 +10,7 @@ export default class Locations extends React.Component {
     }, () => {
         this
             .props
-            .getLocation(this.state.active)
+            .onClick(this.state.active)
     })
 
     render() {

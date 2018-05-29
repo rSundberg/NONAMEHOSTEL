@@ -21,10 +21,6 @@
     "rewrites": [
       {
         "source": "/",
-        "destination": "/index.html"
-      },
-      {
-        "source": "/home",
         "function": "home"
       }
     ]

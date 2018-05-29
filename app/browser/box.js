@@ -22,12 +22,12 @@ export default class Box extends Component {
 
     open = () => anime({
         targets: this.boxRef.current,
-        width: ['90vw', '100vw'],
-        minHeight: ['12vh', '90vh'],
+        width: ['90%', '100%'],
+        minHeight: ['102px', '100vh'],
         easing: 'easeOutQuart',
         duration: 250,
     }).finished.then(() => {
-        anime({
+        return anime({
             targets: 'html, body',
             scrollTop: [window.scrollY, this.boxRef.current.offsetTop],
             easing: 'easeOutQuart',
@@ -37,8 +37,8 @@ export default class Box extends Component {
 
     close = () => anime({
         targets: this.boxRef.current,
-        width: ['100vw', '90vw'],
-        minHeight: [this.boxRef.current.clientHeight, '12vh'],
+        width: ['100%', '90%'],
+        minHeight: [this.boxRef.current.clientHeight, 102],
         easing: 'easeOutQuart',
         duration: 250
     })

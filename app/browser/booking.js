@@ -1,20 +1,20 @@
 import React, { Component, Fragment } from 'react'
-import firebase from 'firebase/app'
 import moment from 'moment'
-import localforage from 'localforage'
 import anime from 'animejs'
+import fetch from 'isomorphic-fetch'
 
-import { getDateRange } from '../utils/utils'
+import { getDateRange } from '../shared/utils'
+
+import '../shared/css/booking.css'
 
 import Calendar from './calendar'
 import Locations from './locations'
 import Beds from './beds'
 import Details from './details'
 import Counter from './counter'
-import beds from './beds';
 
-import CampStay from '../camp_bed_stay.svg'
-import FreeStay from '../free_stay.svg'
+import CampStay from '../shared/media/camp_bed_stay.svg'
+import FreeStay from '../shared/media/free_stay.svg'
 
 export default class Booking extends Component {
     state = {
@@ -31,31 +31,49 @@ export default class Booking extends Component {
         message: null,
         country: null,
         rooms_confirmed: false,
-        camp: [],
-        tent: [],
-        dorm: [],
-        room: [],
+        blockedDates: [],
+        limit: null,
         booked: false,
         booking: false,
         status: 'booked'
     }
 
-    db = firebase.firestore()
+    bookingContainer = React.createRef()
+
+    componentDidMount() {
+        if (!this.props.isMobile) {
+            anime({
+                targets: this.bookingContainer.current,
+                duration: 650,
+                easing: 'easeInOutQuart',
+                width: ['0vw', '32vw']
+            })
+        }
+    }
 
     currentLocation = location => this.setState(this.resetState({location: location}))
 
-    toggleBedType = bed => this.state.location ? this.setState({activeBed: bed}) : null
+    toggleBedType = bed => this.state.location ? this.setState({ activeBed: bed, bed_type: null}) : null
 
     updateBedType = bed => this.state.location
         ? this.setState({
                 bed_type: bed,
-                room_count: null
-            }, this.getLocationData)
+                room_count: null,
+                rooms_confirmed: false
+            }, () => {
+                const query = `?location=${this.state.location}&bed_type=${this.state.bed_type}`
+                const locationUrl = `https://us-central1-nonamehostel-a5e96.cloudfunctions.net/locationData${query}`
+                const bedUrl = `https://us-central1-nonamehostel-a5e96.cloudfunctions.net/bedLimit${query}`
+
+                this.blockedDates([locationUrl, bedUrl]).then(dates => this.setState({blockedDates: dates, rooms_confirmed: true}))
+            })
         : null
 
-    updateBedCount = count => this.setState({bed_count: count})
+    updateBedCount = count => count <= 10 ? this.setState({bed_count: count}) : null
 
-    updateRoomCount = count => this.setState({room_count: count})
+    updateRoomCount = count => this.setState({room_count: count}, () => {
+        this.updateBedType('room')
+    })
 
     customerDetails = details => this.setState(details)
 
@@ -81,10 +99,8 @@ export default class Booking extends Component {
             message: null,
             country: null,
             rooms_confirmed: false,
-            tent: [],
-            camp: [],
-            dorm: [],
-            room: [],
+            docs: [],
+            limit: null,
             booked: false,
             booking: false,
             status: 'booked'
@@ -111,20 +127,18 @@ export default class Booking extends Component {
         }, {})
 
     sendBooking = () => {
-        this.setState({booking: true}, () => {
-            localforage
-            .setItem('bookingDetails', this.filterObj(this.state, this.bookingDetails))
-            .then(val => {
-                this.db
-                    .collection("locations")
-                    .doc(this.state.location)
-                    .collection('beds')
-                    .doc(this.state.bed_type)
-                    .collection('bookings')
-                    .add(this.filterObj(this.state, [...this.bookingInfo, ...this.bookingDetails]))
-                    .then(ref => {
-                        this.setState(this.resetState({booked: true, booking: false}))
+        let bookingInfo = this.filterObj(this.state, [...this.bookingInfo, ...this.bookingDetails])
+        let query = `?bookingInfo=${JSON.stringify(bookingInfo)}&location=${this.state.location}&bed_type=${this.state.bed_type}`
+        let url = `https://us-central1-nonamehostel-a5e96.cloudfunctions.net/addBooking${query}`
+        let _this = this
 
+        this.setState({booking: true}, () => {
+            this.props.localforage
+                .setItem('bookingDetails', this.filterObj(this.state, this.bookingDetails))
+                .then(() => Promise.all(_this.fetchAll([url])))
+                .then(val => {
+                    console.log(val)
+                    this.setState(this.resetState({booked: true, booking: false}), () => {
                         anime({
                             targets: "html, body",
                             scrollTop: [window.scrollY, 0],
@@ -132,42 +146,13 @@ export default class Booking extends Component {
                             duration: window.scrollY > 0 ? 550 : 0
                         })
                     })
-                    .catch(err => console.log(err))
-            })
-            .catch(err => console.log(err))
+                })
+                .catch(err => console.log(err))
         })
     }
 
-    getLocationData = () => {
-        if (this.state[this.state.bed_type].length > 0) return
-
-        this.setState({rooms_confirmed: false}, () => {
-            this.db
-                .collection("locations")
-                .doc(this.state.location)
-                .collection('beds')
-                .doc(this.state.bed_type)
-                .collection('bookings')
-                .get().then(doc => {
-                    if (!doc.empty) {
-                        this.setState({
-                            rooms_confirmed: true,
-                            [this.state.bed_type]: doc.docs
-                        })
-                    } else {
-                        this.setState({rooms_confirmed: true})
-                        console.log('empty')
-                    }
-                })
-                .catch(err => {
-                    console.log(err)
-                })
-        })
-    }
-
-    blockedDateByLimit = (data, limit) => {
-        const bookingsPerDate = data.reduce((obj, val) => {
-            const {start_date, end_date, bed_count, room_count} = val.data()
+    blockedDateByLimit = ({docs, limit}) => {
+        const bookingsPerDate = docs.reduce((obj, { start_date, end_date, bed_count, room_count }) => {
             const dateArr = getDateRange(moment(start_date), moment(end_date), 'YYYY-MM-DD')
             const amountPerDay = dateArr.reduce((dateObj, date) => {
                 const amount = room_count
@@ -192,30 +177,39 @@ export default class Booking extends Component {
             }
         }, {})
 
-        const filteredDates = Object.keys(bookingsPerDate).filter(key => bookingsPerDate[key] >= limit)
+        const filteredDates = Object.keys(bookingsPerDate).filter(key => bookingsPerDate[key] >= limit - (this.state.room_count ? this.state.room_count : this.state.bed_count))
 
         return filteredDates
     }
 
-    bedLimit = () => {
-        this.db.collection
-    }
+    fetchAll = urls => urls.map(url =>
+        fetch(url, {
+            method: 'GET',
+            headers: {
+                'Access-Control-Allow-Origin': '*',
+                'Content-Type': 'application/json'
+            }
+        })
+        .then(response => response.json())
+    )
+
+    blockedDates = urls => Promise.all(this.fetchAll(urls))
+        .then(data => data.reduce(Object.assign), {})
+        .then(this.blockedDateByLimit)
 
     render() {
-        const {start_date, end_date, location, bed_type, bed_count, room_count, name, email, phone, message, booked, booking, rooms_confirmed, activeBed} = this.state
-
-        const isMobile = /iPhone|iPod|Android/i.test(navigator.userAgent)
+        const {start_date, end_date, location, bed_type, bed_count, room_count, name, email, phone, message, booked, booking, rooms_confirmed, activeBed, limit, docs} = this.state
 
         return (
             <Fragment>
                 {!booked ?
-                    <div className={`Booking`}>
+                    <div className={`Booking`} ref={this.bookingContainer}>
                         <h2 className={'Booking__title'}>
                             Stay with us!
                         </h2>
 
                         <Locations
-                            getLocation={this.currentLocation}
+                            onClick={this.currentLocation}
                             currentLocation={location}
                             />
 
@@ -228,7 +222,7 @@ export default class Booking extends Component {
                             />
 
                         {activeBed === 'room'
-                            ? <Counter limit={8} showAll={true} title={'Number of rooms?'} count={room_count} updateCount={this.updateRoomCount} />
+                            ? <Counter limit={bed_count} showAll={true} title={'Number of rooms?'} count={room_count} updateCount={this.updateRoomCount} />
                             : null
                         }
 
@@ -251,10 +245,13 @@ export default class Booking extends Component {
                             : null
                         }
 
-                        { location && bed_type && bed_type !== 'room' || room_count
-                            ? rooms_confirmed
-                                    ? <Calendar getDate={this.dateRange} blockedDays={this.blockedDateByLimit(this.state[bed_type], 4)}/>
-                            : <div className={'Booking__loader'}>Checking availability</div>
+                        { location && bed_type
+                            ? !rooms_confirmed
+                                ? <div className={'Booking__loader'}>Checking availability</div>
+                                : <Calendar
+                                    getDate={this.dateRange}
+                                    blockedDays={this.state.blockedDates}
+                                />
                             : null
                         }
 

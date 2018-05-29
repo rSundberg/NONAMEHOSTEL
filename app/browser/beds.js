@@ -1,9 +1,8 @@
 import React, { Component } from 'react'
-import firebase from 'firebase/app'
 
-import DormStay from '../dorm_stay.svg'
-import RoomStay from '../room_stay.svg'
-import SleepingBagStay from '../sleepingbag_stay.svg'
+import DormStay from '../shared/media/dorm_stay.svg'
+import RoomStay from '../shared/media/room_stay.svg'
+import SleepingBagStay from '../shared/media/sleepingbag_stay.svg'
 
 import Counter from './counter'
 
@@ -32,7 +31,6 @@ export default ({addBed, toggleBed, activeBed}) =>
             className={`Beds__card ${activeBed === 'room' ? 'Beds__card--active' : ''}`}
             onClick={() => {
                 toggleBed('room')
-                addBed('room')
             }}>
             <RoomStay />
             Room

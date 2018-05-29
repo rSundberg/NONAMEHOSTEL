@@ -1,5 +1,40 @@
 import moment from 'moment'
 
+export function importLocalforage() {
+    const config = {
+        name: 'noname hostel',
+        version: 1.0
+    }
+
+    return import(/* webpackChunkName: 'localforage' */ 'localforage')
+        .then(localforage => {
+            localforage.default.config(config)
+
+            return localforage
+        })
+        .catch(err => console.log(err))
+}
+
+export function importFirebase(config, modulesArr) {
+    return import(/* webpackChunkName: 'firebase' */ 'firebase/app')
+        .then(firebase => {
+            if (!firebase.apps.length) {
+                firebase.initializeApp(config)
+            }
+
+            return firebase
+        })
+        .then(firebase => Promise.all(modulesArr).then(() => firebase))
+        .then(firebase => {
+            return {
+                firestore: firebase.firestore(),
+                auth: firebase.auth(),
+                functions: firebase.functions()
+            }
+        })
+        .catch(err => console.log(err))
+}
+
 export function getDateRange(startDate, endDate, dateFormat) {
     let dates = [],
         end = moment(endDate),

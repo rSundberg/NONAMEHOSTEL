@@ -104,3 +104,101 @@ Execution took 0 ms, user function completed successfully
 2018-04-09T18:44:12.710Z - info: Execution took 1 ms, user function completed successfully
 2018-04-09T18:44:15.513Z - info: User function triggered, starting execution
 2018-04-09T18:44:15.515Z - info: Execution took 1 ms, user function completed successfully
+2018-05-27T05:20:33.850Z - error: /Users/robinsundberg/Desktop/nonamehostel/functions/index.js:18
+_firebaseFunctions2.default.initializeApp();
+                           ^
+
+TypeError: Cannot read property 'initializeApp' of undefined
+    at Object.<anonymous> (/Users/robinsundberg/Desktop/nonamehostel/functions/index.js:18:28)
+    at Module._compile (module.js:569:30)
+    at Object.Module._extensions..js (module.js:580:10)
+    at Module.load (module.js:503:32)
+    at tryModuleLoad (module.js:466:12)
+    at Function.Module._load (module.js:458:3)
+    at Module.require (module.js:513:17)
+    at require (internal/module.js:11:18)
+    at process.on (/usr/local/lib/node_modules/firebase-tools/node_modules/@google-cloud/functions-emulator/src/supervisor/worker.js:76:28)
+    at emitTwo (events.js:125:13)
+2018-05-27T05:20:33.868Z - error: Function worker crashed with exit code: 1
+2018-05-27T05:20:58.369Z - error: /Users/robinsundberg/Desktop/nonamehostel/functions/index.js:18
+_firebaseFunctions2.default.initializeApp();
+                           ^
+
+TypeError: Cannot read property 'initializeApp' of undefined
+    at Object.<anonymous> (/Users/robinsundberg/Desktop/nonamehostel/functions/index.js:18:28)
+    at Module._compile (module.js:569:30)
+    at Object.Module._extensions..js (module.js:580:10)
+    at Module.load (module.js:503:32)
+    at tryModuleLoad (module.js:466:12)
+    at Function.Module._load (module.js:458:3)
+    at Module.require (module.js:513:17)
+    at require (internal/module.js:11:18)
+    at process.on (/usr/local/lib/node_modules/firebase-tools/node_modules/@google-cloud/functions-emulator/src/supervisor/worker.js:76:28)
+    at emitTwo (events.js:125:13)
+2018-05-27T05:20:58.381Z - error: Function worker crashed with exit code: 1
+2018-05-27T05:21:10.515Z - error: /Users/robinsundberg/Desktop/nonamehostel/functions/index.js:18
+_firebaseFunctions2.default.initializeApp();
+                           ^
+
+TypeError: Cannot read property 'initializeApp' of undefined
+    at Object.<anonymous> (/Users/robinsundberg/Desktop/nonamehostel/functions/index.js:18:28)
+    at Module._compile (module.js:569:30)
+    at Object.Module._extensions..js (module.js:580:10)
+    at Module.load (module.js:503:32)
+    at tryModuleLoad (module.js:466:12)
+    at Function.Module._load (module.js:458:3)
+    at Module.require (module.js:513:17)
+    at require (internal/module.js:11:18)
+    at process.on (/usr/local/lib/node_modules/firebase-tools/node_modules/@google-cloud/functions-emulator/src/supervisor/worker.js:76:28)
+    at emitTwo (events.js:125:13)
+2018-05-27T05:21:10.526Z - error: Function worker crashed with exit code: 1
+2018-05-27T07:32:19.836Z - error: /Users/robinsundberg/Desktop/nonamehostel/functions/index.js:62
+var home = exports.home = _firebaseFunctions2.default.https.onRequest(app);
+                                                     ^
+
+TypeError: Cannot read property 'https' of undefined
+    at Object.<anonymous> (/Users/robinsundberg/Desktop/nonamehostel/functions/index.js:62:54)
+    at Module._compile (module.js:569:30)
+    at Object.Module._extensions..js (module.js:580:10)
+    at Module.load (module.js:503:32)
+    at tryModuleLoad (module.js:466:12)
+    at Function.Module._load (module.js:458:3)
+    at Module.require (module.js:513:17)
+    at require (internal/module.js:11:18)
+    at process.on (/usr/local/lib/node_modules/firebase-tools/node_modules/@google-cloud/functions-emulator/src/supervisor/worker.js:76:28)
+    at emitTwo (events.js:125:13)
+2018-05-27T07:32:19.852Z - error: Function worker crashed with exit code: 1
+2018-05-27T07:51:04.497Z - error: /Users/robinsundberg/Desktop/nonamehostel/functions/index.js:22
+var home = exports.home = _firebaseFunctions2.default.https.onRequest(function (req, res) {
+                                                     ^
+
+TypeError: Cannot read property 'https' of undefined
+    at Object.<anonymous> (/Users/robinsundberg/Desktop/nonamehostel/functions/index.js:22:54)
+    at Module._compile (module.js:569:30)
+    at Object.Module._extensions..js (module.js:580:10)
+    at Module.load (module.js:503:32)
+    at tryModuleLoad (module.js:466:12)
+    at Function.Module._load (module.js:458:3)
+    at Module.require (module.js:513:17)
+    at require (internal/module.js:11:18)
+    at process.on (/usr/local/lib/node_modules/firebase-tools/node_modules/@google-cloud/functions-emulator/src/supervisor/worker.js:76:28)
+    at emitTwo (events.js:125:13)
+2018-05-27T07:51:04.510Z - error: Function worker crashed with exit code: 1
+2018-05-27T07:51:06.376Z - error: /Users/robinsundberg/Desktop/nonamehostel/functions/index.js:22
+var home = exports.home = _firebaseFunctions2.default.https.onRequest(function (req, res) {
+                                                     ^
+
+TypeError: Cannot read property 'https' of undefined
+    at Object.<anonymous> (/Users/robinsundberg/Desktop/nonamehostel/functions/index.js:22:54)
+    at Module._compile (module.js:569:30)
+    at Object.Module._extensions..js (module.js:580:10)
+    at Module.load (module.js:503:32)
+    at tryModuleLoad (module.js:466:12)
+    at Function.Module._load (module.js:458:3)
+    at Module.require (module.js:513:17)
+    at require (internal/module.js:11:18)
+    at process.on (/usr/local/lib/node_modules/firebase-tools/node_modules/@google-cloud/functions-emulator/src/supervisor/worker.js:76:28)
+    at emitTwo (events.js:125:13)
+2018-05-27T07:51:06.390Z - error: Function worker crashed with exit code: 1
+2018-05-28T10:32:34.204Z - info: User function triggered, starting execution
+2018-05-28T10:32:34.237Z - info: Execution took 28 ms, user function completed successfully

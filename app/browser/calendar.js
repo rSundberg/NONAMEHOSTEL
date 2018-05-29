@@ -1,10 +1,10 @@
 import React from 'react'
-import moment from 'moment';
+import moment from 'moment'
 
 import 'react-dates/initialize'
 import {DayPickerRangeController} from 'react-dates'
 
-import {isInclusivelyAfterDay, getDateRange} from '../utils/utils'
+import {isInclusivelyAfterDay, getDateRange} from '../shared/utils'
 
 import 'react-dates/lib/css/_datepicker.css'
 
@@ -59,7 +59,8 @@ export default class Calendar extends React.Component {
                     endDate={endDate}
                     focusedInput={focusedInput}
                     onDatesChange={this.handleChange}
-                    onFocusChange={this.handleFocus}/>
+                    onFocusChange={this.handleFocus}
+                    noBorder={true}/>
             </div>
         )
     }

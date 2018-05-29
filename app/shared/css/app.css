@@ -19,108 +19,23 @@ body, h1, h2, h3, h4 {
     margin: 0;
 }
 
-.DayPickerNavigation_button__default {
-    border: 0;
-    background-color: transparent;
-}
+.Logo {
+    &__button {
+        position: absolute;
+        width: 80px;
+        height: 80px;
+        background-color: transparent;
 
-.DayPicker__withBorder {
-    border: 0;
-    box-shadow: 0 0 0 0;
-    border-radius: 0;
-}
+        &--1 {
+            left: 110px;
+            top: 40px;
+        }
 
-.DayPickerNavigation_button__default:focus,
-.DayPickerNavigation_button__default:hover {
-    border: 0;
-    outline: 0;
-}
-
-.DayPickerNavigation_svg__horizontal {
-    fill: black;
-}
-
-.CalendarMonth {
-    background: transparent;
-}
-
-.CalendarMonth_caption {
-    font-size: var(--font-big);
-}
-
-.DayPicker_weekHeader_ul {
-    font-size: var(--font-small);
-}
-
-.CalendarMonthGrid {
-    background: transparent;
-}
-
-.CalendarDay {
-    font-size: var(--font-tiny);
-}
-
-.CalendarDay__default {
-    background-color: transparent;
-    border: 0;
-    color: black;
-}
-
-.CalendarDay__default:hover {
-    background-color: var(--active-item);
-    border: 0;
-    color: white;
-}
-
-.CalendarDay__selected,
-.CalendarDay__selected:active,
-.CalendarDay__selected:hover {
-    background-color: var(--active-item);
-    border: 0;
-    color: rgba(255,255,255,1);
-}
-
-.CalendarDay__blocked_out_of_range,
-.CalendarDay__blocked_out_of_range:active,
-.CalendarDay__blocked_out_of_range:hover {
-    background-color: transparent;
-    border: 0;
-    color: rgba(0, 0, 0, 0.3);
-}
-
-.CalendarDay__blocked_calendar {
-    background-color: red !important;
-    color: white !important;
-}
-
-.CalendarDay__selected_span {
-    background-color: var(--selected-item);
-    border: 0;
-    color: rgba(255,255,255,1);
-}
-
-.CalendarDay__selected_span:hover {
-    background-color: var(--active-item);
-    border: 0;
-}
-
-.CalendarDay__hovered_span {
-    background-color: var(--selected-item);
-    color: white;
-}
-
-.CalendarDay__hovered_span:hover {
-    background-color: var(--active-item);
-    border: 0;
-    color: white;
-}
-
-.CalendarMonth_table {
-    margin-top: 10px;
-}
-
-.CalendarMonth_caption {
-    color: rgba(0, 0, 0, 1);
+        &--2 {
+            left: 110px;
+            top: 187px;
+        }
+    }
 }
 
 .App {
@@ -141,122 +56,19 @@ body, h1, h2, h3, h4 {
     }
 }
 
-.Dashboard {
-    width: 100vw;
-    background-color: white;
-    z-index: 9999;
-
-    &__content-box {
-
-    }
-
-    &__login {
-        width: 30vw;
-        height: 100vh;
-        left: 0;
-        top: 0;
-        z-index: 9999;
-        background-color: white;
-        display: flex;
-        flex-flow: column nowrap;
-        justify-content: center;
-        align-items: center;
-        box-sizing: border-box;
-        padding: 22px;
-    }
-
-    &__home {
-        width: 100vw;
-        min-height: 100vh;
-        display: flex;
-        box-sizing: border-box;
-    }
-
-    &__inputs {
-        box-shadow: var(--box-shadow);
-        display: flex;
-        flex-flow: column nowrap;
-        justify-content: center;
-        width: 100%;
-    }
-
-    &__input {
-        height: 50px;
-        font-size: var(--font-small);
-        margin-bottom: 5px;
-        padding-left: 22px;
-        border: 0;
-        outline: 0;
-
-        &::placeholder {
-            color: black;
-            font-weight: bold;
-        }
-    }
-
-    &__button-login {
-        height: 70px;
-        display: flex;
-        align-items: center;
-        color: black;
-        width: 100%;
-        padding-left: 22px;
-        box-sizing: border-box;
-        font-weight: bold;
-    }
-
-    &__button {
-        position: absolute;
-        width: 80px;
-        height: 80px;
-        background-color: transparent;
-
-        &--1 {
-            left: 110px;
-            top: 40px;
-        }
-
-        &--2 {
-            left: 110px;
-            top: 187px;
-        }
-    }
-}
-
 .CheckIn {
-    width: 100%;
+    width: 100vw;
     box-sizing: border-box;
-    padding: 10px;
+    padding: 5vw;
 
     &__title {
         font-size: var(--font-reallyBig);
-        padding: 10px 0;
-    }
-
-    &__locations {
-        width: 100%;
-        background-color: white;
-        display: grid;
-        grid: 10vh / 1fr 1fr;
-        align-items: center;
-        justify-items: center;
-        font-size: var(--font-big);
-        text-transform: capitalize;
-        box-shadow: var(--box-shadow);
-        margin-top: 15px;
-
-        & div {
-            padding: 3vw 9vw;
-        }
+        padding: 0 0 12px;
     }
 
     &__content-box {
         box-sizing: border-box;
-        padding: 10px;
-
-        &:first-of-type {
-            padding-top: 0;
-        }
+        padding-bottom: 22px;
     }
 }
 
@@ -335,8 +147,10 @@ body, h1, h2, h3, h4 {
 
 .Locations {
     display: grid;
-    grid: 105px / 1fr 1fr;
+    grid: 102px / 1fr 1fr;
     align-items: center;
+    width: 100%;
+    box-shadow: var(--box-shadow);
 
     &__title {
         grid-area: 1 / 1 / 1 / last-line;
@@ -391,6 +205,7 @@ body, h1, h2, h3, h4 {
     &__info {
         font-size: var(--font-small);
         font-weight: normal;
+        word-wrap: break-word;
     }
 
     &__action-button {
@@ -410,69 +225,6 @@ body, h1, h2, h3, h4 {
         &--confirm {
             background-color: var(--selected-item);
         }
-    }
-}
-
-.Booking {
-    min-height: 98vh;
-    display: grid;
-    grid: auto / auto;
-    grid-gap: 10px;
-    align-content: center;
-    justify-content: center;
-    justify-items: center;
-    box-sizing: border-box;
-    padding: 32px 12px 32px 102px;
-
-    & > div {
-        box-shadow: var(--box-shadow);
-        width: 23vw;
-    }
-
-    &__loader {
-        box-sizing: border-box;
-        padding: 22px;
-        animation-duration: 0.4s;
-        animation-name: loaderz;
-        animation-direction: alternate;
-        animation-iteration-count: infinite;
-    }
-
-    &__title {
-        width: 23vw;
-        box-sizing: border-box;
-        padding: 22px;
-        font-size: var(--font-reallyBig);
-    }
-
-    &__confirm {
-        display: grid;
-        box-sizing: border-box;
-        grid: 1fr / 1fr;
-        padding: 22px;
-        background-color: var(--active-item);
-        font-size: var(--font-small);
-        cursor: pointer;
-        text-transform: capitalize;
-        color: white;
-
-        & div:last-of-type {
-            margin-top: 5px;
-            font-weight: bold;
-        }
-
-        &:hover {
-            background-color: var(--selected-item);
-        }
-
-    }
-
-    &__back {
-        text-align: center;
-        padding: 22px;
-        box-sizing: border-box;
-        font-size: var(--font-big);
-        cursor: pointer;
     }
 }
 
@@ -688,52 +440,6 @@ and (max-device-width : 667px) {
         }
     }
 
-    .Dashboard {
-        &__title {
-            margin-bottom: 22px;
-        }
-
-        &__login {
-            width: 100vw;
-        }
-
-        &__account-info {
-            position: fixed;
-            bottom: 0;
-            left: 0;
-            height: 10vh;
-            width: 100vw;
-            background-color: white;
-            display: flex;
-            justify-content: space-around;
-            align-items: center;
-        }
-
-        &__content-box {
-            width: 90vw;
-            min-height: 12vh;
-            margin: 10px 0;
-            box-shadow: var(--box-shadow);
-            display: flex;
-            flex-flow: column nowrap;
-            justify-content: center;
-            align-items: center;
-            font-weight: bold;
-            font-size: var(--font-big);
-
-            &:first-of-type {
-                margin-top: 0;
-            }
-        }
-
-        &__home {
-            flex-flow: column nowrap;
-            justify-content: center;
-            align-items: center;
-            padding-bottom: 10vh;
-        }
-    }
-
     .Beds {
         &__card {
             &:hover {
@@ -745,19 +451,6 @@ and (max-device-width : 667px) {
                     fill: black;
                 }
             }
-        }
-    }
-
-    .Booking {
-        padding: 32px 0;
-
-        &__title {
-            width: 90vw;
-        }
-        
-        & > div {
-            box-shadow: var(--box-shadow);
-            width: 90vw;
         }
     }
 

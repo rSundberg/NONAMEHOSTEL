@@ -1,0 +1,145 @@
+.Dashboard {
+    width: 100vw;
+    background-color: white;
+    z-index: 9999;
+
+    &__title {
+        font-size: var(--font-reallyBig);
+    }
+
+    &__content-box {
+        border-radius: 6px;
+
+        &--logout {
+            background-color: var(--dangerous-item);
+            color: white;
+        }
+    }
+
+    &__action-box {
+        width: 90vw;
+        display: grid;
+        grid: 52px / 1fr 1fr;
+        justify-items: center;
+        align-items: center;
+        padding: 5vw 0;
+    }
+
+    &__account-info {
+        width: 90vw;
+        background-color: white;
+        display: grid;
+        grid: 1fr 1fr / 1fr;
+        align-items: center;
+        box-sizing: border-box;
+        padding: 5vw 0;
+        font-size: var(--font-big);
+    }
+
+    &__login {
+        width: 30vw;
+        height: 100vh;
+        left: 0;
+        top: 0;
+        z-index: 9999;
+        background-color: white;
+        display: flex;
+        flex-flow: column nowrap;
+        justify-content: center;
+        align-items: center;
+        box-sizing: border-box;
+        padding: 22px;
+    }
+
+    &__logout {
+        font-size: var(--font-big);
+        font-weight: bold;
+        color: var(--dangerous-item);
+    }
+
+    &__back {
+
+        & svg {
+            height: 42px;
+        }
+    }
+
+    &__home {
+        width: 100vw;
+        min-height: 100vh;
+        display: flex;
+        box-sizing: border-box;
+    }
+
+    &__inputs {
+        box-shadow: var(--box-shadow);
+        display: flex;
+        flex-flow: column nowrap;
+        justify-content: center;
+        width: 100%;
+    }
+
+    &__input {
+        height: 50px;
+        width: 100%;
+        box-sizing: border-box;
+        font-size: var(--font-small);
+        margin-top: 22px;
+        margin-bottom: 5px;
+        padding-left: 22px;
+        border: 0;
+        outline: 0;
+
+        &::placeholder {
+            color: black;
+            font-weight: bold;
+        }
+    }
+
+    &__button-login {
+        height: 70px;
+        display: flex;
+        align-items: center;
+        color: black;
+        width: 100%;
+        padding-left: 22px;
+        box-sizing: border-box;
+        font-weight: bold;
+    }
+}
+
+@media only screen 
+and (max-device-width : 667px) {
+    .Dashboard {
+        &__title {
+            
+        }
+
+        &__login {
+            width: 100vw;
+        }
+
+        &__content-box {
+            width: 90%;
+            min-height: 102px;
+            margin: 10px 0;
+            box-shadow: var(--box-shadow);
+            display: flex;
+            flex-flow: column nowrap;
+            justify-content: center;
+            align-items: center;
+            font-weight: bold;
+            font-size: var(--font-big);
+
+            &:first-of-type {
+                margin-top: 0;
+            }
+        }
+
+        &__home {
+            flex-flow: column nowrap;
+            justify-content: center;
+            align-items: center;
+        }
+    }
+}

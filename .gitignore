@@ -3,7 +3,7 @@
 # dependencies
 /node_modules
 functions/node_modules
-public/*.jpg
+public/*
 firebase-debug.log
 
 # testing

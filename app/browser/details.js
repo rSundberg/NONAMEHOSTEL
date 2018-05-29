@@ -11,9 +11,9 @@ export default class Details extends Component {
     }
 
     componentDidMount() {
-        localforage.getItem('bookingDetails').then(details =>
-            this.setState(details, () => this.props.getDetails(this.state))
-        )
+        localforage.getItem('bookingDetails')
+            .then(details => this.setState(details, () => this.props.getDetails(this.state)))
+            .catch(err => console.log(err))
     }
 
     setName = event => this.setState({name: event.target.value})

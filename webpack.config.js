@@ -1,10 +1,13 @@
+const webpack = require('webpack')
 const path = require('path')
+const devMode = process.env.NODE_ENV !== 'production'
 
 module.exports = {
     entry: './app/app.js',
     output : {
         path: path.resolve(__dirname, 'public'),
-        filename: 'app.bundle.js'
+        filename: '[name].bundle.js',
+        chunkFilename: '[name].chunk.js'
     },
     module : {
         rules: [
@@ -48,5 +51,11 @@ module.exports = {
                 ]
             }
         ]
+    },
+    devtool: devMode ? 'cheap-module-eval-source-map' : null,
+    optimization: {
+        splitChunks: {
+            chunks: 'all'
+        }
     }
 }

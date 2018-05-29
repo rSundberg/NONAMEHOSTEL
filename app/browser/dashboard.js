@@ -1,9 +1,12 @@
 import React, { Component, Fragment } from 'react'
-import firebase from 'firebase/app'
 import anime from 'animejs'
+
+import '../shared/css/dashboard.css'
 
 import Box from './box'
 import CheckIn from './checkIn'
+
+import Back from '../shared/media/back.svg'
 
 export default class Dashboard extends Component {
     state = {
@@ -22,12 +25,19 @@ export default class Dashboard extends Component {
     setPassword = event => this.setState({ password: event.target.value })
 
     signIn = () => {
-        firebase.auth().signInWithEmailAndPassword(this.state.email, this.state.password).catch(error => {
+        this.props.auth.signInWithEmailAndPassword(this.state.email, this.state.password).catch(error => {
             // Handle Errors here.
             var errorCode = error.code;
             var errorMessage = error.message;
             // ...
         });
+    }
+
+    signOut = () => {
+        this.props.auth
+        .signOut()
+        .then(() => this.setState({user: null}))
+        .catch(err => console.log(err))
     }
 
     shouldComponentUpdate(nextProps, nextState) {
@@ -46,7 +56,7 @@ export default class Dashboard extends Component {
             opacity: [0, 1]
         })
 
-        firebase.auth().onAuthStateChanged(user => {
+        this.props.auth.onAuthStateChanged(user => {
             if (user) {
                 this.setState({ user: user })
             } else {
@@ -58,7 +68,7 @@ export default class Dashboard extends Component {
 
     getBoxContent = box => {
         if (box === 'Check in') {
-            return <CheckIn />
+            return <CheckIn firestore={this.props.firestore} auth={this.props.auth} />
         } else {
             return null
         }
@@ -74,7 +84,7 @@ export default class Dashboard extends Component {
                 {
                     !this.state.user ?
                         <div className={'Dashboard__login'}>
-                            <h1 className={'Dashboard__title'}>Let us keep it a secret</h1>
+                            <h1 className={'Dashboard__title'}>Let's keep it a secret</h1>
                             <div className={'Dashboard__inputs'}>
                                 <form>
                                     <input type={'email'} className={'Dashboard__input'} placeholder={'Email'} onChange={this.setEmail} />
@@ -84,6 +94,12 @@ export default class Dashboard extends Component {
                             <div className={'Dashboard__button-login'} onClick={() => this.signIn()}>Sign in</div>
                         </div> :
                         <div className={'Dashboard__home'}>
+                            <div className={'Dashboard__account-info'}>
+                                <h1 className={'Dashboard__title'}>Welcome</h1>
+                                <span>
+                                    {this.state.user.email}
+                                </span>
+                            </div>
 
                             {boxes.map((box, i) =>
                                 <Box key={i} name={box} id={i} isOpen={activeBox === i} onClick={this.setActiveBox}>
@@ -92,12 +108,13 @@ export default class Dashboard extends Component {
                                 )
                             }
 
-                            <div className={'Dashboard__account-info'}>
-                                <span>
-                                    Welcome
+                            <div className={'Dashboard__action-box'}>
+                                <span className={'Dashboard__logout'}>
+                                    Logout
                                 </span>
-                                <span>
-                                    {this.state.user.email}
+
+                                <span className={'Dashboard__back'} onClick={() => this.props.backClick()}>
+                                    <Back />
                                 </span>
                             </div>
                         </div>
