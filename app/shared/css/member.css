@@ -1,0 +1,44 @@
+.Member {
+    width: 100%;
+    box-shadow: var(--box-shadow);
+    display: grid;
+    grid-gap: 10px;
+    margin: 10px 0px;
+    box-sizing: border-box;
+    padding: 5vw;
+
+    &__picture-wrapper {
+        display: flex;
+        flex-flow: column nowrap;
+        align-items: center;
+    }
+
+    &__picture {
+        max-height: 300px;
+        max-width: 100%;
+    }
+
+    & input {
+        position: absolute;
+        width: 1px;
+        height: 1px;
+        visibility: hidden;
+    }
+
+    &__info-wrapper {
+        display: flex;
+        flex-flow: column nowrap;
+    }
+
+    &__info {
+        width: 100%;
+        font-size: var(--font-small);
+        font-weight: normal;
+        word-wrap: break-word;
+        margin-bottom: 10px;
+
+        &:first-of-type {
+            font-weight: bold;
+        }
+    }
+}

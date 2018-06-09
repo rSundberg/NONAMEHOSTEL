@@ -48,7 +48,7 @@ export default class Box extends Component {
 
         return (
             <div className={`Dashboard__content-box`} onClick={() => onClick(id)} ref={this.boxRef}>
-                {isOpen ? '' : name}
+                {isOpen ? '' : <div className={'Dashboard__box-title'}>{name}</div>}
 
                 {isOpen ? children : null}
             </div>

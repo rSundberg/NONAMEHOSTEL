@@ -1,5 +1,4 @@
 import React, { Component, Fragment } from 'react'
-import moment from 'moment'
 
 import Tickets from './tickets'
 import Locations from './locations'
@@ -10,6 +9,10 @@ export default class CheckIn extends Component {
         locations: [],
         pending: [],
         todays: []
+    }
+
+    componentDidMount() {
+        this.setLocation('goa')
     }
 
     bedsRef = () => this.props.firestore
@@ -25,7 +28,7 @@ export default class CheckIn extends Component {
         }))
         .catch(err => console.log(err))
 
-    confirmBooking = booking => this.updateBookingStatus(booking, 'canceled')
+    confirmBooking = booking => this.updateBookingStatus(booking, 'hosted')
         .then(() => this.setState({
             todays: this.state.todays.filter(renderedBooking => renderedBooking.ref.path !== booking.ref.path)
         }))
@@ -43,7 +46,7 @@ export default class CheckIn extends Component {
                     this.bedsRef().doc(id)
                         .collection('bookings')
                         .where('status', '==', 'booked')
-                        .where('start_date', '==', moment().format('YYYY-MM-DD'))
+                        .where('start_date', '==', this.props.moment().format('YYYY-MM-DD'))
                         .get()
             ))
             .then(bookings => Promise.all(bookings))
@@ -59,7 +62,7 @@ export default class CheckIn extends Component {
                 this.bedsRef().doc(id)
                     .collection('bookings')
                     .where('status', '==', 'booked')
-                    .where('start_date', '<', moment().format('YYYY-MM-DD'))
+                    .where('start_date', '<', this.props.moment().format('YYYY-MM-DD'))
                     .get()
         ))
         .then(bookings => Promise.all(bookings))
@@ -76,11 +79,6 @@ export default class CheckIn extends Component {
         return (
             <div className={'CheckIn'}>
                 <div className={'CheckIn__content-box'}>
-                    {!location
-                        ? <h2 className={'CheckIn__title'}>Pick a location</h2>
-                        : null
-                    }
-
                     <Locations
                         onClick={this.setLocation}
                         currentLocation={location}
@@ -94,7 +92,6 @@ export default class CheckIn extends Component {
                                 title={'Check in'}
                                 data={todays}
                                 ticketAction={this.confirmBooking}
-                                actionClass={'Ticket__action-button--confirm'}
                             />
                         </div>
 
@@ -103,7 +100,6 @@ export default class CheckIn extends Component {
                                 title={'Pending'}
                                 data={pending}
                                 ticketAction={this.cancelBooking}
-                                actionClass={'Ticket__action-button--cancel'}
                             />
                         </div>
                     </Fragment>

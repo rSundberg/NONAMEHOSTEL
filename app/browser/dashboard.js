@@ -1,10 +1,12 @@
 import React, { Component, Fragment } from 'react'
 import anime from 'animejs'
+import Loadable from 'react-loadable'
 
 import '../shared/css/dashboard.css'
 
 import Box from './box'
 import CheckIn from './checkIn'
+import Members from './members'
 
 import Back from '../shared/media/back.svg'
 
@@ -68,7 +70,17 @@ export default class Dashboard extends Component {
 
     getBoxContent = box => {
         if (box === 'Check in') {
-            return <CheckIn firestore={this.props.firestore} auth={this.props.auth} />
+            return <CheckIn
+                firestore={this.props.firestore}
+                auth={this.props.auth}
+                moment={this.props.moment}
+            />
+        } else if (box === 'Home collective members') {
+            return <Members
+                firestore={this.props.firestore}
+                storage={this.props.storage}
+                moment={this.props.moment}
+            />
         } else {
             return null
         }

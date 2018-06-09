@@ -2,10 +2,11 @@ import React, { Component, Fragment } from 'react';
 
 import Ticket from './ticket'
 
-import DormStay from '../shared/media/dorm_stay.svg'
-import RoomStay from '../shared/media/room_stay.svg'
-import CampStay from '../shared/media/camp_bed_stay.svg'
-import FreeStay from '../shared/media/free_stay.svg'
+import DormIcon from '../shared/media/dorm_stay.svg'
+import RoomIcon from '../shared/media/room_stay.svg'
+import CampIcon from '../shared/media/camp_bed_stay.svg'
+import FreeIcon from '../shared/media/free_stay.svg'
+import CheckIcon from '../shared/media/checkmark.svg'
 
 export default class Tickets extends Component {
     render() {
@@ -16,31 +17,63 @@ export default class Tickets extends Component {
                 </h2>
 
                 {this.props.data.map((booking, i) => {
-                    const { name, email, country, location, bed_count, room_count, start_date, end_date } = booking.data()
-
+                    const { name, email, phone, country, location, bed_count, room_count, start_date, end_date, bed_type } = booking.data()
+                    console.log(bed_type)
                     return <Ticket key={i}>
-                        <div className={'Ticket__info'}>
-                            {name}
+                        <div className={`Ticket__action-bar`} onClick={() => this.props.ticketAction(booking)}>
+                            <div className={'Ticket__bed'}>
+                                {bed_type === 'tent'
+                                    ? <FreeIcon />
+                                    : bed_type === 'camp'
+                                        ? <CampIcon />
+                                        : bed_type === 'dorm'
+                                            ? <DormIcon />
+                                            : bed_type === 'room'
+                                                ? <RoomIcon />
+                                                : null
+                                }
+
+                                {bed_count}
+                            </div>
                         </div>
 
-                        <div className={'Ticket__info'}>
-                            {location} - {bed_count} beds {room_count ? `, ${room_count} rooms` : ''}
+                        <div className={'Ticket__info-bar'}>
+                            <div className={'Ticket__info'}>
+                                {name}
+                            </div>
+
+                            <div className={'Ticket__info'}>
+                                {email}
+                            </div>
+
+                            <div className={'Ticket__info'}>
+                                {phone}
+                            </div>
+
+                            <div className={'Ticket__info'}>
+                                {country}
+                            </div>
+
+                            {room_count
+                                ? <div className={'Ticket__info'}>
+                                    {room_count} Rooms
+                                </div>
+                                : null
+
+                            }
+
+                            <div className={'Ticket__info'}>
+                                {start_date} - {end_date}
+                            </div>
                         </div>
 
-                        <div className={'Ticket__info'}>
-                            {email}
-                        </div>
 
-                        <div className={'Ticket__info'}>
-                            {country}
-                        </div>
-
-                        <div className={'Ticket__info'}>
-                            {start_date} - {end_date}
-                        </div>
-
-                        <div className={`Ticket__action-button ${this.props.actionClass}`} onClick={() => this.props.ticketAction(booking)}>
-                            Confirm Booking
+                        <div className={'Ticket__action-icon'}>
+                            <div className={'Ticket__action-icon--confirm'}>
+                                <CheckIcon />
+                            </div>
+                            <div className={'Ticket__action-icon--cancel'}>
+                            </div>
                         </div>
                     </Ticket>
                 })}

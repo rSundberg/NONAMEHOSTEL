@@ -87,7 +87,8 @@ exports.addMember = functions.firestore
                         name: name,
                         email: email,
                         country: country,
-                        phone: phone
+                        phone: phone,
+                        created: moment().format('DD-MM-YYYY')
                     })
                 }
 

@@ -7,8 +7,17 @@
         font-size: var(--font-reallyBig);
     }
 
+    &__box-title {
+        height: 102px;
+        width: 100%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
     &__content-box {
         border-radius: 6px;
+        justify-content: flex-start;
 
         &--logout {
             background-color: var(--dangerous-item);
@@ -122,11 +131,11 @@ and (max-device-width : 667px) {
         &__content-box {
             width: 90%;
             min-height: 102px;
-            margin: 10px 0;
+            margin: 5px 0;
             box-shadow: var(--box-shadow);
             display: flex;
             flex-flow: column nowrap;
-            justify-content: center;
+            justify-content: flex-start;
             align-items: center;
             font-weight: bold;
             font-size: var(--font-big);

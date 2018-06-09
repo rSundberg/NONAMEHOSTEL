@@ -1,0 +1,30 @@
+.Members {
+    width: 100vw;
+    box-sizing: border-box;
+    padding: 5vw;
+
+    &__search {
+        width: 100%;
+        display: grid;
+        grid: 102px / 4fr 1fr;
+        justify-items: center;
+        align-items: center;
+        box-shadow: var(--box-shadow);
+
+        & svg {
+            width: 35px;
+        }
+    }
+
+    &__input {
+        font-size: var(--font-big);
+        box-sizing: border-box;
+        padding: 5vw;
+        width: 100%;
+        outline: none;
+
+        &::placeholder {
+            color: black;
+        }
+    }
+}

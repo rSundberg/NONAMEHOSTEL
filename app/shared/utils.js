@@ -1,5 +1,3 @@
-import moment from 'moment'
-
 export function importLocalforage() {
     const config = {
         name: 'noname hostel',
@@ -15,64 +13,72 @@ export function importLocalforage() {
         .catch(err => console.log(err))
 }
 
+
 export function importFirebase(config, modulesArr) {
     return import(/* webpackChunkName: 'firebase' */ 'firebase/app')
         .then(firebase => {
             if (!firebase.apps.length) {
                 firebase.initializeApp(config)
             }
-
+            
             return firebase
         })
         .then(firebase => Promise.all(modulesArr).then(() => firebase))
         .then(firebase => {
+            firebase.firestore().settings({timestampsInSnapshots: true})
+
             return {
                 firestore: firebase.firestore(),
                 auth: firebase.auth(),
-                functions: firebase.functions()
+                functions: firebase.functions(),
+                storage: firebase.storage()
             }
         })
         .catch(err => console.log(err))
 }
 
-export function getDateRange(startDate, endDate, dateFormat) {
+export function importMoment() {
+    return import(/* webpackChunkName: 'moment'*/ 'moment').then(moment => moment.default)
+}
+
+export function getDateRange(startDate, endDate, dateFormat, moment) {
     let dates = [],
         end = moment(endDate),
-        diff = endDate.diff(startDate, 'days');
+        diff = endDate.diff(startDate, 'days')
 
     if (!startDate.isValid() || !endDate.isValid() || diff <= 0) {
-        return;
+        return
     }
 
     for (let i = 0; i < diff; i++) {
-        dates.push(end.subtract(1, 'd').format(dateFormat));
+        dates.push(end.subtract(1, 'd').format(dateFormat))
     }
 
-    return dates;
+    return dates
 }
 
-export function isBeforeDay(a, b) {
+export function isBeforeDay(a, b, moment) {
     if (!moment.isMoment(a) || !moment.isMoment(b)) 
-        return false;
+        return false
     
-    const aYear = a.year();
-    const aMonth = a.month();
+    const aYear = a.year()
+    const aMonth = a.month()
 
-    const bYear = b.year();
-    const bMonth = b.month();
+    const bYear = b.year()
+    const bMonth = b.month()
 
-    const isSameYear = aYear === bYear;
-    const isSameMonth = aMonth === bMonth;
+    const isSameYear = aYear === bYear
+    const isSameMonth = aMonth === bMonth
 
     if (isSameYear && isSameMonth) 
-        return a.date() < b.date();
+        return a.date() < b.date()
     if (isSameYear) 
-        return aMonth < bMonth;
-    return aYear < bYear;
+        return aMonth < bMonth
+    return aYear < bYear
 }
 
-export function isInclusivelyAfterDay(a, b) {
-    if (!moment.isMoment(a) || !moment.isMoment(b)) 
-        return false;
-    return !isBeforeDay(a, b);
+export function isInclusivelyAfterDay(a, b, moment) {
+    if (!moment.isMoment(a) || !moment.isMoment(b)) return false
+
+    return !isBeforeDay(a, b, moment)
 }

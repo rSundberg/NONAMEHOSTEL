@@ -2,9 +2,10 @@ import React, { Component, Fragment } from 'react'
 import Loadable from 'react-loadable'
 import anime from 'animejs'
 
-import {importFirebase, importLocalforage} from '../shared/utils'
+import {importFirebase, importLocalforage, importMoment} from '../shared/utils'
 
 import ToggleBooking from './toggleBooking'
+import Loader from './loader'
 
 import Logo from '../shared/media/logo.svg'
 
@@ -23,25 +24,31 @@ const Dashboard = Loadable.Map({
         firebase: () => importFirebase(config, [
             import('firebase/firestore'),
             import('firebase/auth'),
-            import('firebase/functions')
-        ]).then(services => services)
+            import('firebase/functions'),
+            import('firebase/storage')
+        ]).then(services => services),
+        moment: () => importMoment()
     },
-    loading: () => null,
-    render: ({Dashboard, firebase}, props) => <Dashboard.default {...firebase} {...props}/>
+    loading: defaultProps => <Loader {...defaultProps} height={100} title={'Dashboard'}/>,
+    delay: 600,
+    render: ({Dashboard, firebase, moment}, props) => <Dashboard.default {...firebase} moment={moment} {...props}/>
 })
 
 const Booking = Loadable.Map({
     loader: {
         Booking: () => import(/* webpackChunkName: 'booking' */ './booking'),
-        localforage: () => importLocalforage().then(localforage => localforage)
+        moment: () => importMoment(),
+        localforage: () => importLocalforage()
     },
-    loading: () => null,
-    render: ({Booking, localforage}, props) => <Booking.default localforage={localforage} {...props} />
+    loading: defaultProps => <Loader {...defaultProps} height={100} title={'Booking'} />,
+    delay: 600,
+    render: ({Booking, localforage, moment}, props) => <Booking.default localforage={localforage} moment={moment} {...props} />
 })
 
 const StartSection = Loadable({
     loader: () => import(/* webpackChunkName: 'startsection' */ './startsection'),
-    loading: () => null
+    loading: defaultProps => <Loader {...defaultProps} height={100} title={'Info'} />,
+    delay: 600
 })
 
 export default class Home extends Component {

@@ -1,5 +1,4 @@
 import React, { Component, Fragment } from 'react'
-import moment from 'moment'
 import anime from 'animejs'
 import fetch from 'isomorphic-fetch'
 
@@ -18,7 +17,7 @@ import FreeStay from '../shared/media/free_stay.svg'
 
 export default class Booking extends Component {
     state = {
-        booking_date: moment().format('YYYY-MM-DD'),
+        booking_date: this.props.moment().format('YYYY-MM-DD'),
         start_date: null,
         end_date: null,
         location: null,
@@ -58,7 +57,6 @@ export default class Booking extends Component {
     updateBedType = bed => this.state.location
         ? this.setState({
                 bed_type: bed,
-                room_count: null,
                 rooms_confirmed: false
             }, () => {
                 const query = `?location=${this.state.location}&bed_type=${this.state.bed_type}`
@@ -86,7 +84,7 @@ export default class Booking extends Component {
     resetState = (mergeObj = {}) => {
         let state = {
             activeBed: null,
-            booking_date: moment().format('YYYY-MM-DD'),
+            booking_date: this.props.moment().format('YYYY-MM-DD'),
             start_date: null,
             end_date: null,
             location: null,
@@ -152,8 +150,9 @@ export default class Booking extends Component {
     }
 
     blockedDateByLimit = ({docs, limit}) => {
+        const {moment} = this.props
         const bookingsPerDate = docs.reduce((obj, { start_date, end_date, bed_count, room_count }) => {
-            const dateArr = getDateRange(moment(start_date), moment(end_date), 'YYYY-MM-DD')
+            const dateArr = getDateRange(moment(start_date), moment(end_date), 'YYYY-MM-DD', moment)
             const amountPerDay = dateArr.reduce((dateObj, date) => {
                 const amount = room_count
                     ? obj[date]
@@ -199,6 +198,7 @@ export default class Booking extends Component {
 
     render() {
         const {start_date, end_date, location, bed_type, bed_count, room_count, name, email, phone, message, booked, booking, rooms_confirmed, activeBed, limit, docs} = this.state
+        const {moment} = this.props
 
         return (
             <Fragment>

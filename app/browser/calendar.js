@@ -21,7 +21,7 @@ export default class Calendar extends React.Component {
         this.setState({startDate, endDate})
 
         if (startDate && endDate) {
-            if (getDateRange(moment(startDate), moment(endDate), 'YYYY-MM-DD').some(day => blockedDays.includes(day))) {
+            if (getDateRange(moment(startDate), moment(endDate), 'YYYY-MM-DD', moment).some(day => blockedDays.includes(day))) {
                 this.setState({startDate: null, endDate: null})
 
                 return
@@ -54,7 +54,7 @@ export default class Calendar extends React.Component {
 
                         return this.props.blockedDays.includes(day.format('YYYY-MM-DD'))
                     }}
-                    isOutsideRange={day => !isInclusivelyAfterDay(day, moment()) }
+                    isOutsideRange={day => !isInclusivelyAfterDay(day, moment(), moment) }
                     startDate={startDate}
                     endDate={endDate}
                     focusedInput={focusedInput}
