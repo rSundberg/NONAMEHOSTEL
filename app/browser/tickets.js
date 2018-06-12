@@ -7,6 +7,7 @@ import RoomIcon from '../shared/media/room_stay.svg'
 import CampIcon from '../shared/media/camp_bed_stay.svg'
 import FreeIcon from '../shared/media/free_stay.svg'
 import CheckIcon from '../shared/media/checkmark.svg'
+import CancelIcon from '../shared/media/cancel.svg'
 
 export default class Tickets extends Component {
     render() {
@@ -73,6 +74,7 @@ export default class Tickets extends Component {
                                 <CheckIcon />
                             </div>
                             <div className={'Ticket__action-icon--cancel'}>
+                                <CancelIcon />
                             </div>
                         </div>
                     </Ticket>

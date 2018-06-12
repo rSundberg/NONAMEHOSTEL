@@ -1,0 +1,26 @@
+.Section {
+    &__title {
+        font-size: 32px;
+        max-width: 400px;
+        margin: 0;
+        line-height: 1.4;
+    }
+
+    &__description {
+        font-size: var(--font-big);
+        line-height: 1.4;
+        margin-top: 5vw;
+    }
+
+    &__load-more {
+        box-sizing: border-box;
+        padding: 5vw;
+        box-shadow: var(--box-shadow);
+        margin-top: 10vh;
+        font-weight: bold;
+        font-size: var(--font-big);
+        display: flex;
+        flex-flow: column;
+        align-items: center;
+    }
+}

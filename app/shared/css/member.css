@@ -11,11 +11,17 @@
         display: flex;
         flex-flow: column nowrap;
         align-items: center;
+        transform: rotate(90deg);
+        height: 280px;
+
+        & svg {
+            width: 50px;
+            padding: 50px;
+        }
     }
 
     &__picture {
-        max-height: 300px;
-        max-width: 100%;
+        max-width: 280px;
     }
 
     & input {

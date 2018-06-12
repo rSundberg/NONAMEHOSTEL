@@ -1,6 +1,8 @@
 import React, { Component } from 'react'
 import anime from 'animejs'
 
+import ToggleIcon from '../shared/media/toggleBooking.svg'
+
 export default class ToggleBooking extends Component {
     state = {
         animationDirection: 'out',
@@ -106,9 +108,7 @@ export default class ToggleBooking extends Component {
     render() {
         return (
             <div className={'App__toggleBooking'} onClick={() => this.toggleBooking()} ref={this.toggleBookingContainer}>
-                <span>
-                    Book your stay
-                </span>
+                <ToggleIcon />
             </div>
         )
     }

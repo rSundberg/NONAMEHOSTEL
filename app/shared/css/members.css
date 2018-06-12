@@ -3,6 +3,12 @@
     box-sizing: border-box;
     padding: 5vw;
 
+    &__title {
+        font-size: var(--font-reallyBig);
+        margin-bottom: 5vw;
+        margin-top: 10vw;
+    }
+
     &__search {
         width: 100%;
         display: grid;

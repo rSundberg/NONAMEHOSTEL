@@ -32,13 +32,24 @@ export default class Member extends Component {
             .catch(err => console.log(err))
     }
 
+    loadPicture = () => {
+        console.log('loading')
+    }
+
     render() {
         const {name, email, phone, country, created, imageUrl} = this.props.doc.data()
         console.log(this.props)
+        console.log('loading component')
         return (
             <div className={'Member'}>
                 <div className={'Member__picture-wrapper'} onClick={this.triggerUpload}>
+                    {!this.state.uploadedImgUrl && !imageUrl
+                        ? <Upload />
+                        : null
+                    }
+
                     <img
+                        onLoad={this.loadPicture}
                         className={'Member__picture'}
                         src={this.state.uploadedImgUrl || imageUrl}
                     />
@@ -69,7 +80,7 @@ export default class Member extends Component {
                     </div>
 
                     <div className={'Member__info'}>
-                        {this.props.moment(created).format('DD-MMM-YYYY')}
+                        {this.props.moment(created).format('DD MMM YYYY')}
                     </div>
                 </div>
             </div>

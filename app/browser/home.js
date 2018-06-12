@@ -133,8 +133,7 @@ export default class Home extends Component {
                                     <Logo className={'App__logo'} />
                                 </div>
 
-                                <h1>No name hostel</h1>
-                                <h2>Crowdfunded, Volunteer-Based Traveler Community</h2>
+                                <h1 className={'StartSection__title'}>Welcome Home</h1>
                             </div>
 
                             <StartSection />

@@ -15,7 +15,7 @@
     font-family: 'Space Mono', monospace;
 }
 
-body, h1, h2, h3, h4 {
+body, h1, h2, h3, h4, p {
     margin: 0;
 }
 
@@ -45,6 +45,7 @@ body, h1, h2, h3, h4 {
     &__logo-container {
         width: 300px;
         position: relative;
+        margin-bottom: 10vh;
     }
 
     &__logo {
@@ -80,12 +81,29 @@ body, h1, h2, h3, h4 {
     height: 100%;
     width: 100%;
     box-sizing: border-box;
-    padding: 10px;
+    padding: 5vw;
 
     &__title {
         font-size: 32px;
         max-width: 400px;
         margin: 0;
+        line-height: 1.4;
+    }
+
+    &__description {
+        font-size: var(--font-big);
+        line-height: 1.4;
+        margin-top: 5vw;
+    }
+    
+    &__load-more {
+        box-sizing: border-box;
+        padding: 5vw;
+        box-shadow: var(--box-shadow);
+        margin-top: 10vh;
+        align-self: flex-start;
+        font-weight: bold;
+        font-size: var(--font-big);
     }
 }
 
@@ -254,6 +272,7 @@ body, h1, h2, h3, h4 {
             fill: white;
             stroke: white;
             height: 100%;
+            width: 30px;
         }
     }
 
@@ -473,15 +492,10 @@ and (max-device-width : 667px) {
             bottom: 2vw;
             right: 2vw;
             z-index: 999;
-            box-shadow: var(--box-shadow);
-            padding: 16px;
-            box-sizing: border-box;
             background-color: white;
 
-            & span {
-                text-align: center;
-                font-size: var(--font-small);
-                font-weight: bold;
+            & svg {
+                width: 70px;
             }
         }
     }
@@ -501,7 +515,12 @@ and (max-device-width : 667px) {
     }
 
     .StartSection {
-        height: 100vh;
+        min-height: 100vh;
+        margin: 10vh 0;
+
+        &:first-of-type {
+            margin-top: 0vh;
+        }
     }
 
     .Scrollable {

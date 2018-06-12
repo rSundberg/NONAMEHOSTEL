@@ -8,8 +8,9 @@ import SearchIcon from '../shared/media/search.svg'
 
 export default class Members extends Component {
     state = {
-        search: '',
-        members: []
+        searchResult: [],
+        members: [],
+        searched: false
     }
 
     searchRef = React.createRef()
@@ -25,13 +26,14 @@ export default class Members extends Component {
 
         search
             .get()
-            .then(query => {
-                console.log(query)
-            })
+            .then(query => this.setState({
+                searchResult: query.docs || [],
+                searched: true
+            }))
     }
 
     getMembers = () => {
-        const members = this.props.firestore.collection('members').orderBy('created').limit(3)
+        const members = this.props.firestore.collection('members').orderBy('created', 'desc').limit(3)
 
         members
             .get()
@@ -55,8 +57,28 @@ export default class Members extends Component {
 
                     <SearchIcon onClick={this.searchMember}/>
                 </div>
+                {this.state.searchResult.length > 0
+                    ? <h2 className={'Members__title'}>
+                        Search result
+                    </h2>
+                    : this.state.searched
+                        ? <h2 className={'Members__title'}>
+                            No member found
+                        </h2>
+                        : null
+                }
 
-                <h2>
+                {this.state.searchResult.map(member => 
+                    <Member
+                        firestore={this.props.firestore}
+                        storage={this.props.storage}
+                        moment={this.props.moment}
+                        doc={member}
+                        key={member.id}
+                    />
+                )}
+
+                <h2 className={'Members__title'}>
                     Latest members
                 </h2>
 
