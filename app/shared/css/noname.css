@@ -1,0 +1,49 @@
+.NoName {
+    width: 100%;
+    display: flex;
+    flex-flow: column nowrap;
+    align-items: center;
+
+    &__title {
+        text-align: center;
+        font-size: var(--font-big);
+        font-weight: normal;
+        margin-top: 10px;
+    }
+
+    &__img {
+        width: 100%;
+        margin-top: 10vh;
+    }
+
+    &__icon {
+        &-box {
+            width: 100%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 10vh;
+
+            & svg {
+                stroke: black;
+                width: 100px;
+            }
+        }
+
+        &-text {
+            width: 175px;
+        }
+
+        &-title {
+            margin-bottom: 10px;
+            text-align: center;
+            font-size: var(--font-reallyBig);
+        }
+
+        &-description {
+            font-size: var(--font-small);
+            font-weight: normal;
+            text-align: center;
+        }
+    }
+}

@@ -1,16 +1,19 @@
 import React, { Component } from 'react';
 
 import Member from './member'
+import CompleteDetails from './completedetails'
 
 import '../shared/css/members.css'
 
-import SearchIcon from '../shared/media/search.svg'
+import AddMemberIcon from '../shared/media/add_member.svg'
+import SearchMemberIcon from '../shared/media/search_member.svg'
 
 export default class Members extends Component {
     state = {
         searchResult: [],
         members: [],
-        searched: false
+        searched: false,
+        addMemberToggled: false
     }
 
     searchRef = React.createRef()
@@ -44,10 +47,44 @@ export default class Members extends Component {
             )
     }
 
+    addMember = (detailObj = {}) => {
+        const memberRef = this.props.firestore.collection('members')
+        const created = {
+            created: this.props.moment().format('YYYY-MM-DD')
+        }
+
+        memberRef
+            .add({...detailObj, ...created})
+            .then(docRef => {
+                this.getMembers()
+                this.toggleAddMember()
+            })
+    }
+
+    toggleAddMember = () => this.setState({addMemberToggled: !this.state.addMemberToggled})
+
     render() {
         return (
             <div className={`Members`}>
-                <div className={`Members__search`}>
+                <div className={'Members__action-box'}>
+                    <span
+                        onClick={this.toggleAddMember}
+                        className={'Members__action-title'}>
+                        Add member
+                    </span>
+
+                    <AddMemberIcon
+                        onClick={this.toggleAddMember}
+                        className={'Members__icon'}
+                    />
+
+                    { this.state.addMemberToggled
+                        ? <div className={'Members__action-details'}><CompleteDetails confirm={this.addMember}/></div>
+                        : null
+                    }
+                </div>
+
+                <div className={`Members__action-box`}>
                     <input
                         ref={this.searchRef}
                         className={'Members__input'}
@@ -55,8 +92,13 @@ export default class Members extends Component {
                         placeholder={'Member email'}
                     />
 
-                    <SearchIcon onClick={this.searchMember}/>
+                    <SearchMemberIcon
+                        className={'Members__icon'}
+                        onClick={this.searchMember}
+                    />
+
                 </div>
+
                 {this.state.searchResult.length > 0
                     ? <h2 className={'Members__title'}>
                         Search result

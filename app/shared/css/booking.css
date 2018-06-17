@@ -11,6 +11,7 @@
         box-shadow: var(--box-shadow);
         width: 23vw;
         border-radius: 3px;
+        background-color: white;
     }
 
     &__loader {

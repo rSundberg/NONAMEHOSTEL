@@ -89,12 +89,12 @@ export default class Dashboard extends Component {
     setActiveBox = boxId => this.setState({activeBox: boxId})
 
     render() {
-        const {boxes, activeBox} = this.state
+        const {boxes, activeBox, user} = this.state
 
         return (
             <div className={'Dashboard'} ref={this.dashboardRef}>
                 {
-                    !this.state.user ?
+                    !user ?
                         <div className={'Dashboard__login'}>
                             <h1 className={'Dashboard__title'}>Let's keep it a secret</h1>
                             <div className={'Dashboard__inputs'}>
@@ -103,7 +103,6 @@ export default class Dashboard extends Component {
                                     <input type={'password'} className={'Dashboard__input'} placeholder={'Password'} onChange={this.setPassword} />
                                 </form>
                             </div>
-                            <div className={'Dashboard__button-login'} onClick={() => this.signIn()}>Sign in</div>
                         </div> :
                         <div className={'Dashboard__home'}>
                             <div className={'Dashboard__account-info'}>
@@ -119,18 +118,21 @@ export default class Dashboard extends Component {
                                 </Box>
                                 )
                             }
-
-                            <div className={'Dashboard__action-box'}>
-                                <span className={'Dashboard__logout'}>
-                                    Logout
-                                </span>
-
-                                <span className={'Dashboard__back'} onClick={() => this.props.backClick()}>
-                                    <Back />
-                                </span>
-                            </div>
                         </div>
                 }
+
+                <div className={'Dashboard__action-box'}>
+                    <span
+                        className={`Dashboard__action Dashboard__action--${user ? 'logged-in' : 'logged-out'}`}
+                        onClick={() => user ? this.signOut() : this.signIn()}
+                    >
+                        {user ? 'Logout' : 'Login'}
+                    </span>
+
+                    <span className={'Dashboard__back'} onClick={() => this.props.backClick()}>
+                        <Back />
+                    </span>
+                </div>
             </div>
         )
     }

@@ -4,8 +4,8 @@ import Loadable from 'react-loadable'
 import Section from './section'
 import Loader from './loader'
 
-const NoNameHostel = Loadable({
-    loader: () => import(/* webpackChunkName: 'nonamehostel' */ './nonamehostel'),
+const NoName = Loadable({
+    loader: () => import(/* webpackChunkName: 'nonamehostel' */ './noname'),
     loading: defaultProps => <Loader {...defaultProps}/>
 })
 
@@ -32,16 +32,14 @@ export default class StartSection extends Component {
     render() {
         return (
             <Fragment>
-                <div className={'StartSection'}>
-                    <Section
-                        title={'Make the life changing experience of travel accessible for everybody'}
-                        description={'The project originated within an international group of friends linked by a common passion for traveling. The intention is to create and co-develop sustainable comunities providing free and affordable accommodation'}
-                        link={'What to expect?'}
-                        activate={() => this.activateSection('noname')}
-                        content={<NoNameHostel />}
-                        isOpen={this.includesSection('noname')}
-                    />
-                </div>
+                <Section
+                    title={'Make the life changing experience of travel accessible for everybody'}
+                    description={'The project originated within an international group of friends linked by a common passion for traveling. The intention is to create and co-develop sustainable comunities providing free and affordable accommodation'}
+                    link={'Discover No Name'}
+                    activate={() => this.activateSection('noname')}
+                    content={<NoName />}
+                    isOpen={this.includesSection('noname')}
+                />
 
                 <div className={'StartSection'}>
                     <h1 className={'StartSection__title'}>

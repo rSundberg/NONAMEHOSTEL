@@ -19,28 +19,14 @@ body, h1, h2, h3, h4, p {
     margin: 0;
 }
 
-.Logo {
-    &__button {
-        position: absolute;
-        width: 80px;
-        height: 80px;
-        background-color: transparent;
-
-        &--1 {
-            left: 110px;
-            top: 40px;
-        }
-
-        &--2 {
-            left: 110px;
-            top: 187px;
-        }
-    }
+input {
+    border: 0;
 }
 
 .App {
     display: grid;
     grid: 100vh / auto 4fr;
+    background-color: rgba(255, 255, 255, 0.95);
 
     &__logo-container {
         width: 300px;
@@ -489,10 +475,13 @@ and (max-device-width : 667px) {
         justify-content: center;
 
         &__toggleBooking {
-            bottom: 2vw;
-            right: 2vw;
+            bottom: 0vw;
+            right: 0vw;
             z-index: 999;
+            padding: 10px 0;
             background-color: white;
+            box-shadow: var(--box-shadow);
+            border-radius: 3px;
 
             & svg {
                 width: 70px;

@@ -6,8 +6,7 @@ import {importFirebase, importLocalforage, importMoment} from '../shared/utils'
 
 import ToggleBooking from './toggleBooking'
 import Loader from './loader'
-
-import Logo from '../shared/media/logo.svg'
+import Logo from './logo'
 
 const config = {
     apiKey: "AIzaSyAMicQRJfWpjotCfxq9xs_VdO_6wvkeVyc",
@@ -62,8 +61,6 @@ export default class Home extends Component {
 
     showContainer = React.createRef()
 
-    logoRef = React.createRef()
-
     toggleDashboard = () => {
         console.log('toggle')
 
@@ -100,20 +97,6 @@ export default class Home extends Component {
 
     getBookingContainer = () => this.bookingContainer.current
 
-    click = () => this.setState({ click: this.state.click + 1 }, () => {
-        if (this.state.click >= 2) {
-            anime({
-                targets: this.logoRef.current,
-                rotate: 180,
-                easing: 'easeInOutQuad',
-                duration: 850
-            })
-            .finished
-            .then(() => this.toggleDashboard())
-            .catch(err => console.log(err))
-        }
-    })
-
     render() {
         return (
             <div className={`App`}>
@@ -126,16 +109,7 @@ export default class Home extends Component {
                         </div>
 
                         <div className={'Scrollable'} ref={this.showContainer}>
-                            <div className={'StartSection'}>
-                                <div className={'App__logo-container'} ref={this.logoRef}>
-                                    <div className={'Logo__button Logo__button--1'} onClick={() => this.click()}></div>
-                                    <div className={'Logo__button Logo__button--2'} onClick={() => this.click()}></div>
-                                    <Logo className={'App__logo'} />
-                                </div>
-
-                                <h1 className={'StartSection__title'}>Welcome Home</h1>
-                            </div>
-
+                            <Logo onClick={this.toggleDashboard} />
                             <StartSection />
                         </div>
                     </Fragment>

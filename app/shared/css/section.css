@@ -1,6 +1,15 @@
 .Section {
+    display: flex;
+    flex-flow: column nowrap;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    box-sizing: border-box;
+    padding: 5vw;
+    margin: 10vh 0;
+
     &__title {
-        font-size: 32px;
+        font-size: var(--font-reallyBig);
         max-width: 400px;
         margin: 0;
         line-height: 1.4;

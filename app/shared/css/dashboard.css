@@ -1,7 +1,13 @@
 .Dashboard {
     width: 100vw;
+    min-height: 100vh;
+    box-sizing: border-box;
     background-color: white;
     z-index: 9999;
+    display: flex;
+    flex-flow: column nowrap;
+    justify-content: center;
+    align-items: center;
 
     &__title {
         font-size: var(--font-reallyBig);
@@ -47,23 +53,25 @@
 
     &__login {
         width: 30vw;
-        height: 100vh;
-        left: 0;
-        top: 0;
         z-index: 9999;
         background-color: white;
         display: flex;
         flex-flow: column nowrap;
         justify-content: center;
         align-items: center;
-        box-sizing: border-box;
-        padding: 22px;
     }
 
-    &__logout {
+    &__action {
         font-size: var(--font-big);
         font-weight: bold;
-        color: var(--dangerous-item);
+
+        &--logged-in {
+            color: var(--dangerous-item);
+        }
+
+        &--logged-out {
+            color: var(--active-item);
+        }
     }
 
     &__back {
@@ -86,15 +94,14 @@
         flex-flow: column nowrap;
         justify-content: center;
         width: 100%;
+        margin-top: 28px;
     }
 
     &__input {
-        height: 50px;
+        height: 52px;
         width: 100%;
         box-sizing: border-box;
         font-size: var(--font-small);
-        margin-top: 22px;
-        margin-bottom: 5px;
         padding-left: 22px;
         border: 0;
         outline: 0;
@@ -125,7 +132,7 @@ and (max-device-width : 667px) {
         }
 
         &__login {
-            width: 100vw;
+            width: 90vw;
         }
 
         &__content-box {
