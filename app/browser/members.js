@@ -5,8 +5,8 @@ import CompleteDetails from './completedetails'
 
 import '../shared/css/members.css'
 
-import AddMemberIcon from '../shared/media/add_member.svg'
-import SearchMemberIcon from '../shared/media/search_member.svg'
+import AddIcon from '../shared/media/add.svg'
+import SearchIcon from '../shared/media/search.svg'
 
 export default class Members extends Component {
     state = {
@@ -23,7 +23,6 @@ export default class Members extends Component {
     }
 
     searchMember = () => {
-        console.log(this.searchRef.current.value)
         const value = this.searchRef.current.value
         const search = this.props.firestore.collection('members').where('email', '==', value)
 
@@ -66,14 +65,14 @@ export default class Members extends Component {
     render() {
         return (
             <div className={`Members`}>
-                <div className={'Members__action-box'}>
+                <div className={'App__action-box'}>
                     <span
                         onClick={this.toggleAddMember}
                         className={'Members__action-title'}>
                         Add member
                     </span>
 
-                    <AddMemberIcon
+                    <AddIcon
                         onClick={this.toggleAddMember}
                         className={'Members__icon'}
                     />
@@ -84,15 +83,15 @@ export default class Members extends Component {
                     }
                 </div>
 
-                <div className={`Members__action-box`}>
+                <div className={`App__action-box`}>
                     <input
                         ref={this.searchRef}
-                        className={'Members__input'}
+                        className={'App__input'}
                         type={'text'}
                         placeholder={'Member email'}
                     />
 
-                    <SearchMemberIcon
+                    <SearchIcon
                         className={'Members__icon'}
                         onClick={this.searchMember}
                     />
@@ -100,11 +99,11 @@ export default class Members extends Component {
                 </div>
 
                 {this.state.searchResult.length > 0
-                    ? <h2 className={'Members__title'}>
+                    ? <h2 className={'App__title'}>
                         Search result
                     </h2>
                     : this.state.searched
-                        ? <h2 className={'Members__title'}>
+                        ? <h2 className={'App__title'}>
                             No member found
                         </h2>
                         : null
@@ -120,7 +119,7 @@ export default class Members extends Component {
                     />
                 )}
 
-                <h2 className={'Members__title'}>
+                <h2 className={'App__title'}>
                     Latest members
                 </h2>
 

@@ -1,0 +1,90 @@
+.ActivityDetails {
+    grid-column: 1 / 3;
+    width: 100%;
+    padding-top: 12px;
+
+    &__picture-wrapper {
+        width: 100%;
+        min-height: 70px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    &__picture {
+        width: 100%;
+    }
+
+    &__picture-icon {
+        width: 40px;
+    }
+
+    &__picture-input {
+        position: absolute;
+        width: 1px;
+        height: 1px;
+        visibility: hidden;
+    }
+
+    &__time {
+        width: 100%;
+        height: 100px;
+        display: grid;
+        grid: 1fr 1fr / 1fr 1fr;
+        align-items: center;
+        padding-top: 12px;
+    }
+
+    &__time-input {
+        font-size: var(--font-small);
+        outline: none;
+    }
+
+    &__time-label {
+        font-size: var(--font-big);
+        font-weight: bold;
+    }
+
+    &__info {
+        display: grid;
+        grid: 50px 50px 50px auto / 1fr;
+        padding-top: 12px;
+    }
+
+    &__icon {
+        width: 20px;
+        fill: white;
+    }
+
+    &__description {
+        width: 100%;
+        height: 70px;
+        font-size: var(--font-big);
+        padding: 0;
+        margin-top: 12px;
+        outline: none;
+
+        &::placeholder {
+            color: black;
+        }
+
+        &:focus {
+            color: var(--selected-item);
+
+            &::placeholder {
+                color: var(--selected-item);
+            }
+        }
+    }
+
+    &__confirm {
+        height: 50px;
+        width: 150px;
+        margin-top: 12px;
+        border-radius: 3px;
+        background-color: var(--active-item);
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+}

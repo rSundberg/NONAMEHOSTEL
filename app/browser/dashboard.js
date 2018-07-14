@@ -7,6 +7,8 @@ import '../shared/css/dashboard.css'
 import Box from './box'
 import CheckIn from './checkIn'
 import Members from './members'
+import Bookings from './bookings'
+import Activities from './activities'
 
 import Back from '../shared/media/back.svg'
 
@@ -17,7 +19,7 @@ export default class Dashboard extends Component {
         password: null,
         user: null,
         activeBox: null,
-        boxes: ['Check in', 'Calendar', 'Activities', 'Home collective members', 'Bookings']
+        boxes: ['Check in', 'Bookings', 'Calendar', 'Activities', 'Home collective members']
     }
 
     dashboardRef = React.createRef()
@@ -69,17 +71,30 @@ export default class Dashboard extends Component {
     }
 
     getBoxContent = box => {
+        const {firestore, moment, auth, storage} = this.props
+
         if (box === 'Check in') {
             return <CheckIn
-                firestore={this.props.firestore}
-                auth={this.props.auth}
-                moment={this.props.moment}
+                firestore={firestore}
+                auth={auth}
+                moment={moment}
             />
         } else if (box === 'Home collective members') {
             return <Members
-                firestore={this.props.firestore}
-                storage={this.props.storage}
-                moment={this.props.moment}
+                firestore={firestore}
+                storage={storage}
+                moment={moment}
+            />
+        } else if (box === 'Bookings') {
+            return <Bookings
+                firestore={firestore}
+                moment={moment}
+            />
+        } else if (box === 'Activities') {
+            return <Activities
+                firestore={firestore}
+                storage={storage}
+                moment={moment}
             />
         } else {
             return null

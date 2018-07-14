@@ -44,8 +44,6 @@ export default class Member extends Component {
     toggleSettings = () => this.setState({settingToggled: !this.state.settingToggled})
 
     updateDetails = (detailObj = {}) => {
-        console.log(this.props.doc.ref.path)
-        console.log(detailObj)
         const memberRef = this.props.firestore.doc(this.props.doc.ref.path)
 
         memberRef

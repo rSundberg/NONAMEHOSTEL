@@ -1,0 +1,51 @@
+.Bookings {
+    width: 100vw;
+    box-sizing: border-box;
+    padding: 5vw;
+
+    &__icon {
+        width: 40px;
+    }
+
+    &__time {
+        display: grid;
+        grid: 1fr / 1fr 1fr;
+        width: 100%;
+    }
+
+    &__time-input {
+        font-size: var(--font-small);
+        outline: none;
+    }
+
+    &__filter {
+        display: grid;
+        grid: 50px auto 70px / 100%;
+        justify-items: center;
+        align-items: center;
+        box-sizing: border-box;
+        padding: 22px;
+        grid-gap: 12px;
+        border-radius: 3px;
+        box-shadow: var(--box-shadow);
+    }
+
+    &__filter-items {
+        width: 100%;
+        display: flex;
+        flex-flow: row nowrap;
+        overflow: scroll;
+    }
+
+    &__filter-item {
+        font-size: var(--font-big);
+        font-weight: normal;
+        padding: 22px;
+        border-radius: 3px;
+
+        &--active {
+            background-color: var(--active-item);
+            color: white;
+        }
+    }
+}

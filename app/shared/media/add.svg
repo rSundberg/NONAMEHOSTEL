@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg style="isolation:isolate" viewBox="0 0 375 375" xmlns="http://www.w3.org/2000/svg">
+<defs>
+<clipPath id="a">
+<rect width="375" height="375"/>
+</clipPath>
+</defs>
+<g clip-path="url(#a)" stroke="#000" stroke-linecap="round" stroke-miterlimit="3" stroke-width="3">
+<line x1="187.5" x2="187.5" y1="18" y2="357" vector-effect="non-scaling-stroke"/>
+<line x1="18" x2="357" y1="187.5" y2="187.5" vector-effect="non-scaling-stroke"/>
+</g>
+</svg>

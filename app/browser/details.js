@@ -16,15 +16,17 @@ export default class Details extends Component {
             .catch(err => console.log(err))
     }
 
-    setName = event => this.setState({name: event.target.value})
+    setName = event => this.setState({ name: this.capitalizeData(event.target.value) })
 
-    setEmail = event => this.setState({email: event.target.value})
+    setEmail = event => this.setState({ email: this.capitalizeData(event.target.value) })
 
-    setPhone = event => this.setState({phone: event.target.value})
+    setPhone = event => this.setState({ phone: event.target.value })
 
-    setCountry = event => this.setState({country: event.target.value})
+    setCountry = event => this.setState({ country: this.capitalizeData(event.target.value) })
 
     setMessage = event => this.setState({ message: event.target.value }, this.props.getDetails(this.state))
+
+    capitalizeData = string => string.charAt(0).toUpperCase() + string.slice(1).toLowerCase();
 
     render() {
         const {name, email, phone, country, message} = this.state

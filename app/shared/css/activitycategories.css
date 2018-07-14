@@ -1,0 +1,21 @@
+.ActivityCategories {
+    grid-column: 1 / 3;
+    width: 100%;
+    display: flex;
+    flex-flow: row nowrap;
+    padding-top: 12px;
+    overflow: scroll;
+
+    &__category {
+        padding: 22px;
+        text-transform: capitalize;
+        font-size: var(--font-big);
+        font-weight: normal;
+        border-radius: 3px;
+
+        &--active {
+            background-color: var(--active-item);
+            color: white;
+        }
+    }
+}

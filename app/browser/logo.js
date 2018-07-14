@@ -13,7 +13,6 @@ export default class Logo extends Component {
     logoRef = React.createRef()
 
     click = () => this.setState({ click: this.state.click + 1 }, () => {
-        console.log('ey')
         if (this.state.click >= 2) {
             anime({
                 targets: this.logoRef.current,
@@ -21,9 +20,8 @@ export default class Logo extends Component {
                 easing: 'easeInOutQuad',
                 duration: 850
             })
-                .finished
-                .then(() => this.props.onClick())
-                .catch(err => console.log(err))
+            .finished
+            .then(() => this.props.onClick())
         }
     })
 

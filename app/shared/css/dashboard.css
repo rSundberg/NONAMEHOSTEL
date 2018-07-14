@@ -9,10 +9,6 @@
     justify-content: center;
     align-items: center;
 
-    &__title {
-        font-size: var(--font-reallyBig);
-    }
-
     &__box-title {
         height: 102px;
         width: 100%;
@@ -83,7 +79,6 @@
 
     &__home {
         width: 100vw;
-        min-height: 100vh;
         display: flex;
         box-sizing: border-box;
     }

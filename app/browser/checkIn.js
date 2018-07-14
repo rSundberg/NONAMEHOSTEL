@@ -34,7 +34,7 @@ export default class CheckIn extends Component {
         }))
         .catch(err => console.log(err))
 
-    setLocation = location => this.setState({location: location}, () => {
+    setLocation = location => this.setState({location: location, loading: true}, () => {
         this.getPending()
         this.getTodays()
     })
@@ -45,7 +45,7 @@ export default class CheckIn extends Component {
                 docs.map(({ id }) =>
                     this.bedsRef().doc(id)
                         .collection('bookings')
-                        .where('status', '==', 'booked')
+                        .where('status', '==', 'confirmed')
                         .where('start_date', '==', this.props.moment().format('YYYY-MM-DD'))
                         .get()
             ))
@@ -61,7 +61,7 @@ export default class CheckIn extends Component {
             docs.map(({id}) =>
                 this.bedsRef().doc(id)
                     .collection('bookings')
-                    .where('status', '==', 'booked')
+                    .where('status', '==', 'confirmed')
                     .where('start_date', '<', this.props.moment().format('YYYY-MM-DD'))
                     .get()
         ))
@@ -78,30 +78,25 @@ export default class CheckIn extends Component {
 
         return (
             <div className={'CheckIn'}>
-                <div className={'CheckIn__content-box'}>
-                    <Locations
-                        onClick={this.setLocation}
-                        currentLocation={location}
-                    />
-                </div>
+                <Locations
+                    onClick={this.setLocation}
+                    currentLocation={location}
+                />
 
                 {!location ||
                     <Fragment>
-                        <div className={'CheckIn__content-box'}>
-                            <Tickets
-                                title={'Check in'}
-                                data={todays}
-                                ticketAction={this.confirmBooking}
-                            />
-                        </div>
+                        <Tickets
+                            title={'Check in'}
+                            data={todays}
+                            ticketAction={this.confirmBooking}
+                        />
 
-                        <div className={'CheckIn__content-box'}>
-                            <Tickets
-                                title={'Pending'}
-                                data={pending}
-                                ticketAction={this.cancelBooking}
-                            />
-                        </div>
+                        <Tickets
+                            title={'Pending'}
+                            data={pending}
+                            onConfirmClick={this.confirmBooking}
+                            onCancelClick={this.cancelBooking}
+                        />
                     </Fragment>
                 }
             </div>

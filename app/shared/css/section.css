@@ -31,5 +31,6 @@
         display: flex;
         flex-flow: column;
         align-items: center;
+        background-color: white;
     }
 }

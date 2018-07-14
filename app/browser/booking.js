@@ -134,8 +134,7 @@ export default class Booking extends Component {
             this.props.localforage
                 .setItem('bookingDetails', this.filterObj(this.state, this.bookingDetails))
                 .then(() => Promise.all(_this.fetchAll([url])))
-                .then(val => {
-                    console.log(val)
+                .then(() => {
                     this.setState(this.resetState({booked: true, booking: false}), () => {
                         anime({
                             targets: "html, body",

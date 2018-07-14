@@ -13,13 +13,13 @@ export default class Tickets extends Component {
     render() {
         return (
             <Fragment>
-                <h2 className={'CheckIn__title'}>
+                <h2 className={'App__title'}>
                     {this.props.title}
                 </h2>
 
                 {this.props.data.map((booking, i) => {
                     const { name, email, phone, country, location, bed_count, room_count, start_date, end_date, bed_type } = booking.data()
-                    console.log(bed_type)
+
                     return <Ticket key={i}>
                         <div className={`Ticket__action-bar`} onClick={() => this.props.ticketAction(booking)}>
                             <div className={'Ticket__bed'}>
@@ -68,15 +68,31 @@ export default class Tickets extends Component {
                             </div>
                         </div>
 
+                        {this.props.onConfirmClick || this.props.onCancelClick
+                            ? <div className={'Ticket__action-icon'}>
+                                {this.props.onConfirmClick
+                                    ? <div
+                                        className={'Ticket__action-icon--confirm'}
+                                        onClick={() => this.props.onConfirmClick(booking)}
+                                    >
+                                        <CheckIcon />
+                                    </div>
+                                    : null
 
-                        <div className={'Ticket__action-icon'}>
-                            <div className={'Ticket__action-icon--confirm'}>
-                                <CheckIcon />
+                                }
+
+                                {this.props.onCancelClick
+                                    ? <div
+                                        className={'Ticket__action-icon--cancel'}
+                                        onClick={() => this.props.onCancelClick(booking)}
+                                    >
+                                        <CancelIcon />
+                                    </div>
+                                    : null
+                                }
                             </div>
-                            <div className={'Ticket__action-icon--cancel'}>
-                                <CancelIcon />
-                            </div>
-                        </div>
+                            : null
+                        }
                     </Ticket>
                 })}
             </Fragment>

@@ -1,0 +1,52 @@
+.Activities {
+    width: 100vw;
+    box-sizing: border-box;
+    padding: 5vw;
+
+    &__action-title {
+        width: 100%;
+        height: 100%;
+        font-weight: normal;
+        font-size: var(--font-big);
+        display: flex;
+        align-items: center;
+    }
+
+    &__icon {
+        width: 40px;
+    }
+
+    &__types {
+        grid-column: 1 / 3;
+        width: 100%;
+        display: grid;
+        grid: 70px / 1fr 1fr;
+        box-sizing: border-box;
+        padding-top: 22px;
+    }
+
+    &__type {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: var(--font-big);
+        font-weight: normal;
+        border-radius: 3px;
+
+        &--active {
+            background-color: var(--active-item);
+            color: white;
+        }
+    }
+
+    &__error-box {
+        width: 100%;
+        box-shadow: var(--box-shadow);
+        font-size: var(--font-big);
+        background-color: var(--dangerous-item);
+        color: white;
+        box-sizing: border-box;
+        padding: 5vw;
+        border-radius: 3px;
+    }
+}
