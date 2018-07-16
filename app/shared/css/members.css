@@ -1,7 +1,4 @@
 .Members {
-    width: 100vw;
-    box-sizing: border-box;
-    padding: 5vw;
 
     &__icon {
         width: 40px;

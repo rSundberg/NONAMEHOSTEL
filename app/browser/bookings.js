@@ -3,6 +3,7 @@ import React, { Component } from 'react'
 import '../shared/css/bookings.css'
 
 import Tickets from './tickets'
+import Categories from './categories'
 
 import SearchIcon from '../shared/media/search.svg'
 
@@ -13,6 +14,7 @@ export default class Bookings extends Component {
         email: null,
         start_date: null,
         end_date: null,
+        filters: ['Booked', 'Confirmed', 'Hosted', 'Canceled'],
         activeFilter: null,
         searchResults: null
     }
@@ -105,8 +107,10 @@ export default class Bookings extends Component {
         }))
         .catch(err => console.log(err))
 
+    setFilter = filter => this.setState({activeFilter: filter})
+
     render() {
-        const {start_date, end_date, activeFilter, recent, searchResults, email } = this.state
+        const {start_date, end_date, activeFilter, recent, searchResults, email, filters } = this.state
 
         return (
             <div className={'Bookings'}>
@@ -141,46 +145,12 @@ export default class Bookings extends Component {
                         />
                     </div>
 
-                    <div className={'Bookings__filter-items'}>
-                        <div
-                            className={`
-                                Bookings__filter-item
-                                ${activeFilter === 'booked' ? 'Bookings__filter-item--active' : ''}
-                            `}
-                            onClick={() => this.setState({ activeFilter: 'booked' })}
-                        >
-                            Booked
-                        </div>
-
-                        <div
-                            className={`
-                                Bookings__filter-item
-                                ${activeFilter === 'confirmed' ? 'Bookings__filter-item--active' : ''}
-                            `}
-                            onClick={() => this.setState({ activeFilter: 'confirmed' })}
-                        >
-                            Confirmed
-                        </div>
-
-                        <div
-                            className={`
-                                Bookings__filter-item
-                                ${activeFilter === 'hosted' ? 'Bookings__filter-item--active' : ''}
-                            `}
-                            onClick={() => this.setState({ activeFilter: 'hosted' })}
-                        >
-                            Hosted
-                        </div>
-
-                        <div
-                            className={`
-                                Bookings__filter-item
-                                ${activeFilter === 'canceled' ? 'Bookings__filter-item--active' : ''}
-                            `}
-                            onClick={() => this.setState({ activeFilter: 'canceled' })}
-                        >
-                            Canceled
-                        </div>
+                    <div className={'Bookings__filter-options'}>
+                        <Categories
+                            categories={filters}
+                            setCategory={this.setFilter}
+                            activeCategory={activeFilter}
+                        />
                     </div>
 
                     <SearchIcon 

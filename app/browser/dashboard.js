@@ -1,6 +1,5 @@
 import React, { Component, Fragment } from 'react'
 import anime from 'animejs'
-import Loadable from 'react-loadable'
 
 import '../shared/css/dashboard.css'
 
@@ -9,6 +8,7 @@ import CheckIn from './checkIn'
 import Members from './members'
 import Bookings from './bookings'
 import Activities from './activities'
+import Requisitions from './requisitions'
 
 import Back from '../shared/media/back.svg'
 
@@ -19,7 +19,7 @@ export default class Dashboard extends Component {
         password: null,
         user: null,
         activeBox: null,
-        boxes: ['Check in', 'Bookings', 'Calendar', 'Activities', 'Home collective members']
+        boxes: ['Check in', 'Bookings', 'Calendar', 'Activities', 'Home collective members', 'Requisition']
     }
 
     dashboardRef = React.createRef()
@@ -94,6 +94,11 @@ export default class Dashboard extends Component {
             return <Activities
                 firestore={firestore}
                 storage={storage}
+                moment={moment}
+            />
+        } else if (box === 'Requisition') {
+            return <Requisitions
+                firestore={firestore}
                 moment={moment}
             />
         } else {

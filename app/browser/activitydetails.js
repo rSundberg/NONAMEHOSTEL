@@ -10,7 +10,7 @@ export default class ActivityDetails extends Component {
         previewPicture: null
     }
 
-    pictureInput = React.createRef()
+    picture = React.createRef()
 
     startDate = React.createRef()
     
@@ -28,14 +28,14 @@ export default class ActivityDetails extends Component {
 
     contact = React.createRef()
 
-    triggerUpload = () => this.pictureInput.current.click()
-
+    triggerInput = input => input.current.click()
+    
     previewPicture = () => {
         let reader = new FileReader()
 
         reader.onload = e => this.setState({ previewPicture: e.target.result })
 
-        reader.readAsDataURL(this.pictureInput.current.files[0])
+        reader.readAsDataURL(this.picture.current.files[0])
     }
 
     dataObj = () => {
@@ -48,7 +48,7 @@ export default class ActivityDetails extends Component {
             location: this.location.current.value,
             contact: this.contact.current.value,
             description: this.description.current.value,
-            imageFile: this.pictureInput.current.files[0]
+            imageFile: this.picture.current.files[0]
         }
     }
     
@@ -57,7 +57,7 @@ export default class ActivityDetails extends Component {
             <div className={`ActivityDetails`}>
                 <div
                     className={'ActivityDetails__picture-wrapper'}
-                    onClick={() => this.triggerUpload()}>
+                    onClick={() => this.triggerInput(this.picture)}>
 
                     {this.state.previewPicture
                         ? <img className={'ActivityDetails__picture'} src={this.state.previewPicture} />
@@ -66,7 +66,7 @@ export default class ActivityDetails extends Component {
 
                     <input
                         className={'ActivityDetails__picture-input'}
-                        ref={this.pictureInput}
+                        ref={this.picture}
                         type={'file'}
                         accept={'image/*'}
                         onChange={this.previewPicture}
@@ -74,29 +74,45 @@ export default class ActivityDetails extends Component {
                 </div>
 
                 <div className={`ActivityDetails__time`}>
-                    <input
-                        className={'ActivityDetails__time-input'}
-                        ref={this.startDate}
-                        type={'date'}
-                    />
+                    <div className={'ActivityDetails__time-item'}>
+                        <strong>Start date</strong>
 
-                    <input
-                        className={'ActivityDetails__time-input'}
-                        ref={this.endDate}
-                        type={'date'}
-                    />
+                        <input
+                            className={'ActivityDetails__time-input'}
+                            ref={this.startDate}
+                            type={'date'}
+                        />
+                    </div>
 
-                    <input
-                        className={'ActivityDetails__time-input'}
-                        ref={this.startTime}
-                        type={'time'}
-                    />
+                    <div className={'ActivityDetails__time-item'}>
+                        <strong>Start time</strong>
 
-                    <input
-                        className={'ActivityDetails__time-input'}
-                        ref={this.endTime}
-                        type={'time'}
-                    />
+                        <input
+                            className={'ActivityDetails__time-input'}
+                            ref={this.startTime}
+                            type={'time'}
+                        />
+                    </div>
+
+                    <div className={'ActivityDetails__time-item'}>
+                        <strong>End date</strong>
+
+                        <input
+                            className={'ActivityDetails__time-input'}
+                            ref={this.endDate}
+                            type={'date'}
+                        />
+                    </div>
+
+                    <div className={'ActivityDetails__time-item'}>
+                        <strong>End time</strong>
+
+                        <input
+                            className={'ActivityDetails__time-input'}
+                            ref={this.endTime}
+                            type={'time'}
+                        />
+                    </div>
                 </div>
 
                 <div className={`ActivityDetails__info`}>
@@ -128,7 +144,7 @@ export default class ActivityDetails extends Component {
                     />
 
                     <div
-                        className={`ActivityDetails__confirm ${this.props.loading ? 'App__loading' : ''}`}
+                        className={`App__confirm ${this.props.loading ? 'App__loading' : ''}`}
                         onClick={() => !this.props.loading ? this.props.onConfirmClick(this.dataObj()) : null}
                     >
                         <CheckIcon className={'ActivityDetails__icon'} />

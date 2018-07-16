@@ -2,8 +2,7 @@
     width: 100%;
     box-shadow: var(--box-shadow);
     display: grid;
-    grid-gap: 10px;
-    margin: 10px 0px;
+    grid-gap: 2vw;
     box-sizing: border-box;
     padding: 5vw;
     position: relative;

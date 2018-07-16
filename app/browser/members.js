@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 
 import Member from './member'
 import CompleteDetails from './completedetails'
+import ActionBox from './actionbox'
 
 import '../shared/css/members.css'
 
@@ -65,23 +66,13 @@ export default class Members extends Component {
     render() {
         return (
             <div className={`Members`}>
-                <div className={'App__action-box'}>
-                    <span
-                        onClick={this.toggleAddMember}
-                        className={'Members__action-title'}>
-                        Add member
-                    </span>
-
-                    <AddIcon
-                        onClick={this.toggleAddMember}
-                        className={'Members__icon'}
-                    />
-
-                    { this.state.addMemberToggled
-                        ? <div className={'Members__action-details'}><CompleteDetails confirm={this.addMember}/></div>
-                        : null
-                    }
-                </div>
+                <ActionBox
+                    title={'Add member'}
+                    toggle={this.toggleAddMember}
+                    isOpen={this.state.addMemberToggled === true}
+                >
+                    <CompleteDetails confirm={this.addMember} />
+                </ActionBox>
 
                 <div className={`App__action-box`}>
                     <input
@@ -95,7 +86,6 @@ export default class Members extends Component {
                         className={'Members__icon'}
                         onClick={this.searchMember}
                     />
-
                 </div>
 
                 {this.state.searchResult.length > 0
@@ -109,13 +99,13 @@ export default class Members extends Component {
                         : null
                 }
 
-                {this.state.searchResult.map(member => 
+                {this.state.searchResult.map(doc => 
                     <Member
                         firestore={this.props.firestore}
                         storage={this.props.storage}
                         moment={this.props.moment}
-                        doc={member}
-                        key={member.id}
+                        doc={doc}
+                        key={doc.id}
                     />
                 )}
 
@@ -123,13 +113,13 @@ export default class Members extends Component {
                     Latest members
                 </h2>
 
-                {this.state.members.map(member =>
+                {this.state.members.map(doc =>
                     <Member
                         firestore={this.props.firestore}
                         storage={this.props.storage}
                         moment={this.props.moment}
-                        doc={member}
-                        key={member.id}
+                        doc={doc}
+                        key={doc.id}
                     />
                 )}
             </div>

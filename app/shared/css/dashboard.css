@@ -4,46 +4,53 @@
     box-sizing: border-box;
     background-color: white;
     z-index: 9999;
-    display: flex;
-    flex-flow: column nowrap;
-    justify-content: center;
+    display: grid;
+    grid-gap: 2vw;
     align-items: center;
 
     &__box-title {
         height: 102px;
         width: 100%;
+        font-weight: bold;
         display: flex;
         justify-content: center;
         align-items: center;
+        box-shadow: var(--box-shadow);
     }
 
     &__content-box {
-        border-radius: 6px;
-        justify-content: flex-start;
+        border-radius: 3px;
+        width: 90vw;
 
         &--logout {
             background-color: var(--dangerous-item);
             color: white;
         }
+
+        & > div {
+            width: 100%;
+            min-height: 100vh;
+            box-sizing: border-box;
+            padding: 5vw;
+            box-shadow: var(--box-shadow);
+        }
     }
 
     &__action-box {
-        width: 90vw;
         display: grid;
         grid: 52px / 1fr 1fr;
         justify-items: center;
         align-items: center;
-        padding: 5vw 0;
+        padding: 5vw;
     }
 
     &__account-info {
-        width: 90vw;
         background-color: white;
         display: grid;
         grid: 1fr 1fr / 1fr;
         align-items: center;
         box-sizing: border-box;
-        padding: 5vw 0;
+        padding: 5vw;
         font-size: var(--font-big);
     }
 
@@ -79,8 +86,10 @@
 
     &__home {
         width: 100vw;
-        display: flex;
-        box-sizing: border-box;
+        display: grid;
+        justify-items: center;
+        background-color: white;
+        grid-gap: 2vw;
     }
 
     &__inputs {
@@ -116,41 +125,5 @@
         padding-left: 22px;
         box-sizing: border-box;
         font-weight: bold;
-    }
-}
-
-@media only screen 
-and (max-device-width : 667px) {
-    .Dashboard {
-        &__title {
-            
-        }
-
-        &__login {
-            width: 90vw;
-        }
-
-        &__content-box {
-            width: 90%;
-            min-height: 102px;
-            margin: 5px 0;
-            box-shadow: var(--box-shadow);
-            display: flex;
-            flex-flow: column nowrap;
-            justify-content: flex-start;
-            align-items: center;
-            font-weight: bold;
-            font-size: var(--font-big);
-
-            &:first-of-type {
-                margin-top: 0;
-            }
-        }
-
-        &__home {
-            flex-flow: column nowrap;
-            justify-content: center;
-            align-items: center;
-        }
     }
 }

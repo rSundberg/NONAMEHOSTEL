@@ -80,7 +80,7 @@ export default class CompleteDetails extends Component {
                 />
 
                 <div
-                    className={'CompleteDetails__confirm'}
+                    className={'App__confirm'}
                     onClick={this.onConfirmClick}
                 >
                     <CheckIcon className={'CompleteDetails__icon'} />

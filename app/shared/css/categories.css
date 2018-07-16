@@ -1,9 +1,6 @@
-.ActivityCategories {
-    grid-column: 1 / 3;
-    width: 100%;
+.Categories {
     display: flex;
     flex-flow: row nowrap;
-    padding-top: 12px;
     overflow: scroll;
 
     &__category {

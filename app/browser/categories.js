@@ -1,16 +1,16 @@
 import React, { Component } from 'react'
 
-import '../shared/css/activitycategories.css'
+import '../shared/css/categories.css'
 
 export default class ActivityCategories extends Component {
     render() {
         console.log(this.props)
         return (
-            <div className={`ActivityCategories`}>
+            <div className={`Categories`}>
                 {this.props.categories.map(category =>
                     <div
                         key={category}
-                        className={`ActivityCategories__category ${category === this.props.activeCategory ? 'ActivityCategories__category--active' : ''}`}
+                        className={`Categories__category ${category === this.props.activeCategory ? 'Categories__category--active' : ''}`}
                         onClick={() => this.props.setCategory(category)}>
                         {category}
                     </div>

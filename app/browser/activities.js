@@ -2,7 +2,8 @@ import React, { Component, Fragment } from 'react'
 
 import '../shared/css/activities.css'
 
-import ActivityCategories from './activitycategories'
+import ActionBox from './actionbox'
+import Categories from './categories'
 import ActivityDetails from './activitydetails'
 import Activity from './activity'
 
@@ -79,12 +80,18 @@ export default class Activities extends Component {
             .keys(data)
             .reduce((newData, key) => key !== 'imageFile' ? {...newData, ...{[key]: data[key]}} : newData, {})
 
-        let dataWithCategory = {...dataWithoutImageFile, ...{category: this.capitalizeData(this.state.activeCategory)}}
+        let dataWithCategory = {
+            ...dataWithoutImageFile,
+            ...{
+                category: this.state.activeCategory,
+                created: this.props.moment().format('YYYY-MM-DD')
+            }
+        }
         
         this.setState({loading: true, error: false})
 
         this.uploadActivity(this.state.activeType, dataWithCategory)
-            .then(docRef => data.imageFile ? this.uploadPicture(data.imageFile, docRef) : true)
+            .then(docRef => this.uploadPicture(data.imageFile, docRef))
             .then(docRef => this.getActivities(this.state.activeType))
             .then(queryRef => this.setState({
                 activeType: null,
@@ -95,59 +102,48 @@ export default class Activities extends Component {
                 [this.state.activeType]: queryRef.docs
             }))
     }
-
-    capitalizeData = string => string.charAt(0).toUpperCase() + string.slice(1).toLowerCase();
             
     render() {
         const { addActivityToggled, activeType, activeCategory, categories, loading, error, projects, workshops } = this.state
 
         return (
             <div className={'Activities'}>
-                <div className={`App__action-box`}>
-                    <span
-                        className={'Activities__action-title'}
-                        onClick={() => this.toggleAddActivity()}
-                    >
-                        Add activity
-                    </span>
-
-                    <AddIcon className={'Activities__icon'}/>
-
-                    {addActivityToggled
-                        ? <div className={'Activities__types'}>
-                            <div 
-                                className={`Activities__type ${activeType === 'projects' ? 'Activities__type--active' : ''}`}
-                                onClick={() => this.setType('projects')}>
-                                Projects
-                            </div>
-
-                            <div 
-                                className={`Activities__type ${activeType === 'workshops' ? 'Activities__type--active' : ''}`}
-                                onClick={() => this.setType('workshops')}>
-                                Workshops
-                            </div>
+                <ActionBox
+                    title={'Add activity'}
+                    toggle={this.toggleAddActivity}
+                    isOpen={addActivityToggled === true}
+                >
+                    <div className={'Activities__types'}>
+                        <div
+                            className={`Activities__type ${activeType === 'projects' ? 'Activities__type--active' : ''}`}
+                            onClick={() => this.setType('projects')}>
+                            Projects
                         </div>
-                        : null
-                    }
 
-                    {addActivityToggled && activeType && categories
-                        ? <ActivityCategories
+                        <div
+                            className={`Activities__type ${activeType === 'workshops' ? 'Activities__type--active' : ''}`}
+                            onClick={() => this.setType('workshops')}>
+                            Workshops
+                        </div>
+                    </div>
+
+                    {activeType && categories
+                        ? <Categories
                             categories={categories}
                             setCategory={this.setCategory}
                             activeCategory={activeCategory}
-                            loading={loading === true}
                         />
                         : null
                     }
 
-                    {addActivityToggled && activeType && activeCategory
+                    {activeType && activeCategory
                         ? <ActivityDetails
                             onConfirmClick={data => this.uploadData(data)}
                             loading={loading === true}
                         />
                         : null
                     }
-                </div>
+                </ActionBox>
 
                 {error
                     ? <div className={'Activities__error-box'}>
@@ -160,6 +156,7 @@ export default class Activities extends Component {
                 <h2 className={'App__title'}>
                     Projects
                 </h2>
+
                 {projects
                     ? <Fragment>
                         {projects.map(doc => <Activity {...doc.data()} />)}

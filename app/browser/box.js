@@ -8,7 +8,7 @@ export default class Box extends Component {
         }
     }
 
-    componentDidUpdate(prevProps, prevState) {
+    componentDidUpdate(prevProps) {
         if (this.props.isOpen && !prevProps.isOpen) {
             this.open()
         }
@@ -22,7 +22,7 @@ export default class Box extends Component {
 
     open = () => anime({
         targets: this.boxRef.current,
-        width: ['90%', '100%'],
+        width: ['90vw', '100vw'],
         minHeight: ['102px', '100vh'],
         easing: 'easeOutQuart',
         duration: 250,
@@ -37,7 +37,7 @@ export default class Box extends Component {
 
     close = () => anime({
         targets: this.boxRef.current,
-        width: ['100%', '90%'],
+        width: ['100vw', '90vw'],
         minHeight: [this.boxRef.current.clientHeight, 102],
         easing: 'easeOutQuart',
         duration: 250
@@ -48,7 +48,7 @@ export default class Box extends Component {
 
         return (
             <div className={`Dashboard__content-box`} onClick={() => onClick(id)} ref={this.boxRef}>
-                {isOpen ? '' : <div className={'Dashboard__box-title'}>{name}</div>}
+                {isOpen ? '' : <span className={'Dashboard__box-title'}>{name}</span>}
 
                 {isOpen ? children : null}
             </div>

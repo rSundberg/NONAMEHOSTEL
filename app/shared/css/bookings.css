@@ -1,7 +1,4 @@
 .Bookings {
-    width: 100vw;
-    box-sizing: border-box;
-    padding: 5vw;
 
     &__icon {
         width: 40px;
@@ -30,22 +27,7 @@
         box-shadow: var(--box-shadow);
     }
 
-    &__filter-items {
+    &__filter-options {
         width: 100%;
-        display: flex;
-        flex-flow: row nowrap;
-        overflow: scroll;
-    }
-
-    &__filter-item {
-        font-size: var(--font-big);
-        font-weight: normal;
-        padding: 22px;
-        border-radius: 3px;
-
-        &--active {
-            background-color: var(--active-item);
-            color: white;
-        }
     }
 }

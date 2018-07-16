@@ -1,10 +1,6 @@
 .ActivityDetails {
-    grid-column: 1 / 3;
-    width: 100%;
-    padding-top: 12px;
 
     &__picture-wrapper {
-        width: 100%;
         min-height: 70px;
         display: flex;
         justify-content: center;
@@ -27,28 +23,34 @@
     }
 
     &__time {
-        width: 100%;
-        height: 100px;
         display: grid;
-        grid: 1fr 1fr / 1fr 1fr;
-        align-items: center;
         padding-top: 12px;
+        grid-gap: 6px;
+    }
+
+    &__time-item {
+        display: flex;
+        flex-flow: column nowrap;
+
+        strong {
+            margin-bottom: 3px;
+        }
     }
 
     &__time-input {
+        height: 30px;
         font-size: var(--font-small);
-        outline: none;
     }
 
     &__time-label {
-        font-size: var(--font-big);
+        font-size: var(--font-small);
         font-weight: bold;
     }
 
     &__info {
         display: grid;
-        grid: 50px 50px 50px auto / 1fr;
-        padding-top: 12px;
+        grid-gap: 24px;
+        padding-top: 24px;
     }
 
     &__icon {
@@ -61,8 +63,8 @@
         height: 70px;
         font-size: var(--font-big);
         padding: 0;
-        margin-top: 12px;
         outline: none;
+        border: 0;
 
         &::placeholder {
             color: black;
@@ -80,7 +82,6 @@
     &__confirm {
         height: 50px;
         width: 150px;
-        margin-top: 12px;
         border-radius: 3px;
         background-color: var(--active-item);
         display: flex;

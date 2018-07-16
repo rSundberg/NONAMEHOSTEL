@@ -1,0 +1,26 @@
+.ActionBox {
+    width: 100%;
+    display: grid;
+    grid-gap: 24px;
+    box-shadow: var(--box-shadow);
+    box-sizing: border-box;
+    padding: 5vw;
+    border-radius: 3px;
+
+    &__title-wrapper {
+        display: grid;
+        grid: 50px / 4fr 1fr;
+        align-items: center;
+        justify-items: center;
+    }
+
+    &__title {
+        width: 100%;
+        font-weight: normal;
+        font-size: var(--font-big);
+    }
+
+    &__icon {
+        width: 40px;
+    }
+}
