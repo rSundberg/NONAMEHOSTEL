@@ -1,30 +1,45 @@
-import React, { Component } from 'react';
+import React, { Component, Fragment } from 'react';
 
 import '../shared/css/requisition.css'
 
 export default class Requisition extends Component {
     state = {
+        newPrice: null
+    }
+    
+    updatePrice = e => {
+        const { toggle, selected, doc } = this.props
 
+        if (selected) {
+            toggle(doc)
+        }
+
+        this.setState({ newPrice: e.target.value })
     }
 
     render() {
-        const {category, created, items} = this.props.doc.data()
+        const { created, item, amount, price} = this.props.doc.data()
+        const {toggle, selected, doc} = this.props
+        const updatedPrice = this.state.newPrice ? this.state.newPrice : price
 
+        console.log(updatedPrice)
         return (
-            <div className={'Requisition'}>
-                <h2 className={'Requisition'}>
-                    {category}
-                </h2>
+            <div className={`Requisition ${selected ? 'Requisition--active' : ''}`}>
+                <span
+                    className={'Requisition__info'}
+                    onClick={() => toggle(doc, updatedPrice)}
+                >
+                    {item}
+                </span>
 
-                {
-                    items.map(({item, amount, price}) =>
-                        <div className={'Requisition__item'}>
-                            <span>{item}</span>
-                            <span>{amount}</span>
-                            <span>{price}</span>
-                        </div>
-                    )
-                }
+                <span className={'Requisition__info'}>{amount}</span>
+
+                <input
+                    className={'Requisition__input'}
+                    defaultValue={price}
+                    type={'number'}
+                    onChange={this.updatePrice}
+                />
             </div>
         );
     }

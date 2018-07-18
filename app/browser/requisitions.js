@@ -1,4 +1,4 @@
-import React, { Component, Fragment } from 'react'
+import React, { Component } from 'react'
 
 import '../shared/css/requisitions.css'
 
@@ -8,6 +8,7 @@ import Requisition from './requisition'
 
 import CheckIcon from '../shared/media/checkmark.svg'
 import AddIcon from '../shared/media/add.svg'
+import CancelIcon from '../shared/media/cancel.svg'
 
 export default class Requisitions extends Component {
     state = {
@@ -16,6 +17,7 @@ export default class Requisitions extends Component {
         addRequisitionToggled: false,
         error: false,
         required: null,
+        selectedRequisitions: [],
         requiredList: [],
         item: "",
         amount: "",
@@ -49,34 +51,33 @@ export default class Requisitions extends Component {
             return
         }
 
-        let data = {
-            category: this.state.activeCategory,
-            created: this.props.moment().format('YYYY-MM-DD'),
-            items: this.state.requiredList
-        }
+        let requiredUploads = this.state.requiredList
+            .map(data => this.uploadRequisition('required', data))
 
-        this.uploadRequisition('required', data)
-            .then(docRef => {
+        Promise.all(requiredUploads)
+            .then(docRefs => Promise.all(docRefs.map(doc => doc.get())))
+            .then(docs => {
+                console.log(docs)
                 this.setState({
                     activeCategory: null,
                     addRequisitionToggled: false,
-                    error: false
+                    error: false,
+                    required: this.state.required.concat(docs)
                 })
             })
     }
 
     addClick = () => {
         let data = this.requiredData()
-        console.log('clicking')
+
         if (this.emptyValue(data) || !this.state.activeCategory) {
             this.setState({ error: true })
-            console.log('returning')
+
             return
         }
 
         this.state.requiredList.push(data)
 
-        console.log(this.state.requiredList)
         this.setState({
             requiredList: this.state.requiredList,
             error: false,
@@ -104,6 +105,8 @@ export default class Requisitions extends Component {
 
     requiredData = () => {
         return {
+            category: this.state.activeCategory,
+            created: this.props.moment().format('YYYY-MM-DD'),
             item: this.state.item,
             amount: this.state.amount,
             price: this.state.price
@@ -118,8 +121,108 @@ export default class Requisitions extends Component {
         </div>
     }
 
+    sortByCategory = docs => {
+        let categories = docs
+            .map(doc => doc.data())
+            .reduce((categories, {category}) => {
+                if (!categories.includes(category)) {
+                    categories.push(category)
+                }
+
+                return categories
+            }, [])
+            .sort()
+
+        let sortedCategories = categories.reduce((categoryArray, category) => {
+            let docsPerCategory = docs.filter(doc => doc.data().category === category)
+
+            let categoryObj = {
+                category: category,
+                docs: docsPerCategory
+            }
+
+            categoryArray.push(categoryObj)
+
+            return categoryArray
+        }, [])
+
+        return sortedCategories
+    }
+
+    toggleRequisition = (docRef, newPrice) => {
+        if (this.isSelected(docRef)) {
+            this.setState({ selectedRequisitions: this.state.selectedRequisitions.filter(({doc}) => doc.id !== docRef.id)})
+        } else {
+            let ref = {
+                price: newPrice,
+                doc: docRef
+            }
+
+            this.state.selectedRequisitions.push(ref)
+
+            this.setState({ selectedRequisitions: this.state.selectedRequisitions})
+        }
+    }
+
+    isSelected = docRef => this.state.selectedRequisitions.some(({doc}) => doc.id === docRef.id)
+
+    confirmRequisitions = () => {
+        let uploads = this.state.selectedRequisitions.map(({price, doc}) => {
+            let {item, amount, category} = doc.data()
+            let data = {
+                created: this.props.moment().format('YYYY-MM-DD'),
+                category: category,
+                item: item,
+                amount: amount,
+                price: price
+            }
+
+            return this.uploadRequisition('bought', data)
+        })
+
+        return Promise.all(uploads)
+            .then(docRefs => this.deleteRequisitions())
+    }
+
+    deleteRequisitions = () => {
+        let deleted = this.state.selectedRequisitions.map(({ doc }) => {
+            return this.deleteRequisition(doc.ref.path)
+        })
+
+        return Promise.all(deleted)
+    }
+
+    confirmRequisitionsClick = () => {
+        this.confirmRequisitions()
+            .then(docRefs => {
+                this.clearRequisitions()
+            })
+    }
+
+    deleteRequistionsClick = () => {
+        this.deleteRequisitions()
+            .then(docRefs => {
+                this.clearRequisitions()
+            })
+    }
+
+    clearRequisitions = () => {
+        const {required, selectedRequisitions} = this.state
+
+        let cleared = required
+            .filter(docRef =>
+                selectedRequisitions.some(({doc}) =>
+                    doc.id !== docRef.id
+            ))
+
+        this.setState({
+            required: cleared,
+            selectedRequisitions: []
+        })
+    }
+
     render() {
-        const { addRequisitionToggled, categories, required, activeCategory, requiredList, item, amount, price, error} = this.state
+        const { addRequisitionToggled, categories, required, activeCategory, requiredList, selectedRequisitions, item, amount, price, error} = this.state
 
         return (
             <div className={'Requisitions'}>
@@ -215,24 +318,52 @@ export default class Requisitions extends Component {
                     </div>
                     : null
                 }
+    
+                {required
+                    ? this.sortByCategory(required).map(({category, docs}) =>
+                        <div className={'Requisitions__category-box'} key={category}>
+                            <h2 className={'App__title'}>{category}</h2>
 
-                <h2 className={'App__title'}>
-                    Required
-                </h2>
+                            <div className={'Requisition'}>
+                                <span className={'Requisition__title'}>Item</span>
+                                <span className={'Requisition__title'}>Amount</span>
+                                <span className={'Requisition__title'}>Price</span>
+                            </div>
 
-                <Fragment>
-                    {required
-                        ? required.map(doc =>
-                            <Requisition
+                            {docs.map(doc => <Requisition
                                 doc={doc}
+                                selected={this.isSelected(doc) === true}
+                                toggle={this.toggleRequisition}
                                 upload={this.uploadRequisition}
                                 delete={this.deleteRequisition}
                                 key={doc.id}
-                            />
-                        )
-                        : null
-                    }
-                </Fragment>
+                            />)
+                            }
+                        </div>
+                    )
+                    : null
+                }
+
+                {selectedRequisitions.length > 0
+                    ? <div className={'Requisitions__actions'}>
+                        <div
+                            className={'Requisitions__actions-item'}
+                            onClick={this.deleteRequisitionsClick}
+                        >
+                            <CancelIcon width={20} height={20} />
+                            <span>Delete</span>
+                        </div>
+
+                        <div
+                            className={'Requisitions__actions-item'}
+                            onClick={this.confirmRequisitionsClick}
+                        >
+                            <CheckIcon width={20} height={20} />
+                            <span>Confirm</span>
+                        </div>
+                    </div>
+                    : null
+                }
             </div>
         )
     }

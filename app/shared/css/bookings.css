@@ -16,6 +16,7 @@
     }
 
     &__filter {
+        width: 90vw;
         display: grid;
         grid: 50px auto 70px / 100%;
         justify-items: center;

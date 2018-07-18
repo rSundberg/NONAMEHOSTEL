@@ -1,3 +1,36 @@
 .Requisition {
-    
+    display: grid;
+    grid: 1fr / 1fr 1fr 1fr;
+    grid-gap: 12px;
+    justify-items: center;
+    align-items: center;
+    font-size: var(--font-small);
+    padding: 2vw;
+    border-radius: 3px;
+
+    &__info {
+        min-width: 0;
+        word-break: break-word;
+        text-align: center;
+    }
+
+    &__title {
+        min-width: 0;
+        word-break: break-word;
+        text-align: center;
+        font-weight: bold;
+    }
+
+    &__input {
+        width: 100%;
+        font-size: var(--font-small);
+        text-align: center;
+        outline: none;
+        border: 0;
+    }
+
+    &--active {
+        background-color: var(--selected-item);
+        color: white;
+    }
 }

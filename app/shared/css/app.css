@@ -46,6 +46,7 @@ input {
         font-size: var(--font-reallyBig);
         margin-bottom: 5vw;
         margin-top: 10vw;
+        text-transform: capitalize;
     }
 
     &__action-box {

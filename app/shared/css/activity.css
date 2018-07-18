@@ -2,7 +2,8 @@
     box-sizing: border-box;
     padding: 5vw;
     box-shadow: var(--box-shadow);
-    margin: 12px 0;
+    display: grid;
+    grid-gap: 2vw;
 
     &__picture-wrapper {
         width: 100%;
@@ -28,10 +29,9 @@
     &__time {
         width: 100%;
         display: grid;
-        grid: 100px / 3fr 1fr 3fr;
+        grid: 120px / 3fr 1fr 3fr;
         justify-items: center;
         align-items: center;
-        margin-top: 12px;
     }
 
     &__time-item {
@@ -48,9 +48,7 @@
 
     &__info {
         display: grid;
-        grid: auto / 100%;
         grid-gap: 12px;
-        margin-top: 12px;
     }
 
     &__info-item {
