@@ -6,7 +6,6 @@ import ActionBox from './actionbox'
 
 import '../shared/css/members.css'
 
-import AddIcon from '../shared/media/add.svg'
 import SearchIcon from '../shared/media/search.svg'
 
 export default class Members extends Component {
@@ -53,10 +52,19 @@ export default class Members extends Component {
             created: this.props.moment().format('YYYY-MM-DD')
         }
 
+        this.setState({loading: true})
+
         memberRef
             .add({...detailObj, ...created})
-            .then(docRef => {
-                this.getMembers()
+            .then(docRef => docRef.get())
+            .then(doc => {
+                this.setState(({members}) => {
+                    return {
+                        members: members.concat(doc),
+                        loading: false
+                    }
+                })
+
                 this.toggleAddMember()
             })
     }
@@ -64,14 +72,19 @@ export default class Members extends Component {
     toggleAddMember = () => this.setState({addMemberToggled: !this.state.addMemberToggled})
 
     render() {
+        const { addMemberToggled, loading, searchResult, searched, members} = this.state
+
         return (
             <div className={`Members`}>
                 <ActionBox
                     title={'Add member'}
                     toggle={this.toggleAddMember}
-                    isOpen={this.state.addMemberToggled === true}
+                    isOpen={addMemberToggled === true}
                 >
-                    <CompleteDetails confirm={this.addMember} />
+                    <CompleteDetails
+                        confirm={this.addMember}
+                        loading={loading === true}
+                    />
                 </ActionBox>
 
                 <div className={`App__action-box`}>
@@ -88,18 +101,18 @@ export default class Members extends Component {
                     />
                 </div>
 
-                {this.state.searchResult.length > 0
+                {searchResult.length > 0
                     ? <h2 className={'App__title'}>
                         Search result
                     </h2>
-                    : this.state.searched
+                    : searched
                         ? <h2 className={'App__title'}>
                             No member found
                         </h2>
                         : null
                 }
 
-                {this.state.searchResult.map(doc => 
+                {searchResult.map(doc => 
                     <Member
                         firestore={this.props.firestore}
                         storage={this.props.storage}
@@ -113,7 +126,7 @@ export default class Members extends Component {
                     Latest members
                 </h2>
 
-                {this.state.members.map(doc =>
+                {members.map(doc =>
                     <Member
                         firestore={this.props.firestore}
                         storage={this.props.storage}

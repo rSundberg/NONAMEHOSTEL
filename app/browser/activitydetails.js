@@ -2,15 +2,14 @@ import React, { Component } from 'react'
 
 import '../shared/css/activitydetails.css'
 
-import Upload from '../shared/media/upload_profile_picture.svg'
+import PictureInput from './pictureinput'
+
 import CheckIcon from '../shared/media/checkmark.svg'
 
 export default class ActivityDetails extends Component {
     state = {
-        previewPicture: null
+        uploadBlob: null
     }
-
-    picture = React.createRef()
 
     startDate = React.createRef()
     
@@ -28,16 +27,6 @@ export default class ActivityDetails extends Component {
 
     contact = React.createRef()
 
-    triggerInput = input => input.current.click()
-    
-    previewPicture = () => {
-        let reader = new FileReader()
-
-        reader.onload = e => this.setState({ previewPicture: e.target.result })
-
-        reader.readAsDataURL(this.picture.current.files[0])
-    }
-
     dataObj = () => {
         return {
             startDate: this.startDate.current.value,
@@ -48,30 +37,18 @@ export default class ActivityDetails extends Component {
             location: this.location.current.value,
             contact: this.contact.current.value,
             description: this.description.current.value,
-            imageFile: this.picture.current.files[0]
+            imageFile: this.state.uploadBlob
         }
     }
     
     render() {
+
         return (
             <div className={`ActivityDetails`}>
-                <div
-                    className={'ActivityDetails__picture-wrapper'}
-                    onClick={() => this.triggerInput(this.picture)}>
-
-                    {this.state.previewPicture
-                        ? <img className={'ActivityDetails__picture'} src={this.state.previewPicture} />
-                        : <Upload className={'ActivityDetails__picture-icon'}/>
-                    }
-
-                    <input
-                        className={'ActivityDetails__picture-input'}
-                        ref={this.picture}
-                        type={'file'}
-                        accept={'image/*'}
-                        onChange={this.previewPicture}
-                    />
-                </div>
+                <PictureInput
+                    blob={blob => this.setState({uploadBlob: blob})}
+                    preview={this.state.uploadBlob}
+                />
 
                 <div className={`ActivityDetails__time`}>
                     <div className={'ActivityDetails__time-item'}>

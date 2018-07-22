@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 
 import CompleteDetails from './completedetails'
+import PictureInput from './pictureinput'
 
 import '../shared/css/member.css'
 
@@ -11,23 +12,25 @@ export default class Member extends Component {
     state = {
         uploadedImgUrl: null,
         uploadedDocData: null,
-        settingToggled: false
+        settingToggled: false,
+        loading: false
     }
 
     pictureInput = React.createRef()
 
     triggerUpload = () => this.pictureInput.current.click()
     
-    uploadPicture = () => {
+    uploadPicture = file => {
         const pictureRef = this.props.storage.ref()
-        const file = this.pictureInput.current.files[0]
+
+        this.setState({loading: true})
 
         pictureRef
             .child(`profile_pictures/${this.props.doc.id}`)
             .put(file)
             .then(snapshot => pictureRef.child(snapshot.ref.fullPath).getDownloadURL())
             .then(url => {
-                this.setState({ uploadedImgUrl: url })
+                this.setState({ uploadedImgUrl: url, loading: false })
 
                 return this.props.firestore.doc(this.props.doc.ref.path).update({imageUrl: url})
             })
@@ -37,19 +40,18 @@ export default class Member extends Component {
             .catch(err => console.log(err))
     }
 
-    loadPicture = () => {
-        console.log('loading')
-    }
-
     toggleSettings = () => this.setState({settingToggled: !this.state.settingToggled})
 
     updateDetails = (detailObj = {}) => {
         const memberRef = this.props.firestore.doc(this.props.doc.ref.path)
 
+        this.setState({loading: true})
+
         memberRef
             .update(detailObj)
             .then(() => this.setState({
-                uploadedDocData: { ...this.props.doc.data(), ...detailObj}
+                uploadedDocData: { ...this.props.doc.data(), ...detailObj},
+                loading: false
             }, this.toggleSettings))
     }
 
@@ -59,30 +61,15 @@ export default class Member extends Component {
 
     render() {
         const {name, email, phone, country, created, imageUrl, birthdate, address} = this.getDocData()
-        const {uploadedImgUrl, settingToggled} = this.state
+        const {uploadedImgUrl, settingToggled, loading} = this.state
 
         return (
             <div className={'Member'}>
-                <div className={'Member__picture-wrapper'} onClick={this.triggerUpload}>
-                    {!uploadedImgUrl && !imageUrl
-                        ? <Upload />
-                        : null
-                    }
-
-                    <img
-                        onLoad={this.loadPicture}
-                        className={'Member__picture'}
-                        src={uploadedImgUrl || imageUrl}
-                    />
-
-                    <input
-                        className={'Member__input'}
-                        onChange={this.uploadPicture}
-                        ref={this.pictureInput}
-                        type="file"
-                        capture="camera"
-                        accept="image/*" />
-                </div>
+                <PictureInput
+                    blob={blob => this.uploadPicture(blob)}
+                    preview={uploadedImgUrl || imageUrl}
+                    loading={loading === true}
+                />
 
                 {!settingToggled
                     ? <div className={'Member__info-wrapper'}>
@@ -122,6 +109,7 @@ export default class Member extends Component {
                         birthdate={birthdate}
                         address={address}
                         confirm={this.updateDetails}
+                        loading={loading === true}
                     />
                 }
 

@@ -78,27 +78,18 @@ export default class CheckIn extends Component {
 
         return (
             <div className={'CheckIn'}>
-                <Locations
-                    onClick={this.setLocation}
-                    currentLocation={location}
+                <Tickets
+                    title={'Check in'}
+                    data={todays}
+                    ticketAction={this.confirmBooking}
                 />
 
-                {!location ||
-                    <Fragment>
-                        <Tickets
-                            title={'Check in'}
-                            data={todays}
-                            ticketAction={this.confirmBooking}
-                        />
-
-                        <Tickets
-                            title={'Pending'}
-                            data={pending}
-                            onConfirmClick={this.confirmBooking}
-                            onCancelClick={this.cancelBooking}
-                        />
-                    </Fragment>
-                }
+                <Tickets
+                    title={'Pending'}
+                    data={pending}
+                    onConfirmClick={this.confirmBooking}
+                    onCancelClick={this.cancelBooking}
+                />
             </div>
         );
     }

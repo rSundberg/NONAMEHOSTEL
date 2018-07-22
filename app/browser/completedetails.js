@@ -27,7 +27,7 @@ export default class CompleteDetails extends Component {
     })
 
     render() {
-        const {name, email, phone, country, birthdate, address} = this.props
+        const {name, email, phone, country, birthdate, address, loading} = this.props
 
         return (
             <div className={'CompleteDetails'}>
@@ -80,8 +80,8 @@ export default class CompleteDetails extends Component {
                 />
 
                 <div
-                    className={'App__confirm'}
-                    onClick={this.onConfirmClick}
+                    className={`App__confirm ${loading ? 'App__loading' : ''}`}
+                    onClick={!loading ? this.onConfirmClick : null}
                 >
                     <CheckIcon className={'CompleteDetails__icon'} />
                 </div>

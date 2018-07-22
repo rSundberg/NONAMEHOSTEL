@@ -25,7 +25,7 @@ input {
 
 .App {
     display: grid;
-    grid: 100vh / auto 4fr;
+    grid: 100vh / 2fr 4fr;
     background-color: rgba(255, 255, 255, 0.95);
 
     &__logo-container {

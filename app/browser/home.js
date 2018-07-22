@@ -62,8 +62,6 @@ export default class Home extends Component {
     showContainer = React.createRef()
 
     toggleDashboard = () => {
-        console.log('toggle')
-
         if (this.state.dashboardToggled) {
             anime({
                 targets: ['.Dashboard'],

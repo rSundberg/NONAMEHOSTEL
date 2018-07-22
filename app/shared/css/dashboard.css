@@ -5,22 +5,28 @@
     background-color: white;
     z-index: 9999;
     display: grid;
-    grid-gap: 2vw;
     align-items: center;
+    justify-content: center;
 
     &__box-title {
         height: 102px;
-        width: 100%;
+        width: 90vw;
         font-weight: bold;
         display: flex;
         justify-content: center;
         align-items: center;
         box-shadow: var(--box-shadow);
+        border-radius: 3px;
     }
 
     &__content-box {
         border-radius: 3px;
-        width: 90vw;
+        width: 100vw;
+        height: 100vh;
+        transform: scale(0, 0);
+        background-color: white;
+        overflow: scroll;
+        position: fixed;
 
         &--logout {
             background-color: var(--dangerous-item);
@@ -36,12 +42,19 @@
         }
     }
 
+    &__close-icon {
+        width: 40px;
+        height: 40px;
+        position: fixed;
+        bottom: 5vh;
+        left: 2vw;
+    }
+
     &__action-box {
         display: grid;
-        grid: 52px / 1fr 1fr;
+        grid: 10vh / 1fr 1fr;
         justify-items: center;
         align-items: center;
-        padding: 5vw;
     }
 
     &__account-info {
@@ -56,13 +69,14 @@
     }
 
     &__login {
-        width: 30vw;
+        width: 90vw;
         z-index: 9999;
         background-color: white;
         display: flex;
         flex-flow: column nowrap;
         justify-content: center;
         align-items: center;
+        align-self: flex-end;
     }
 
     &__action {
@@ -81,16 +95,22 @@
     &__back {
 
         & svg {
-            height: 42px;
+            height: 40px;
         }
     }
 
     &__home {
         width: 100vw;
+        height: 90vh;
         display: grid;
-        justify-items: center;
-        background-color: white;
+        grid: 102px / 1fr;
         grid-gap: 2vw;
+        justify-items: center;
+        align-items: center;
+        background-color: white;
+        overflow: scroll;
+        box-sizing: border-box;
+        padding: 5vw 0;
     }
 
     &__inputs {

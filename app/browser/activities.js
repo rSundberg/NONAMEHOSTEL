@@ -91,16 +91,25 @@ export default class Activities extends Component {
         this.setState({loading: true, error: false})
 
         this.uploadActivity(this.state.activeType, dataWithCategory)
-            .then(docRef => this.uploadPicture(data.imageFile, docRef))
-            .then(docRef => this.getActivities(this.state.activeType))
-            .then(queryRef => this.setState({
-                activeType: null,
-                categories: null,
-                activeCategory: null,
-                addActivityToggled: false,
-                loading: false,
-                [this.state.activeType]: queryRef.docs
-            }))
+            .then(docRef => {
+                this.setState({
+                    activeType: null,
+                    categories: null,
+                    activeCategory: null,
+                    addActivityToggled: false,
+                    loading: false
+                })
+
+                this.uploadPicture(data.imageFile, docRef)
+                    .then(() => docRef.get())
+                    .then(doc => {
+                        let activityType = doc.ref.parent.parent.id
+
+                        this.setState({
+                            [activityType]: this.state[activityType].concat(doc)
+                        })
+                    })
+            })
     }
             
     render() {

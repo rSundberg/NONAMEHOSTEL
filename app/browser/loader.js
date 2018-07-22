@@ -9,27 +9,36 @@ export default class Loader extends Component {
     circleRef2 = React.createRef()
     circleRef3 = React.createRef()
 
-    componentDidUpdate() {
-        console.log(this.props)
+    componentDidMount() {
         if (this.props.pastDelay) {
-            anime({
-                targets: this.container.current,
-                opacity: [0, 1],
-                easing: 'easeOutQuart',
-                duration: 650
-            })
-
-            anime({
-                targets: [this.circleRef1.current, this.circleRef2.current, this.circleRef3.current],
-                scale: (el, i) => [i + 1, i * 3],
-                delay: (el, i) =>  100 + (i * 100),
-                duration: (el, i) => 50 + (i * (i * 80)),
-                rotate: (el, i) => [i, 45],
-                easing: 'easeInOutQuart',
-                loop: true,
-                direction: 'alternate'
-            })
+            this.animate()
         }
+    }
+
+    componentDidUpdate() {
+        if (this.props.pastDelay) {
+            this.animate()
+        }
+    }
+
+    animate = () => {
+        anime({
+            targets: this.container.current,
+            opacity: [0, 1],
+            easing: 'easeOutQuart',
+            duration: 650
+        })
+
+        anime({
+            targets: [this.circleRef1.current, this.circleRef2.current, this.circleRef3.current],
+            scale: (el, i) => [i + 1, i * 3],
+            delay: (el, i) => 100 + (i * 100),
+            duration: (el, i) => 50 + (i * (i * 80)),
+            rotate: (el, i) => [i, 45],
+            easing: 'easeInOutQuart',
+            loop: true,
+            direction: 'alternate'
+        })
     }
 
     render() {

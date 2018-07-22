@@ -18,8 +18,8 @@ export default class Dashboard extends Component {
         email: null,
         password: null,
         user: null,
-        activeBox: null,
-        boxes: ['Check in', 'Bookings', 'Calendar', 'Activities', 'Home collective members', 'Requisition']
+        activeBox: false,
+        boxes: ['Check in', 'Bookings', 'Activities', 'Home collective members', 'Requisition']
     }
 
     dashboardRef = React.createRef()
@@ -64,8 +64,7 @@ export default class Dashboard extends Component {
             if (user) {
                 this.setState({ user: user })
             } else {
-                // User is signed out.
-                // ...
+                this.setState({ user: null })
             }
         });
     }
@@ -106,7 +105,7 @@ export default class Dashboard extends Component {
         }
     }
 
-    setActiveBox = boxId => this.setState({activeBox: boxId})
+    setActiveBox = boxId => this.setState({activeBox: this.state.activeBox === boxId ? false : boxId})
 
     render() {
         const {boxes, activeBox, user} = this.state

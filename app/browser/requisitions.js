@@ -5,6 +5,7 @@ import '../shared/css/requisitions.css'
 import Categories from './categories'
 import ActionBox from './actionbox'
 import Requisition from './requisition'
+import Loader from './loader'
 
 import CheckIcon from '../shared/media/checkmark.svg'
 import AddIcon from '../shared/media/add.svg'
@@ -17,11 +18,13 @@ export default class Requisitions extends Component {
         addRequisitionToggled: false,
         error: false,
         required: null,
-        selectedRequisitions: [],
+        selected: [],
         requiredList: [],
         item: "",
         amount: "",
-        price: ""
+        price: "",
+        loadingConfirmRequired: false,
+        loadingRequisitionAction: false
     }
 
     componentDidMount() {
@@ -54,15 +57,19 @@ export default class Requisitions extends Component {
         let requiredUploads = this.state.requiredList
             .map(data => this.uploadRequisition('required', data))
 
+        this.setState({
+            loadingConfirmRequired: true
+        })
+
         Promise.all(requiredUploads)
             .then(docRefs => Promise.all(docRefs.map(doc => doc.get())))
             .then(docs => {
-                console.log(docs)
                 this.setState({
                     activeCategory: null,
                     addRequisitionToggled: false,
                     error: false,
-                    required: this.state.required.concat(docs)
+                    required: this.state.required.concat(docs),
+                    loadingConfirmRequired: false
                 })
             })
     }
@@ -76,10 +83,8 @@ export default class Requisitions extends Component {
             return
         }
 
-        this.state.requiredList.push(data)
-
         this.setState({
-            requiredList: this.state.requiredList,
+            requiredList: this.state.requiredList.concat(data),
             error: false,
             item: "",
             amount: "",
@@ -151,23 +156,23 @@ export default class Requisitions extends Component {
 
     toggleRequisition = (docRef, newPrice) => {
         if (this.isSelected(docRef)) {
-            this.setState({ selectedRequisitions: this.state.selectedRequisitions.filter(({doc}) => doc.id !== docRef.id)})
+            this.setState({ selected: this.state.selected.filter(({doc}) => doc.id !== docRef.id)})
         } else {
             let ref = {
                 price: newPrice,
                 doc: docRef
             }
 
-            this.state.selectedRequisitions.push(ref)
+            this.state.selected.push(ref)
 
-            this.setState({ selectedRequisitions: this.state.selectedRequisitions})
+            this.setState({ selected: this.state.selected})
         }
     }
 
-    isSelected = docRef => this.state.selectedRequisitions.some(({doc}) => doc.id === docRef.id)
+    isSelected = docRef => this.state.selected.some(({doc}) => doc.id === docRef.id)
 
     confirmRequisitions = () => {
-        let uploads = this.state.selectedRequisitions.map(({price, doc}) => {
+        let uploads = this.state.selected.map(({price, doc}) => {
             let {item, amount, category} = doc.data()
             let data = {
                 created: this.props.moment().format('YYYY-MM-DD'),
@@ -185,7 +190,7 @@ export default class Requisitions extends Component {
     }
 
     deleteRequisitions = () => {
-        let deleted = this.state.selectedRequisitions.map(({ doc }) => {
+        let deleted = this.state.selected.map(({ doc }) => {
             return this.deleteRequisition(doc.ref.path)
         })
 
@@ -193,13 +198,17 @@ export default class Requisitions extends Component {
     }
 
     confirmRequisitionsClick = () => {
+        this.setState({ loadingRequisitionAction: true})
+
         this.confirmRequisitions()
             .then(docRefs => {
                 this.clearRequisitions()
             })
     }
 
-    deleteRequistionsClick = () => {
+    deleteRequisitionsClick = () => {
+        this.setState({ loadingRequisitionAction: true })
+
         this.deleteRequisitions()
             .then(docRefs => {
                 this.clearRequisitions()
@@ -207,22 +216,23 @@ export default class Requisitions extends Component {
     }
 
     clearRequisitions = () => {
-        const {required, selectedRequisitions} = this.state
+        const {required, selected} = this.state
 
-        let cleared = required
-            .filter(docRef =>
-                selectedRequisitions.some(({doc}) =>
-                    doc.id !== docRef.id
-            ))
+        let cleared = required.filter(docRef => {
+            let isSelected = selected.some(({doc}) => doc.id === docRef.id)
+
+            return isSelected === false
+        })
 
         this.setState({
             required: cleared,
-            selectedRequisitions: []
+            selected: [],
+            loadingRequisitionAction: false
         })
     }
 
     render() {
-        const { addRequisitionToggled, categories, required, activeCategory, requiredList, selectedRequisitions, item, amount, price, error} = this.state
+        const { addRequisitionToggled, categories, required, activeCategory, requiredList, selected, item, amount, price, error, loadingConfirmRequired, loadingRequisitionAction} = this.state
 
         return (
             <div className={'Requisitions'}>
@@ -262,21 +272,6 @@ export default class Requisitions extends Component {
                         value={price}
                     />
 
-                    <div className={'Requisitions__options'}>
-                        <div
-                            className={'App__confirm'}
-                            onClick={this.confirmClick}
-                        >
-                            <CheckIcon />
-                        </div>
-
-                        <AddIcon
-                            width={'100%'}
-                            height={40}
-                            onClick={this.addClick}
-                        />
-                    </div>
-
                     {requiredList.length > 0
                         ? <div className={'Requisitions__list'}>
                             <div className={'Requisitions__options'}>
@@ -310,6 +305,24 @@ export default class Requisitions extends Component {
                         </div>
                         : null
                     }
+
+                    <div className={'Requisitions__options'}>
+                        {requiredList.length > 0
+                            ? <div
+                                className={`App__confirm ${loadingConfirmRequired ? 'App__loading' : ''}`}
+                                onClick={!loadingConfirmRequired ? this.confirmClick : null}
+                            >
+                                <CheckIcon />
+                            </div>
+                            : <div></div>
+                        }
+
+                        <AddIcon
+                            width={'100%'}
+                            height={40}
+                            onClick={this.addClick}
+                        />
+                    </div>
                 </ActionBox>
 
                 {error
@@ -318,11 +331,13 @@ export default class Requisitions extends Component {
                     </div>
                     : null
                 }
+
+                {required && required.length === 0 ? <h2 className={'App__title'}>No Requisitions</h2> : null}
     
                 {required
                     ? this.sortByCategory(required).map(({category, docs}) =>
                         <div className={'Requisitions__category-box'} key={category}>
-                            <h2 className={'App__title'}>{category}</h2>
+                            <h2 className={'Requisitions__list-category'}>{category}</h2>
 
                             <div className={'Requisition'}>
                                 <span className={'Requisition__title'}>Item</span>
@@ -341,22 +356,22 @@ export default class Requisitions extends Component {
                             }
                         </div>
                     )
-                    : null
+                    : <Loader pastDelay={true} height={40} />
                 }
 
-                {selectedRequisitions.length > 0
+                {selected.length > 0
                     ? <div className={'Requisitions__actions'}>
                         <div
-                            className={'Requisitions__actions-item'}
-                            onClick={this.deleteRequisitionsClick}
+                            className={`Requisitions__actions-item ${loadingRequisitionAction  ? 'App__loading' : ''}`}
+                            onClick={!loadingRequisitionAction ? this.deleteRequisitionsClick : null}
                         >
                             <CancelIcon width={20} height={20} />
                             <span>Delete</span>
                         </div>
 
                         <div
-                            className={'Requisitions__actions-item'}
-                            onClick={this.confirmRequisitionsClick}
+                            className={`Requisitions__actions-item ${loadingRequisitionAction ? 'App__loading' : ''}`}
+                            onClick={!loadingRequisitionAction ? this.confirmRequisitionsClick : null}
                         >
                             <CheckIcon width={20} height={20} />
                             <span>Confirm</span>

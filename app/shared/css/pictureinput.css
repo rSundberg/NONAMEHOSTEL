@@ -1,0 +1,28 @@
+.PictureInput {
+    &__picture-wrapper {
+        min-height: 70px;
+        max-width: 100%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+
+        canvas {
+            width: 100%;
+        }
+    }
+
+    &__picture {
+        width: 100%;
+    }
+
+    &__picture-icon {
+        width: 40px;
+    }
+
+    &__picture-input {
+        position: absolute;
+        width: 1px;
+        height: 1px;
+        visibility: hidden;
+    }
+}
