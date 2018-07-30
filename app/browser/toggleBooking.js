@@ -109,6 +109,10 @@ export default class ToggleBooking extends Component {
         return (
             <div className={'App__toggleBooking'} onClick={() => this.toggleBooking()} ref={this.toggleBookingContainer}>
                 <ToggleIcon />
+
+                <p>
+                    Book here
+                </p>
             </div>
         )
     }

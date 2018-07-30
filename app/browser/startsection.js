@@ -25,7 +25,6 @@ export default class StartSection extends Component {
     }
 
     includesSection = section => {
-        console.log(this.state.activeSections)
         return this.state.activeSections.includes(section)
     }
 
@@ -37,9 +36,10 @@ export default class StartSection extends Component {
                     description={'The project originated within an international group of friends linked by a common passion for traveling. The intention is to create and co-develop sustainable comunities providing free and affordable accommodation'}
                     link={'Discover No Name'}
                     activate={() => this.activateSection('noname')}
-                    content={<NoName />}
                     isOpen={this.includesSection('noname')}
-                />
+                >
+                    <NoName />
+                </Section>
 
                 <div className={'StartSection'}>
                     <h1 className={'StartSection__title'}>

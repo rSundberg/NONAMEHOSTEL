@@ -38,8 +38,49 @@ input {
         width: 100%;
     }
 
+            &__toggleBooking {
+            bottom: 0vw;
+            right: 0vw;
+            z-index: 999;
+            width: 20vw;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-flow: column nowrap;
+            background-color: white;
+            box-shadow: var(--box-shadow);
+            border-radius: 3px;
+
+            & svg {
+                width: 70px;
+            }
+        }
+
     &__toggleBooking {
         position: fixed;
+        bottom: 0vw;
+        right: 0vw;
+        z-index: 999;
+        width: 20vw;
+        padding: 2vh 0;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-flow: column nowrap;
+        background-color: white;
+        box-shadow: var(--box-shadow);
+        border-radius: 3px;
+
+        & svg {
+            width: 70px;
+        }
+
+        & p {
+            font-size: var(--font-small);
+            font-weight: normal;
+            text-align: center;
+            padding-top: 10px;
+        }
     }
 
     &__title {
@@ -319,10 +360,10 @@ input {
 }
 
 .Counter {
-    height: 105px;
+    height: 150px;
     display: grid;
     grid: 1fr 1fr / 1fr 1fr 1fr;
-    font-size: var(--font-small);
+    font-size: var(--font-big);
     align-items: center;
     justify-items: center;
 
@@ -336,7 +377,7 @@ input {
     }
 
     &__range {
-        font-size: var(--font-tiny);
+        font-size: var(--font-big);
 
         &--active {
             background-color: var(--active-item);
@@ -372,11 +413,11 @@ input {
     & input {
         height: 50px;
         font-size: var(--font-small);
-        margin-bottom: 5px;
         padding-left: 22px;
         font-weight: bold;
         border: 0;
         outline: 0;
+        background-color: transparent;
 
         &::placeholder {
             color: black;
@@ -399,14 +440,16 @@ input {
         padding: 12px 22px;
         font-weight: lighter;
         border: 0;
+        background-color: transparent;
 
         &:focus {
             outline: none;
-        }
+            background-color: var(--active-item);
+            color: white;
 
-        &::placeholder {
-            color: black;
-            font-weight: bold;
+            &::placeholder {
+                color: white;
+            }
         }
     }
 }
@@ -434,20 +477,6 @@ and (max-device-width : 667px) {
         display: flex;
         flex-flow: column nowrap;
         justify-content: center;
-
-        &__toggleBooking {
-            bottom: 0vw;
-            right: 0vw;
-            z-index: 999;
-            padding: 10px 0;
-            background-color: white;
-            box-shadow: var(--box-shadow);
-            border-radius: 3px;
-
-            & svg {
-                width: 70px;
-            }
-        }
     }
 
     .Beds {

@@ -36,13 +36,15 @@
         grid: 1fr / 1fr;
         padding: 22px;
         background-color: var(--active-item);
-        font-size: var(--font-small);
+        font-size: var(--font-big);
         cursor: pointer;
         text-transform: capitalize;
         color: white;
+        font-weight: bold;
 
         & div:last-of-type {
-            margin-top: 5px;
+            font-size: var(--font-reallyBig);
+            margin-top: 22px;
             font-weight: bold;
         }
 
@@ -58,6 +60,25 @@
         box-sizing: border-box;
         font-size: var(--font-big);
         cursor: pointer;
+    }
+
+    &__info {
+        padding: 22px;
+        box-sizing: border-box;
+
+        & h2 {
+            margin-bottom: 12px;
+            font-size: var(--font-big);
+        }
+
+        & div {
+            font-size: var(--font-small);
+            margin-bottom: 4px;
+
+            &:last-of-type {
+                margin-bottom: 0;
+            }
+        }
     }
 }
 

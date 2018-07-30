@@ -22,6 +22,7 @@
     }
 
     &__load-more {
+        width: 90%;
         box-sizing: border-box;
         padding: 5vw;
         box-shadow: var(--box-shadow);

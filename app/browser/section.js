@@ -17,15 +17,15 @@ export default class Section extends Component {
             targets: this.contentRef.current,
             easing: 'easeOutQuart',
             duration: 350,
-            width: [(this.contentRef.current.clientWidth + 1), (window.innerWidth * 0.9)]
+            width: ['90%', '100%']
         }).finished.then(this.props.activate)
         : null
 
     contentRef = React.createRef()
 
     render() {
-        const {title, description, link, content, isOpen, activate} = this.props
-        console.log(content)
+        const {title, description, link, children, isOpen, activate} = this.props
+
         return (
             <div className={'Section'}>
                 <h1 className={'Section__title'}>
@@ -44,7 +44,7 @@ export default class Section extends Component {
                     <span className={'Section__link'}>{link}</span>
 
                     { isOpen
-                        ? content
+                        ? children
                         : null
                     }
                 </span>

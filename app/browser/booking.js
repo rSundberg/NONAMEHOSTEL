@@ -15,12 +15,49 @@ import Counter from './counter'
 import CampStay from '../shared/media/camp_bed_stay.svg'
 import FreeStay from '../shared/media/free_stay.svg'
 
+function Info({type, count, start, end}) {
+    return (
+        <div className={'Booking__info'}>
+            <h2>Booking info</h2>
+            <div>
+                {
+                    type === 'tent' || type === 'camp'
+                        ? `${count} ${type === 'camp'
+                            ? `Camp ${count > 1
+                                ? 'beds'
+                                : 'bed'}`
+                            : type === 'tent'
+                                ? `Pitch your own ${count > 1
+                                    ? 'tents'
+                                    : 'tent'}`
+                                : ''}`
+                        : ''
+                }
+                {
+                    type === 'dorm' ?
+                        `${count} dorm ${count > 1 ? 'beds' : 'bed'}` :
+                        ''
+                }
+                {
+                    type === 'room' ?
+                        `${count} ${count > 1 ? 'people' : 'person'} - ${count} ${count > 1 ? 'rooms' : 'room'}` :
+                        ''
+                }
+            </div>
+            <div>
+                {start ? `${start} - ` : ''}
+                {end ? end : ''}
+            </div>
+        </div>
+    )
+}
+
 export default class Booking extends Component {
     state = {
         booking_date: this.props.moment().format('YYYY-MM-DD'),
         start_date: null,
         end_date: null,
-        location: null,
+        location: 'goa',
         bed_type: null,
         bed_count: 1,
         room_count: null,
@@ -50,22 +87,22 @@ export default class Booking extends Component {
         }
     }
 
-    currentLocation = location => this.setState(this.resetState({location: location}))
+    toggleBedType = bed => this.setState(this.resetState({ activeBed: bed, bed_count: this.state.bed_count}))
 
-    toggleBedType = bed => this.state.location ? this.setState({ activeBed: bed, bed_type: null}) : null
+    updateBedType = bed => this.setState({
+        bed_type: bed,
+        rooms_confirmed: false
+    }, () => {
+        const amount = this.state.room_count ? this.state.room_count : this.state.bed_count
+        const query = `?location=${this.state.location}&bed_type=${this.state.bed_type}&requested_amount=${amount}`
 
-    updateBedType = bed => this.state.location
-        ? this.setState({
-                bed_type: bed,
-                rooms_confirmed: false
-            }, () => {
-                const query = `?location=${this.state.location}&bed_type=${this.state.bed_type}`
-                const locationUrl = `https://us-central1-nonamehostel-a5e96.cloudfunctions.net/locationData${query}`
-                const bedUrl = `https://us-central1-nonamehostel-a5e96.cloudfunctions.net/bedLimit${query}`
+        const url = `https://us-central1-nonamehostel-a5e96.cloudfunctions.net/blockedDates${query}`
 
-                this.blockedDates([locationUrl, bedUrl]).then(dates => this.setState({blockedDates: dates, rooms_confirmed: true}))
-            })
-        : null
+        Promise.all(this.fetchAll([url])).then(dates => this.setState({
+            blockedDates: dates.join(),
+            rooms_confirmed: true
+        }))
+    })
 
     updateBedCount = count => count <= 10 ? this.setState({bed_count: count}) : null
 
@@ -75,7 +112,7 @@ export default class Booking extends Component {
 
     customerDetails = details => this.setState(details)
 
-    backToBooking = () => this.setState({booked: false})
+    backToBooking = () => this.setState(this.resetState({booked: false}))
     
     dateRange = (start, end) => end
         ? this.setState({start_date: start.format('YYYY-MM-DD'), end_date: end.format('YYYY-MM-DD')})
@@ -87,7 +124,7 @@ export default class Booking extends Component {
             booking_date: this.props.moment().format('YYYY-MM-DD'),
             start_date: null,
             end_date: null,
-            location: null,
+            location: 'goa',
             bed_type: null,
             bed_count: 1,
             room_count: null,
@@ -135,7 +172,7 @@ export default class Booking extends Component {
                 .setItem('bookingDetails', this.filterObj(this.state, this.bookingDetails))
                 .then(() => Promise.all(_this.fetchAll([url])))
                 .then(() => {
-                    this.setState(this.resetState({booked: true, booking: false}), () => {
+                    this.setState({booked: true, booking: false}, () => {
                         anime({
                             targets: "html, body",
                             scrollTop: [window.scrollY, 0],
@@ -146,38 +183,6 @@ export default class Booking extends Component {
                 })
                 .catch(err => console.log(err))
         })
-    }
-
-    blockedDateByLimit = ({docs, limit}) => {
-        const {moment} = this.props
-        const bookingsPerDate = docs.reduce((obj, { start_date, end_date, bed_count, room_count }) => {
-            const dateArr = getDateRange(moment(start_date), moment(end_date), 'YYYY-MM-DD', moment)
-            const amountPerDay = dateArr.reduce((dateObj, date) => {
-                const amount = room_count
-                    ? obj[date]
-                        ? obj[date] + room_count
-                        : room_count
-                    : obj[date]
-                        ? obj[date] + bed_count
-                        : bed_count
-
-                return {
-                    ...dateObj,
-                    ...{
-                        [date]: amount
-                    }
-                }
-            }, {})
-
-            return {
-                ...obj,
-                ...amountPerDay
-            }
-        }, {})
-
-        const filteredDates = Object.keys(bookingsPerDate).filter(key => bookingsPerDate[key] >= limit - (this.state.room_count ? this.state.room_count : this.state.bed_count))
-
-        return filteredDates
     }
 
     fetchAll = urls => urls.map(url =>
@@ -191,10 +196,6 @@ export default class Booking extends Component {
         .then(response => response.json())
     )
 
-    blockedDates = urls => Promise.all(this.fetchAll(urls))
-        .then(data => data.reduce(Object.assign), {})
-        .then(this.blockedDateByLimit)
-
     render() {
         const {start_date, end_date, location, bed_type, bed_count, room_count, name, email, phone, message, booked, booking, rooms_confirmed, activeBed, limit, docs} = this.state
         const {moment} = this.props
@@ -206,11 +207,6 @@ export default class Booking extends Component {
                         <h2 className={'Booking__title'}>
                             Stay with us!
                         </h2>
-
-                        <Locations
-                            onClick={this.currentLocation}
-                            currentLocation={location}
-                            />
 
                         <Counter title={'How many people are you booking for?'} count={bed_count} updateCount={this.updateBedCount}/>
 
@@ -244,7 +240,7 @@ export default class Booking extends Component {
                             : null
                         }
 
-                        { location && bed_type
+                        { bed_type
                             ? !rooms_confirmed
                                 ? <div className={'Booking__loader'}>Checking availability</div>
                                 : <Calendar
@@ -254,48 +250,27 @@ export default class Booking extends Component {
                             : null
                         }
 
-                        { start_date && end_date
+                        { bed_type && bed_count && start_date && end_date
                             ? <Details getDetails={this.customerDetails}/>
                             : null
                         }
 
-                        { start_date && end_date && name && email && phone && message
+                        {
+                            bed_type && bed_count && start_date && end_date
+                                ? <Info
+                                    type={bed_type}
+                                    count={room_count ? room_count : bed_count}
+                                    start={start_date}
+                                    end={end_date}
+                                />
+                                : null
+                        }
+
+                        { bed_type && start_date && end_date && name && email && phone && message
                             ? !booking
-                                ? <div className={`Booking__confirm`} onClick={() => this.sendBooking()}>
-                                    <div>
-                                        {`${location} - `}
-                                        {
-                                            bed_type === 'tent' || bed_type === 'camp'
-                                                ? `${bed_count} ${bed_type === 'camp'
-                                                    ? `Camp ${bed_count > 1
-                                                        ? 'beds'
-                                                        : 'bed'}`
-                                                    : bed_type === 'tent'
-                                                        ? `Pitch your own ${bed_count > 1
-                                                            ? 'tents'
-                                                            : 'tent'}`
-                                                        : ''}`
-                                                : ''
-                                        }
-                                        {
-                                            bed_type === 'dorm' ?
-                                            `${bed_count} dorm ${bed_count > 1 ? 'beds' : 'bed'}` :
-                                                ''
-                                        }
-                                        {
-                                            bed_type === 'room' ?
-                                            `${bed_count} ${bed_count > 1 ? 'people' : 'person'} - ${room_count} ${room_count > 1 ? 'rooms' : 'room'}` :
-                                                ''
-                                        }
-                                    </div>
-                                    <div>
-                                        {start_date ? `${moment(start_date).format('DD-MM-YY')} - ` : ''}
-                                        {end_date ? moment(end_date).format('DD-MM-YY') : ''}
-                                    </div>
-                                    <div>
+                                ? <span className={`Booking__confirm`} onClick={() => this.sendBooking()}>
                                         Confirm booking
-                                    </div>
-                                </div>
+                                </span>
                                 : <div className={'Booking__loader'}>
                                         Confirming your stay
                                 </div>
@@ -306,6 +281,14 @@ export default class Booking extends Component {
                         <h2 className={'Booking__title'}>
                             Thanks for staying with us!
                         </h2>
+
+                        <Info
+                            type={bed_type}
+                            count={room_count ? room_count : bed_count}
+                            start={start_date}
+                            end={end_date}
+                        />
+
                         <div className={'Booking__back'} onClick={() => this.backToBooking()}>
                             Book more beds
                         </div>
