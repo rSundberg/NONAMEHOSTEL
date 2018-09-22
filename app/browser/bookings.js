@@ -14,7 +14,7 @@ export default class Bookings extends Component {
         email: null,
         start_date: null,
         end_date: null,
-        filters: ['Booked', 'Confirmed', 'Hosted', 'Canceled'],
+        filters: ['booked', 'confirmed', 'costed', 'canceled'],
         activeFilter: null,
         searchResults: null
     }
@@ -54,7 +54,7 @@ export default class Bookings extends Component {
             .then(({ docs }) =>
                 docs.map(({ id }) => {
                     let bookingsRef = this.bedsRef().doc(id).collection('bookings')
-
+                    console.log(filter)
                     if (!filter) {
                         return bookingsRef
                             .where('start_date', '>=', start)
@@ -163,6 +163,8 @@ export default class Bookings extends Component {
                     ? <Tickets
                         title={searchResults.length > 0 ? 'Search result' : 'No Search result'}
                         data={searchResults}
+                        onConfirmClick={this.confirmBooking}
+                        onCancelClick={this.cancelBooking}
                     />
                     : null
                 }

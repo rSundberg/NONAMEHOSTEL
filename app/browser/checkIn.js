@@ -81,7 +81,8 @@ export default class CheckIn extends Component {
                 <Tickets
                     title={'Check in'}
                     data={todays}
-                    ticketAction={this.confirmBooking}
+                    onConfirmClick={this.confirmBooking}
+                    onCancelClick={this.cancelBooking}
                 />
 
                 <Tickets

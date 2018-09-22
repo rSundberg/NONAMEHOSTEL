@@ -4,7 +4,6 @@ import '../shared/css/categories.css'
 
 export default class ActivityCategories extends Component {
     render() {
-        console.log(this.props)
         return (
             <div className={`Categories`}>
                 {this.props.categories.map(category =>

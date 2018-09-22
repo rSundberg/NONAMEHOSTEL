@@ -15,10 +15,24 @@ import Counter from './counter'
 import CampStay from '../shared/media/camp_bed_stay.svg'
 import FreeStay from '../shared/media/free_stay.svg'
 
-function Info({type, count, start, end}) {
+function Info({type, count, start, end, name, email}) {
     return (
         <div className={'Booking__info'}>
             <h2>Booking info</h2>
+            
+            {name && email
+                ? <Fragment>
+                    <div>
+                        {name}
+                    </div>
+
+                    <div>
+                        {email}
+                    </div>
+                </Fragment>
+                : null
+            }
+
             <div>
                 {
                     type === 'tent' || type === 'camp'
@@ -44,6 +58,7 @@ function Info({type, count, start, end}) {
                         ''
                 }
             </div>
+
             <div>
                 {start ? `${start} - ` : ''}
                 {end ? end : ''}
@@ -282,11 +297,33 @@ export default class Booking extends Component {
                             Thanks for staying with us!
                         </h2>
 
+                        <div className={'Booking__donation-info'}>
+                            <h2>One more step before we confirm your booking...</h2>
+
+                            <p>
+                                In order to confirm your booking you need to
+                                become a initiator on our crowdfunding page.
+                            </p>
+
+                            <p>
+                                Follow the link, donate and we will send you a confirmation email
+                                asap.
+                            </p>
+
+                            <p>
+                                Check your email for more details.
+                            </p>
+
+                            <a href={'https://www.gofundme.com/nonamehostel'}>No Name gofundme page</a>
+                        </div>
+
                         <Info
                             type={bed_type}
                             count={room_count ? room_count : bed_count}
                             start={start_date}
                             end={end_date}
+                            name={name}
+                            email={email}
                         />
 
                         <div className={'Booking__back'} onClick={() => this.backToBooking()}>
