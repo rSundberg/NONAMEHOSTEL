@@ -13,9 +13,12 @@ export default class Tickets extends Component {
     render() {
         return (
             <Fragment>
-                <h2 className={'App__title'}>
-                    {this.props.title}
-                </h2>
+                { !!this.props.title
+                    ? <h2 className={'App__title'}>
+                        {this.props.title}
+                    </h2>
+                    : null
+                }
 
                 {this.props.data.map((booking, i) => {
                     const { name, email, phone, country, location, bed_count, room_count, start_date, end_date, bed_type } = booking.data()

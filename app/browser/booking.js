@@ -119,7 +119,7 @@ export default class Booking extends Component {
         }))
     })
 
-    updateBedCount = count => count <= 10 ? this.setState({bed_count: count}) : null
+    updateBedCount = count => count <= 10 ? this.setState(this.resetState({bed_count: count})) : null
 
     updateRoomCount = count => this.setState({room_count: count}, () => {
         this.updateBedType('room')

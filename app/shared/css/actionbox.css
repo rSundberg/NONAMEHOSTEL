@@ -7,6 +7,10 @@
     padding: 5vw;
     border-radius: 3px;
 
+    &--active {
+        color: var(--selected-item);
+    }
+
     &__title-wrapper {
         display: grid;
         grid: 50px / 4fr 1fr;
@@ -22,5 +26,11 @@
 
     &__icon {
         width: 40px;
+    }
+
+    &__toggler {
+        grid: 1fr / 1fr 1fr;
+        font-size: var(--font-big);
+        justify-items: center;
     }
 }

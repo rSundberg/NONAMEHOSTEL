@@ -6,25 +6,31 @@
 
     &__time {
         display: grid;
-        grid: 1fr / 1fr 1fr;
+        grid: 1fr 1fr / 1fr 2fr;
+        grid-gap: 10px;
+        justify-items: center;
+        align-items: center;
         width: 100%;
+    }
+
+    &__time-title {
+        font-size: var(--font-big);
     }
 
     &__time-input {
         font-size: var(--font-small);
         outline: none;
-        max-width: 100%;
     }
 
     &__filter {
         width: 90vw;
         display: grid;
-        grid: 50px auto 70px / 100%;
+        grid: 1fr / 100%;
         justify-items: center;
         align-items: center;
         box-sizing: border-box;
         padding: 22px;
-        grid-gap: 12px;
+        grid-gap: 22px;
         border-radius: 3px;
         box-shadow: var(--box-shadow);
     }
