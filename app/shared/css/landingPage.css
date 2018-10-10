@@ -1,0 +1,29 @@
+.LandingPage {
+    display: flex;
+    flex-flow: column;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+    position: relative;
+
+    & h1 {
+        user-select: none;
+        cursor: pointer;
+    }
+
+    &__alternatives {
+        display: flex;
+        flex-flow: column;
+        align-items: center;
+        margin-top: 4vh;
+    }
+
+    &__alternative {
+        padding: 4vh;
+        box-shadow: var(--box-shadow);
+        font-size: var(--font-big);
+        margin-bottom: 5vh;
+        cursor: pointer;
+        border-radius: 3px;
+    }
+}

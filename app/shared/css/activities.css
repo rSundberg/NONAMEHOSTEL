@@ -27,7 +27,7 @@
         align-items: center;
         justify-content: center;
         font-size: var(--font-big);
-        font-weight: normal;
+        font-weight: bold;
         border-radius: 3px;
 
         &--active {

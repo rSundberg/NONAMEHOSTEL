@@ -6,7 +6,7 @@ import {importFirebase, importLocalforage, importMoment} from '../shared/utils'
 
 import ToggleBooking from './toggleBooking'
 import Loader from './loader'
-import Logo from './logo'
+import LandingPage from './landingPage'
 
 const config = {
     apiKey: "AIzaSyAMicQRJfWpjotCfxq9xs_VdO_6wvkeVyc",
@@ -52,14 +52,23 @@ const StartSection = Loadable({
 
 export default class Home extends Component {
     state = {
-        isMobile: /iPhone|iPod|Android/i.test(navigator.userAgent),
+        isMobile: /iPhone|iPod|Android|iPad/i.test(navigator.userAgent),
         dashboardToggled: false,
-        click: 0
+        activeSection: null
     }
 
     bookingContainer = React.createRef()
 
     showContainer = React.createRef()
+
+    componentDidMount() {
+        console.log(navigator.userAgent)
+        let hashLink = window.location.hash.substring(1)
+
+        if (hashLink === 'whatwedo' || 'howwedo' || 'whywedo') {
+            this.setActiveSection(hashLink)
+        }
+    }
 
     toggleDashboard = () => {
         if (this.state.dashboardToggled) {
@@ -95,25 +104,35 @@ export default class Home extends Component {
 
     getBookingContainer = () => this.bookingContainer.current
 
+    setActiveSection = section => {
+        this.setState({activeSection: section})
+    }
+
     render() {
+        const {dashboardToggled, isMobile, activeSection} = this.state
+
         return (
             <div className={`App`}>
-                {!this.state.dashboardToggled || <Dashboard backClick={this.toggleDashboard} />}
+                {!dashboardToggled || <Dashboard backClick={this.toggleDashboard} />}
 
-                {this.state.dashboardToggled ||
+                {dashboardToggled ||
                     <Fragment>
                         <div className={'Scrollable'} ref={this.bookingContainer}>
-                            <Booking isMobile={this.state.isMobile} />
+                            <Booking isMobile={isMobile} />
                         </div>
 
                         <div className={'Scrollable'} ref={this.showContainer}>
-                            <Logo onClick={this.toggleDashboard} />
-                            <StartSection />
+                            <LandingPage onClick={this.toggleDashboard} onSectionClick={this.setActiveSection} />
+
+                            <StartSection
+                                activeSection={activeSection}
+                                scrollTarget={isMobile ? 'html, body' : this.showContainer.current }
+                            />
                         </div>
                     </Fragment>
                 }
 
-                {this.state.isMobile && !this.state.dashboardToggled
+                {isMobile && !dashboardToggled
                     ? <ToggleBooking getTarget={this.getBookingContainer} />
                     : null
                 }

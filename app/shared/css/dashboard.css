@@ -17,6 +17,8 @@
         align-items: center;
         box-shadow: var(--box-shadow);
         border-radius: 3px;
+        user-select: none;
+        cursor: pointer;
     }
 
     &__content-box {
@@ -146,5 +148,19 @@
         padding-left: 22px;
         box-sizing: border-box;
         font-weight: bold;
+    }
+}
+
+@media
+only screen and (-webkit-min-device-pixel-ratio: 2)      and (min-width: 1024px),
+only screen and (   min--moz-device-pixel-ratio: 2)      and (min-width: 1024px),
+only screen and (     -o-min-device-pixel-ratio: 2/1)    and (min-width: 1024px),
+only screen and (        min-device-pixel-ratio: 2)      and (min-width: 1024px),
+only screen and (                min-resolution: 192dpi) and (min-width: 1024px),
+only screen and (                min-resolution: 2dppx)  and (min-width: 1024px) {
+    .Dashboard {
+        &__login {
+            width: 25vw;
+        }
     }
 }

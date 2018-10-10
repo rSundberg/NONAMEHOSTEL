@@ -64,6 +64,8 @@ exports.blockedDates = functions.https.onRequest((req, res) => cors(req, res, ()
 
     bedBookings(location, bed_type)
         .where('start_date', '>=', moment().format('YYYY-MM-DD'))
+        .where('status', '==', 'booked')
+        .where('status', '==', 'confirmed')
         .get()
         .then(doc => {
             if (!doc.empty) {

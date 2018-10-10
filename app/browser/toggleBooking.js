@@ -20,6 +20,12 @@ export default class ToggleBooking extends Component {
                 easing: 'easeInQuart',
                 duration: 0
             })
+
+            if (window.location.hash.substring(1) === 'staywithus') {
+                setTimeout(() => {
+                    this.toggleBookingContainer.current.click()
+                }, 1000);
+            }
         } else {
             this.setState({ bookingToggled: true })
             this.getAnimation().play()

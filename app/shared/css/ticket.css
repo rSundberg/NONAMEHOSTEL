@@ -7,9 +7,13 @@
     padding: 30px 15px;
     grid: auto / repeat(5, 1fr);
     grid-gap: 15px;
-    margin: 10px 0;
     box-shadow: var(--box-shadow);
     border-radius: 3px;
+
+    &__container {
+        display: grid;
+        grid-gap: 1vh;
+    }
 
     &__info {
         font-size: var(--font-small);
@@ -18,6 +22,7 @@
         margin-bottom: 10px;
 
         &:first-of-type {
+            text-transform: capitalize;
             font-weight: bold;
         }
     }
@@ -76,6 +81,41 @@
             stroke: black;
             stroke-width: 26px;
             padding-bottom: 5px;
+        }
+    }
+}
+@media only screen 
+and (min-device-width : 768px) 
+and (max-device-width : 1024px)  {
+    .Ticket {
+        &__container {
+            grid: 1fr / 1fr 1fr;
+
+        }
+    }
+}
+
+@media only screen 
+and (min-device-width : 1024px)  {
+    .Ticket {
+        &__container {
+            grid: 1fr / 1fr 1fr;
+
+        }
+    }
+}
+
+@media
+only screen and (-webkit-min-device-pixel-ratio: 2)      and (min-width: 1024px),
+only screen and (   min--moz-device-pixel-ratio: 2)      and (min-width: 1300px),
+only screen and (     -o-min-device-pixel-ratio: 2/1)    and (min-width: 1300px),
+only screen and (        min-device-pixel-ratio: 2)      and (min-width: 1300px),
+only screen and (                min-resolution: 192dpi) and (min-width: 1300px),
+only screen and (                min-resolution: 2dppx)  and (min-width: 1300px) {
+    .Ticket {
+        &__container {
+            grid: 1fr / 1fr 1fr 1fr;
+
         }
     }
 }

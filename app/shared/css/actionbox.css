@@ -1,14 +1,35 @@
 .ActionBox {
-    width: 100%;
-    display: grid;
-    grid-gap: 24px;
+    width: 90vw;
+    display: flex;
+    flex-flow: column nowrap;
     box-shadow: var(--box-shadow);
     box-sizing: border-box;
-    padding: 5vw;
+    padding: 3vh;
     border-radius: 3px;
 
     &--active {
         color: var(--selected-item);
+    }
+
+    & > div {
+        margin: 2vh 0;
+
+        &:first-of-type {
+            margin: 0;
+        }
+    }
+
+    &__divider {
+        display: flex;
+        flex-flow: column;
+
+        & > input {
+            margin-bottom: 1vh;
+
+            &:last-of-type {
+                margin-bottom: 0;
+            }
+        }
     }
 
     &__title-wrapper {
@@ -32,5 +53,26 @@
         grid: 1fr / 1fr 1fr;
         font-size: var(--font-big);
         justify-items: center;
+    }
+}
+
+@media
+only screen and (-webkit-min-device-pixel-ratio: 2)      and (min-width: 1024px),
+only screen and (   min--moz-device-pixel-ratio: 2)      and (min-width: 1024px),
+only screen and (     -o-min-device-pixel-ratio: 2/1)    and (min-width: 1024px),
+only screen and (        min-device-pixel-ratio: 2)      and (min-width: 1024px),
+only screen and (                min-resolution: 192dpi) and (min-width: 1024px),
+only screen and (                min-resolution: 2dppx)  and (min-width: 1024px) {
+    .ActionBox {
+        &__divider {
+            flex-flow: row nowrap;
+        }
+
+        &__divider {
+            & > input {
+                text-align: center;
+                margin: 0;
+            }
+        }
     }
 }

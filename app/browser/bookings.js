@@ -6,8 +6,6 @@ import Tickets from './tickets'
 import Categories from './categories'
 import Loader from './loader'
 
-import SearchIcon from '../shared/media/search.svg'
-
 export default class Bookings extends Component {
     state = {
         location: 'goa',
@@ -20,7 +18,8 @@ export default class Bookings extends Component {
         searchResults: null,
         searchToggled: null,
         searchLoading: false,
-        recentLoading: false
+        recentLoading: false,
+        ticketsLoading: []
     }
 
     componentDidMount() {
@@ -33,7 +32,7 @@ export default class Bookings extends Component {
         .collection('beds')
 
     getRecentBookings = () => {
-        this.setState({recentLoading: true})
+        this.setState({recentLoading: true, recent: []})
 
         this.bedsRef().get()
             .then(({ docs }) =>
@@ -102,18 +101,30 @@ export default class Bookings extends Component {
             .then(bookings => this.setState({ searchResults: bookings, searchLoading: false }))
     }
 
-    updateBookingStatus = (booking, status) => this.props.firestore.doc(booking.ref.path).update({ status: status })
+    updateBookingStatus = (booking, status) => {
+        this.setState(({ticketsLoading}) => {
+            ticketsLoading.push(booking.id)
+
+            return {
+                ticketsLoading: ticketsLoading
+            }
+        })
+
+        return this.props.firestore.doc(booking.ref.path).update({ status: status })
+    }
 
     cancelBooking = booking => this.updateBookingStatus(booking, 'canceled')
-        .then(() => this.setState({
-            recent: this.state.recent.filter(renderedBooking => renderedBooking.ref.path !== booking.ref.path)
-        }))
+        .then(() => this.setState(({recent, ticketsLoading}) => ({
+            recent: recent.filter(renderedBooking => renderedBooking.ref.path !== booking.ref.path),
+            ticketsLoading: ticketsLoading.filter(id => id === booking.id)
+        })))
         .catch(err => console.log(err))
 
     confirmBooking = booking => this.updateBookingStatus(booking, 'confirmed')
-        .then(() => this.setState({
-            recent: this.state.recent.filter(renderedBooking => renderedBooking.ref.path !== booking.ref.path)
-        }))
+        .then(() => this.setState(({ recent, ticketsLoading }) => ({
+            recent: recent.filter(renderedBooking => renderedBooking.ref.path !== booking.ref.path),
+            ticketsLoading: ticketsLoading.filter(id => id === booking.id)
+        })))
         .catch(err => console.log(err))
 
     setFilter = filter => this.setState({activeFilter: filter})
@@ -121,8 +132,8 @@ export default class Bookings extends Component {
     setFilterType = type => this.setState({searchToggled: type})
 
     render() {
-        const {start_date, end_date, activeFilter, recent, searchResults, email, filters, searchToggled, searchLoading, recentLoading } = this.state
-
+        const {start_date, end_date, activeFilter, recent, searchResults, email, filters, searchToggled, searchLoading, recentLoading, ticketsLoading } = this.state
+        
         return (
             <div className={'Bookings'}>
                 <h2
@@ -139,64 +150,66 @@ export default class Bookings extends Component {
                     Search
                 </h2>
 
-                <div className={'ActionBox ActionBox__toggler'}>
-                    <div className={`${searchToggled === 'email' ? 'ActionBox--active' : ''}`} onClick={() => this.setFilterType('email')}>
-                        Email
+                <div className={'Bookings__search-wrapper'}>
+                    <div className={'Activities__types'}>
+                        <div className={`Activities__type ${searchToggled === 'email' ? 'Activities__type--active' : ''}`} onClick={() => this.setFilterType('email')}>
+                            Email
+                        </div>
+
+                        <div className={`Activities__type ${searchToggled === 'date' ? 'Activities__type--active' : ''}`} onClick={() => this.setFilterType('date')}>
+                            Date
+                        </div>
                     </div>
 
-                    <div className={`${searchToggled === 'date' ? 'ActionBox--active' : ''}`} onClick={() => this.setFilterType('date')}>
-                        Date
-                    </div>
+                    { searchToggled === 'email'
+                        ? <div className={'Bookings__filter'}>
+                            <input
+                                type={'text'}
+                                placeholder={'Booking email'}
+                                onChange={e => this.setState({ email: e.target.value })}
+                                className={'App__input'}
+                            />
+                        </div>
+                        : null
+                    }
+
+                    { searchToggled === 'date'
+                        ? <div className={'Bookings__filter'}>
+                            <div className={'Bookings__time'}>
+                                <span className={'Bookings__time-title'}>
+                                    Start
+                                </span>
+
+                                <input
+                                    className={'Bookings__time-input'}
+                                    onChange={e => this.setState({ start_date: e.target.value })}
+                                    type={'date'}
+                                    placeholder={'Birthdate'}
+                                />
+
+                                <span className={'Bookings__time-title'}>
+                                    End
+                                </span>
+
+                                <input
+                                    className={'Bookings__time-input'}
+                                    onChange={e => this.setState({ end_date: e.target.value })}
+                                    type={'date'}
+                                    placeholder={'Birthdate'}
+                                />
+                            </div>
+
+                            <div className={'Bookings__filter-options'}>
+                                <Categories
+                                    categories={filters}
+                                    setCategory={this.setFilter}
+                                    activeCategory={activeFilter}
+                                />
+                            </div>
+                        </div>
+                        : null
+                    }
                 </div>
-
-                { searchToggled === 'email'
-                    ? <div className={'ActionBox'}>
-                        <input
-                            type={'text'}
-                            placeholder={'Booking email'}
-                            onChange={e => this.setState({ email: e.target.value })}
-                            className={'App__input'}
-                        />
-                    </div>
-                    : null
-                }
-
-                { searchToggled === 'date'
-                    ? <div className={'Bookings__filter'}>
-                        <div className={'Bookings__time'}>
-                            <span className={'Bookings__time-title'}>
-                                Start
-                            </span>
-
-                            <input
-                                className={'Bookings__time-input'}
-                                onChange={e => this.setState({ start_date: e.target.value })}
-                                type={'date'}
-                                placeholder={'Birthdate'}
-                            />
-
-                            <span className={'Bookings__time-title'}>
-                                End
-                            </span>
-
-                            <input
-                                className={'Bookings__time-input'}
-                                onChange={e => this.setState({ end_date: e.target.value })}
-                                type={'date'}
-                                placeholder={'Birthdate'}
-                            />
-                        </div>
-
-                        <div className={'Bookings__filter-options'}>
-                            <Categories
-                                categories={filters}
-                                setCategory={this.setFilter}
-                                activeCategory={activeFilter}
-                            />
-                        </div>
-                    </div>
-                    : null
-                }
 
                 { searchLoading
                     ? <Loader pastDelay={true} height={40} />
@@ -209,6 +222,7 @@ export default class Bookings extends Component {
                         data={searchResults}
                         onConfirmClick={this.confirmBooking}
                         onCancelClick={this.cancelBooking}
+                        loading={ticketsLoading}
                     />
                     : null
                 }
@@ -218,6 +232,8 @@ export default class Bookings extends Component {
                     data={recent}
                     onConfirmClick={this.confirmBooking}
                     onCancelClick={this.cancelBooking}
+                    loading={ticketsLoading}
+                    reload={this.getRecentBookings}
                 />
 
                 {recentLoading

@@ -104,7 +104,7 @@ export default class Activities extends Component {
                     .then(() => docRef.get())
                     .then(doc => {
                         let activityType = doc.ref.parent.parent.id
-
+                        console.log(activityType)
                         this.setState({
                             [activityType]: this.state[activityType].concat(doc)
                         })
@@ -162,7 +162,10 @@ export default class Activities extends Component {
 
                 }
 
-                <h2 className={'App__title'}>
+                <h2
+                    className={'App__title'}
+                    onClick={() => this.getActivities('projects').then(queryRef => this.setState({ projects: queryRef.docs }))
+                }>
                     Projects
                 </h2>
 
@@ -173,7 +176,10 @@ export default class Activities extends Component {
                     : null
                 }
 
-                <h2 className={'App__title'}>
+                <h2
+                    className={'App__title'}
+                    onClick={() => this.getActivities('workshops').then(queryRef => this.setState({ workshops: queryRef.docs }))}
+                >
                     Workshops
                 </h2>
 

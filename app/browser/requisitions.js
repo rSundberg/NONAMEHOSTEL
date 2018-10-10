@@ -241,36 +241,37 @@ export default class Requisitions extends Component {
                     isOpen={addRequisitionToggled === true}
                     toggle={this.toggleAddRequisition}
                 >
-
                     <Categories
                         categories={categories}
                         setCategory={this.setCategory}
                         activeCategory={activeCategory}
                     />
 
-                    <input
-                        className={'App__input'}
-                        type={'text'}
-                        placeholder={'Item'}
-                        onChange={e => this.setState({ item: e.target.value })}
-                        value={item}
-                    />
+                    <div className={'ActionBox__divider'}>
+                        <input
+                            className={'App__input'}
+                            type={'text'}
+                            placeholder={'Item'}
+                            onChange={e => this.setState({ item: e.target.value })}
+                            value={item}
+                        />
 
-                    <input
-                        className={'App__input'}
-                        type={'text'}
-                        placeholder={'Amount'}
-                        onChange={e => this.setState({ amount: e.target.value })}
-                        value={amount}
-                    />
+                        <input
+                            className={'App__input'}
+                            type={'text'}
+                            placeholder={'Amount'}
+                            onChange={e => this.setState({ amount: e.target.value })}
+                            value={amount}
+                        />
 
-                    <input
-                        className={'App__input'}
-                        type={'text'}
-                        placeholder={'Price'}
-                        onChange={e => this.setState({ price: e.target.value })}
-                        value={price}
-                    />
+                        <input
+                            className={'App__input'}
+                            type={'text'}
+                            placeholder={'Price'}
+                            onChange={e => this.setState({ price: e.target.value })}
+                            value={price}
+                        />
+                    </div>
 
                     {requiredList.length > 0
                         ? <div className={'Requisitions__list'}>

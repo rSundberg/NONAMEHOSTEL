@@ -5,33 +5,53 @@
     align-items: center;
     width: 100%;
     box-sizing: border-box;
-    padding: 5vw;
-    margin: 10vh 0;
+    padding: 10vh 5vw;
 
     &__title {
-        font-size: var(--font-reallyBig);
-        max-width: 400px;
-        margin: 0;
-        line-height: 1.4;
-    }
-
-    &__description {
-        font-size: var(--font-big);
-        line-height: 1.4;
-        margin-top: 5vw;
-    }
-
-    &__load-more {
-        width: 90%;
-        box-sizing: border-box;
         padding: 5vw;
         box-shadow: var(--box-shadow);
-        margin-top: 10vh;
-        font-weight: bold;
-        font-size: var(--font-big);
-        display: flex;
-        flex-flow: column;
-        align-items: center;
-        background-color: white;
+        font-size: var(--font-reallyBig);
+        margin-bottom: 5vh;
+        border-radius: 3px;
+    }
+
+    &__heading {
+        font-size: var(--font-reallyBig);
+        margin-bottom: 5vh;
+    }
+
+    &__divider {
+        margin: 20vh 0;
+    }
+
+    &__box {
+        padding: 5vw;
+        box-shadow: var(--box-shadow);
+        margin-bottom: 5vh;
+        line-height: 20px;
+        border-radius: 3px;
+
+        &:last-of-type {
+            margin-bottom: 0;
+        }
+    }
+
+    &__link {
+        text-decoration: underline;
+    }
+}
+
+@media
+only screen and (-webkit-min-device-pixel-ratio: 2)      and (min-width: 1024px),
+only screen and (   min--moz-device-pixel-ratio: 2)      and (min-width: 1300px),
+only screen and (     -o-min-device-pixel-ratio: 2/1)    and (min-width: 1300px),
+only screen and (        min-device-pixel-ratio: 2)      and (min-width: 1300px),
+only screen and (                min-resolution: 192dpi) and (min-width: 1300px),
+only screen and (                min-resolution: 2dppx)  and (min-width: 1300px) {
+    .Section {
+        &__box,
+        &__title {
+            padding: 5vh;
+        }
     }
 }

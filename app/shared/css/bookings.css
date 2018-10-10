@@ -29,13 +29,31 @@
         justify-items: center;
         align-items: center;
         box-sizing: border-box;
-        padding: 22px;
-        grid-gap: 22px;
+        padding: 5vh;
+        grid-gap: 5vw;
         border-radius: 3px;
-        box-shadow: var(--box-shadow);
     }
 
     &__filter-options {
         width: 100%;
+    }
+
+    &__search-wrapper {
+        box-shadow: var(--box-shadow);
+        border-radius: 3px;
+    }
+}
+
+@media
+only screen and (-webkit-min-device-pixel-ratio: 2)      and (min-width: 1024px),
+only screen and (   min--moz-device-pixel-ratio: 2)      and (min-width: 1300px),
+only screen and (     -o-min-device-pixel-ratio: 2/1)    and (min-width: 1300px),
+only screen and (        min-device-pixel-ratio: 2)      and (min-width: 1300px),
+only screen and (                min-resolution: 192dpi) and (min-width: 1300px),
+only screen and (                min-resolution: 2dppx)  and (min-width: 1300px) {
+    .Bookings {
+        &__filter {
+            grid: 1fr / 1fr 1fr;
+        }
     }
 }

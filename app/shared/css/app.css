@@ -85,9 +85,10 @@ input {
 
     &__title {
         font-size: var(--font-reallyBig);
-        margin-bottom: 5vw;
-        margin-top: 10vw;
+        margin-bottom: 5vh;
+        margin-top: 10vh;
         text-transform: capitalize;
+        cursor: pointer;
     }
 
     &__action-box {
@@ -106,6 +107,7 @@ input {
         font-size: var(--font-big);
         width: 100%;
         outline: none;
+        cursor: pointer;
 
         &::placeholder {
             color: black;
@@ -140,6 +142,7 @@ input {
         animation-name: loaderz;
         animation-direction: alternate;
         animation-iteration-count: infinite;
+        pointer-events : none;
     }
 }
 
@@ -457,6 +460,12 @@ input {
 @media only screen 
 and (min-device-width : 768px) 
 and (max-device-width : 1024px)  {
+    .App {
+        display: flex;
+        flex-flow: column nowrap;
+        justify-content: center;
+    }
+    
     .Booking {
         padding: 32px;
         

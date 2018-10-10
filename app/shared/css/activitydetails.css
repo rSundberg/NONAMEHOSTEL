@@ -1,5 +1,10 @@
 .ActivityDetails {
 
+    &__aligner {
+        display: flex;
+        flex-flow: column nowrap;
+    }
+
     &__time {
         display: grid;
         padding-top: 12px;
@@ -65,5 +70,30 @@
         display: flex;
         justify-content: center;
         align-items: center;
+    }
+}
+
+@media
+only screen and (-webkit-min-device-pixel-ratio: 2)      and (min-width: 1024px),
+only screen and (   min--moz-device-pixel-ratio: 2)      and (min-width: 1024px),
+only screen and (     -o-min-device-pixel-ratio: 2/1)    and (min-width: 1024px),
+only screen and (        min-device-pixel-ratio: 2)      and (min-width: 1024px),
+only screen and (                min-resolution: 192dpi) and (min-width: 1024px),
+only screen and (                min-resolution: 2dppx)  and (min-width: 1024px) {
+    .ActivityDetails {
+        &__time {
+            grid: 1fr / 1fr 1fr 1fr 1fr;
+            align-items: center;
+            padding-top: 5vh;
+        }
+
+        &__info {
+            padding-top: 5vh;
+        }
+
+        &__aligner {
+            flex-flow: row nowrap;
+            justify-content: space-between;
+        }
     }
 }

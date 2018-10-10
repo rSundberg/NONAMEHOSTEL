@@ -12,21 +12,29 @@ export default class Details extends Component {
 
     componentDidMount() {
         localforage.getItem('bookingDetails')
-            .then(details => this.setState(details, () => this.props.getDetails(this.state)))
+            .then(details => this.setState(details, () => this.props.getDetails(this.allKeysLowerCase(this.state))))
             .catch(err => console.log(err))
     }
 
-    setName = event => this.setState({ name: this.capitalizeData(event.target.value) })
+    setName = event => this.setState({ name: event.target.value })
 
-    setEmail = event => this.setState({ email: this.capitalizeData(event.target.value) })
+    setEmail = event => this.setState({ email: event.target.value })
 
     setPhone = event => this.setState({ phone: event.target.value })
 
-    setCountry = event => this.setState({ country: this.capitalizeData(event.target.value) })
+    setCountry = event => this.setState({ country: event.target.value })
 
-    setMessage = event => this.setState({ message: event.target.value }, this.props.getDetails(this.state))
+    setMessage = event => this.setState({ message: event.target.value }, this.props.getDetails(this.allKeysLowerCase(this.state)))
 
-    capitalizeData = string => string.charAt(0).toUpperCase() + string.slice(1).toLowerCase();
+    allKeysLowerCase = ({name = '', email = '', phone = '', country = '', message = ''}) => {
+        return {
+            name: name.toLowerCase(),
+            email: email.toLowerCase(),
+            phone: phone,
+            country: country.toLowerCase(),
+            message: message
+        }
+    }
 
     render() {
         const {name, email, phone, country, message} = this.state
