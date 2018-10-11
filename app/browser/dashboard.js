@@ -53,6 +53,8 @@ export default class Dashboard extends Component {
     }
 
     componentDidMount() {
+        this.setState({loading: true})
+
         anime({
             targets: this.dashboardRef.current,
             duration: 650,
@@ -61,12 +63,16 @@ export default class Dashboard extends Component {
         })
 
         this.props.auth.onAuthStateChanged(user => {
+            console.log(user)
             if (user) {
-                this.setState({ user: user })
+                this.setState({ user: user, loading: false })
             } else {
-                this.setState({ user: null })
+                this.setState({ user: null, loading: false })
             }
-        });
+        }, err => {
+            console.log(err)
+            this.setState({ user: null, loading: false })
+        })
     }
 
     getBoxContent = box => {
@@ -108,14 +114,15 @@ export default class Dashboard extends Component {
     setActiveBox = boxId => this.setState({activeBox: this.state.activeBox === boxId ? false : boxId})
 
     render() {
-        const {boxes, activeBox, user} = this.state
+        const {boxes, activeBox, user, loading} = this.state
 
         return (
             <div className={'Dashboard'} ref={this.dashboardRef}>
                 {
                     !user ?
                         <div className={'Dashboard__login'}>
-                            <h1 className={'Dashboard__title'}>Let's keep it a secret</h1>
+                            <h1 className={`Dashboard__title ${loading ? 'App__loading' : ''}`}>Let's keep it a secret</h1>
+
                             <div className={'Dashboard__inputs'}>
                                 <form>
                                     <input type={'email'} className={'Dashboard__input'} placeholder={'Email'} onChange={this.setEmail} />

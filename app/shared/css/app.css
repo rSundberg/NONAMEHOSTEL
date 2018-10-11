@@ -85,8 +85,8 @@ input {
 
     &__title {
         font-size: var(--font-reallyBig);
-        margin-bottom: 5vh;
-        margin-top: 10vh;
+        margin-bottom: 5vw;
+        margin-top: 7vw;
         text-transform: capitalize;
         cursor: pointer;
     }
@@ -513,6 +513,20 @@ and (max-device-width : 667px) {
 
     .Scrollable {
         overflow: auto;
+    }
+}
+
+@media
+only screen and (-webkit-min-device-pixel-ratio: 2)      and (min-width: 1300px),
+only screen and (   min--moz-device-pixel-ratio: 2)      and (min-width: 1300px),
+only screen and (     -o-min-device-pixel-ratio: 2/1)    and (min-width: 1300px),
+only screen and (        min-device-pixel-ratio: 2)      and (min-width: 1300px),
+only screen and (                min-resolution: 192dpi) and (min-width: 1300px),
+only screen and (                min-resolution: 2dppx)  and (min-width: 1300px) {
+    .App {
+        &__action-box {
+            padding: 2vw;
+        }
     }
 }
 

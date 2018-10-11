@@ -170,9 +170,9 @@ export default class Activities extends Component {
                 </h2>
 
                 {projects
-                    ? <Fragment>
+                    ? <div className={'Activities__aligner'}>
                         {projects.map(doc => <Activity {...doc.data()} />)}
-                    </Fragment>
+                    </div>
                     : null
                 }
 
@@ -184,9 +184,9 @@ export default class Activities extends Component {
                 </h2>
 
                 {workshops
-                    ? <Fragment>
+                    ? <div className={'Activities__aligner'}>
                         {workshops.map(doc => <Activity {...doc.data()} />)}
-                    </Fragment>
+                    </div>
                     :null
                 }
             </div>

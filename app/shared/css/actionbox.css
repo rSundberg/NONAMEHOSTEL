@@ -4,7 +4,7 @@
     flex-flow: column nowrap;
     box-shadow: var(--box-shadow);
     box-sizing: border-box;
-    padding: 3vh;
+    padding: 5vw;
     border-radius: 3px;
 
     &--active {
@@ -56,6 +56,14 @@
     }
 }
 
+@media only screen 
+and (min-device-width : 768px) 
+and (max-device-width : 1024px)  {
+    .ActionBox {
+        padding: 3vw;
+    }
+}
+
 @media
 only screen and (-webkit-min-device-pixel-ratio: 2)      and (min-width: 1024px),
 only screen and (   min--moz-device-pixel-ratio: 2)      and (min-width: 1024px),
@@ -64,6 +72,8 @@ only screen and (        min-device-pixel-ratio: 2)      and (min-width: 1024px)
 only screen and (                min-resolution: 192dpi) and (min-width: 1024px),
 only screen and (                min-resolution: 2dppx)  and (min-width: 1024px) {
     .ActionBox {
+        padding: 2vw;
+
         &__divider {
             flex-flow: row nowrap;
         }

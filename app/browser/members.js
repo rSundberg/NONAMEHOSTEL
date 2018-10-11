@@ -87,17 +87,18 @@ export default class Members extends Component {
                     />
                 </ActionBox>
 
+                <h2
+                    className={'App__title'}
+                    onClick={this.searchMember}>
+                    Search
+                </h2>
+
                 <div className={`App__action-box`}>
                     <input
                         ref={this.searchRef}
                         className={'App__input'}
                         type={'text'}
                         placeholder={'Member email'}
-                    />
-
-                    <SearchIcon
-                        className={'Members__icon'}
-                        onClick={this.searchMember}
                     />
                 </div>
 

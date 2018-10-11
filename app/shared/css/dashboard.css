@@ -40,7 +40,7 @@
             box-sizing: border-box;
             padding: 5vw;
             display: grid;
-            grid-gap: 2vw;
+            grid-gap: 5vw;
         }
     }
 
@@ -161,6 +161,12 @@ only screen and (                min-resolution: 2dppx)  and (min-width: 1024px)
     .Dashboard {
         &__login {
             width: 25vw;
+        }
+
+        &__content-box {
+            & > div {
+                grid-gap: 2vw;
+            }
         }
     }
 }

@@ -3,12 +3,13 @@
     padding: 5vw;
     box-shadow: var(--box-shadow);
     display: grid;
+    grid: 60px 1fr / 1fr;
+    align-items: center;
     grid-gap: 2vw;
     border-radius: 3px;
 
     &__picture-wrapper {
         width: 100%;
-        margin-top: 12px;
     }
 
     &__picture {
@@ -17,7 +18,11 @@
     }
 
     &__category {
-        padding: 5vw;
+        height: 100%;
+        width: 100%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
         font-size: var(--font-big);
         font-weight: bold;
         color: white;
@@ -60,6 +65,38 @@
 
         strong {
             margin-bottom: 3px;
+        }
+    }
+}
+
+@media
+only screen and (-webkit-min-device-pixel-ratio: 2)      and (min-width: 1024px),
+only screen and (   min--moz-device-pixel-ratio: 2)      and (min-width: 1024px),
+only screen and (     -o-min-device-pixel-ratio: 2/1)    and (min-width: 1024px),
+only screen and (        min-device-pixel-ratio: 2)      and (min-width: 1024px),
+only screen and (                min-resolution: 192dpi) and (min-width: 1024px),
+only screen and (                min-resolution: 2dppx)  and (min-width: 1024px) {
+    .Activity {
+        padding: 2vw;
+
+        &__category {
+            
+        }
+    }
+}
+
+@media
+only screen and (-webkit-min-device-pixel-ratio: 2)      and (min-width: 1300px),
+only screen and (   min--moz-device-pixel-ratio: 2)      and (min-width: 1300px),
+only screen and (     -o-min-device-pixel-ratio: 2/1)    and (min-width: 1300px),
+only screen and (        min-device-pixel-ratio: 2)      and (min-width: 1300px),
+only screen and (                min-resolution: 192dpi) and (min-width: 1300px),
+only screen and (                min-resolution: 2dppx)  and (min-width: 1300px) {
+    .Activity {
+        padding: 3vh;
+
+        &__category {
+            
         }
     }
 }
