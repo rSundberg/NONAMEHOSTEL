@@ -1,0 +1,115 @@
+.Volunteer {
+    position: fixed;
+    top: 0;
+    width: 100vw;
+    height: 100vh;
+    overflow: scroll;
+    z-index: 99999;
+    background-color: white;
+    padding: 10vw 5vw;
+    box-sizing: border-box;
+
+    &--center {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    &__back-button {
+        position: fixed;
+        z-index: 100000;
+        bottom: 0;
+        right: 0;
+        background-color: white;
+        box-shadow: var(--box-shadow);
+        border-radius: 3px 3px 0px 0px;
+        width: 20vw;
+        display: flex;
+        justify-content: center;
+        padding: 5vw;
+    }
+
+    &__heading {
+        font-size: var(--font-big);
+        font-weight: bold;
+        margin-bottom: 5vw;
+    }
+
+    &__title {
+        font-size: var(--font-big);
+        font-weight: bold;
+        text-align: center;
+    }
+
+    &__text {
+        margin-bottom: 5vw;
+        font-size: var(--font-small)
+    }
+
+    &__box {
+        padding: 5vw;
+        box-sizing: border-box;
+        box-shadow: var(--box-shadow);
+        border-radius: 3px;
+    }
+
+    &__divider {
+        padding: 5vw;
+        box-sizing: border-box;
+        box-shadow: var(--box-shadow);
+        border-radius: 3px;
+        margin: 10vw 0;
+    }
+
+    &__missions {
+        box-sizing: border-box;
+        display: grid;
+        grid-gap: 5vw;
+        margin-bottom: 5vw;
+    }
+
+    &__mission-title {
+        font-size: var(--font-reallyBig);
+        font-weight: normal;
+    }
+
+    &__link {
+        text-decoration: underline;
+        text-align: center;
+        padding: 5vw;
+        font-weight: bold;
+    }
+}
+
+@media
+only screen and (-webkit-min-device-pixel-ratio: 2)      and (min-width: 1300px),
+only screen and (   min--moz-device-pixel-ratio: 2)      and (min-width: 1300px),
+only screen and (     -o-min-device-pixel-ratio: 2/1)    and (min-width: 1300px),
+only screen and (        min-device-pixel-ratio: 2)      and (min-width: 1300px),
+only screen and (                min-resolution: 192dpi) and (min-width: 1300px),
+only screen and (                min-resolution: 2dppx)  and (min-width: 1300px) {
+    .Volunteer {
+        padding: 5vw;
+
+        &__back-button {
+            width: 10vw;
+        }
+
+        &__missions {
+            grid: 1fr / 1fr 1fr 1fr;
+            grid-gap: 1vw;
+        }
+
+        &__box {
+            padding: 3vw;
+        }
+
+        &__text {
+            margin-bottom: 1vw;
+        }
+
+        &__heading {
+            margin-bottom: 1vw;
+        }
+    }
+}

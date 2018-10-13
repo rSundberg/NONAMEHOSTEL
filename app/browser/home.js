@@ -7,6 +7,7 @@ import {importFirebase, importLocalforage, importMoment} from '../shared/utils'
 import ToggleBooking from './toggleBooking'
 import Loader from './loader'
 import LandingPage from './landingPage'
+import Volunteer from './volunteer'
 
 const config = {
     apiKey: "AIzaSyAMicQRJfWpjotCfxq9xs_VdO_6wvkeVyc",
@@ -54,7 +55,8 @@ export default class Home extends Component {
     state = {
         isMobile: /iPhone|iPod|Android|iPad/i.test(navigator.userAgent),
         dashboardToggled: false,
-        activeSection: null
+        activeSection: null,
+        volunteerToggled: false
     }
 
     bookingContainer = React.createRef()
@@ -62,10 +64,9 @@ export default class Home extends Component {
     showContainer = React.createRef()
 
     componentDidMount() {
-        console.log(navigator.userAgent)
         let hashLink = window.location.hash.substring(1)
 
-        if (hashLink === 'whatwedo' || 'howwedo' || 'whywedo') {
+        if (hashLink === 'whatwedo' || 'howwedo' || 'whywedo' || 'volunteer') {
             this.setActiveSection(hashLink)
         }
     }
@@ -108,6 +109,8 @@ export default class Home extends Component {
         this.setState({activeSection: section})
     }
 
+    toggleVolunteer = () => this.setState(({ volunteerToggled }) => ({ volunteerToggled: !volunteerToggled }))
+
     render() {
         const {dashboardToggled, isMobile, activeSection} = this.state
 
@@ -117,6 +120,11 @@ export default class Home extends Component {
 
                 {dashboardToggled ||
                     <Fragment>
+                        {this.state.volunteerToggled
+                            ? <Volunteer backClick={this.toggleVolunteer} />
+                            : null
+                        }
+
                         <div className={'Scrollable'} ref={this.bookingContainer}>
                             <Booking isMobile={isMobile} />
                         </div>
@@ -127,6 +135,7 @@ export default class Home extends Component {
                             <StartSection
                                 activeSection={activeSection}
                                 scrollTarget={isMobile ? 'html, body' : this.showContainer.current }
+                                toggleVolunteer={this.toggleVolunteer}
                             />
                         </div>
                     </Fragment>

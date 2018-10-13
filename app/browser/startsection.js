@@ -11,14 +11,18 @@ const NoName = Loadable({
 })
 
 export default class StartSection extends Component {
+    state = {
+        noNameToggled: false
+    }
+
     componentDidMount() {
         if (this.props.activeSection) {
             this.scrollToSection()
         }
     }
 
-    componentDidUpdate() {
-        if (this.props.activeSection) {
+    componentDidUpdate(prevProps) {
+        if (this.props.activeSection && this.props.activeSection !== prevProps.activeSection) {
             this.scrollToSection()
         }
     }
@@ -29,6 +33,8 @@ export default class StartSection extends Component {
 
     howRef = React.createRef()
 
+    volunteerRef = React.createRef()
+
     scrollToSection = section => {
         let correctSectionRef
 
@@ -38,6 +44,8 @@ export default class StartSection extends Component {
             correctSectionRef = this.whyRef
         } else if (this.props.activeSection === 'howwedo') {
             correctSectionRef = this.howRef
+        } else if (this.props.activeSection === 'volunteer') {
+            correctSectionRef = this.volunteerRef
         } else {
             return
         }
@@ -502,9 +510,23 @@ export default class StartSection extends Component {
                         It also implies an extraordinary human experience in
                         a magical place, among friends of an extended family.
                     </div>
+
+                    <div className={'Section__box'}>
+                        <div
+                            className={'Section__link'}
+                            onClick={() => this.setState(({noNameToggled}) => ({noNameToggled: !noNameToggled}))}
+                    >
+                            <strong>Discover No Name</strong>
+                        </div>
+
+                        { this.state.noNameToggled
+                            ? <NoName />
+                            : null
+                        }
+                    </div>                    
                 </Section>
 
-                <Section>
+                <Section reference={this.volunteerRef}>
                     <h2
                         className={'Section__title'}
                         style={{
@@ -546,7 +568,10 @@ export default class StartSection extends Component {
                     </div>
 
                     <div className={'Section__box'}>
-                        <div className={'Section__link'}>
+                        <div
+                            className={'Section__link'}
+                            onClick={() => this.props.toggleVolunteer()}
+                        >
                             <strong>Application and details</strong>
                         </div>
                     </div>

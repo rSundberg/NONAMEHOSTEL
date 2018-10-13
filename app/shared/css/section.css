@@ -38,11 +38,13 @@
 
     &__link {
         text-decoration: underline;
+        text-align: center;
+        cursor: pointer;
     }
 }
 
 @media
-only screen and (-webkit-min-device-pixel-ratio: 2)      and (min-width: 1024px),
+only screen and (-webkit-min-device-pixel-ratio: 2)      and (min-width: 1300px),
 only screen and (   min--moz-device-pixel-ratio: 2)      and (min-width: 1300px),
 only screen and (     -o-min-device-pixel-ratio: 2/1)    and (min-width: 1300px),
 only screen and (        min-device-pixel-ratio: 2)      and (min-width: 1300px),

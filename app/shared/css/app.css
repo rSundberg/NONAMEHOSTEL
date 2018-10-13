@@ -319,6 +319,7 @@ input {
         cursor: pointer;
         box-sizing: border-box;
         padding: 10px;
+        border-radius: 3px;
 
         &:hover {
             background-color: var(--active-item);
@@ -526,6 +527,11 @@ only screen and (                min-resolution: 2dppx)  and (min-width: 1300px)
     .App {
         &__action-box {
             padding: 2vw;
+        }
+
+        &__title {
+            margin-top: 4vw;
+            margin-bottom: 2vw;
         }
     }
 }
