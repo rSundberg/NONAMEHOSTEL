@@ -7,7 +7,6 @@ import { getDateRange } from '../shared/utils'
 import '../shared/css/booking.css'
 
 import Calendar from './calendar'
-import Locations from './locations'
 import Beds from './beds'
 import Details from './details'
 import Counter from './counter'
@@ -113,10 +112,13 @@ export default class Booking extends Component {
 
         const url = `https://us-central1-nonamehostel-a5e96.cloudfunctions.net/blockedDates${query}`
 
-        Promise.all(this.fetchAll([url])).then(dates => this.setState({
-            blockedDates: dates.join(),
-            rooms_confirmed: true
-        }))
+        Promise.all(this.fetchAll([url])).then(dates => {
+            console.log(dates)
+            this.setState({
+                blockedDates: dates.join(),
+                rooms_confirmed: true
+            })
+        })
     })
 
     updateBedCount = count => count <= 10 ? this.setState(this.resetState({bed_count: count})) : null

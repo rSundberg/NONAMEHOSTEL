@@ -3,6 +3,8 @@ import anime from 'animejs';
 
 import '../shared/css/landingPage.css'
 
+import papaya_house from '../shared/media/papaya_house.jpg'
+
 export default class Logo extends Component {
     handleButtonPress() {
         this.buttonPressTimer = setTimeout(() => this.props.onClick(), 1500);
@@ -13,8 +15,19 @@ export default class Logo extends Component {
     }
 
     render() {
+        const {isMobile, onSectionClick} = this.props
         return (
             <div className={'LandingPage'}>
+                <img
+                    className={'Section__background-image'}
+                    src={papaya_house}
+                    style={{
+                        opacity: 1,
+                        width: isMobile ? '100%' : '65%',
+                        transform: isMobile ? 'translate(-5%, 0%)' : 'translate(25%, 0%)'
+                    }}
+                />
+
                 <h1
                     className={'App__title'}
                     onTouchStart={() => this.handleButtonPress()}
@@ -27,19 +40,19 @@ export default class Logo extends Component {
                 <div className={'LandingPage__alternatives'}>
                     <div
                         className={'LandingPage__alternative'}
-                        onClick={() => this.props.onSectionClick('whatwedo')}>
+                        onClick={() => onSectionClick('whatwedo')}>
                         A day at No Name
                     </div>
 
                     <div
                         className={'LandingPage__alternative'}
-                        onClick={() => this.props.onSectionClick('whywedo')}>
+                        onClick={() => onSectionClick('whywedo')}>
                         Dream of Home Collective
                     </div>
                     
                     <div
                         className={'LandingPage__alternative'}
-                        onClick={() => this.props.onSectionClick('howwedo')}>
+                        onClick={() => onSectionClick('howwedo')}>
                         Manifest the Experience
                     </div>
                 </div>

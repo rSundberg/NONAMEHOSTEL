@@ -32,7 +32,11 @@ module.exports = {
                     }, {
                         loader: 'image-webpack-loader',
                         options: {
-                            bypassOnDebug: true
+                            disable: true,
+                            mozjpeg: {
+                                progressive: true,
+                                quality: 50
+                            },
                         }
                     }
                 ]

@@ -52,6 +52,8 @@ export default class Calendar extends React.Component {
 
                         if (isBefore) return false
 
+                        if (this.props.blockedDays.includes(true)) return true
+
                         return this.props.blockedDays.includes(day.format('YYYY-MM-DD'))
                     }}
                     isOutsideRange={day => !isInclusivelyAfterDay(day, moment(), moment) }

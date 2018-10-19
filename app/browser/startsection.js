@@ -5,14 +5,26 @@ import anime from 'animejs'
 import Section from './section'
 import Loader from './loader'
 
+import cob_building from '../shared/media/cob_building.jpg'
+import happy_volunteer from '../shared/media/happy_volunteer.jpg'
+import balcony_chill from '../shared/media/balcony_chill.jpg'
+import palm_trees from '../shared/media/palm_trees.jpg'
+import crazy_cheesecake from '../shared/media/crazy_cheesecake.jpg'
+
 const NoName = Loadable({
     loader: () => import(/* webpackChunkName: 'nonamehostel' */ './noname'),
     loading: defaultProps => <Loader {...defaultProps}/>
 })
 
+const Membership = Loadable({
+    loader: () => import(/* webpackChunkName: 'membership' */ './membership'),
+    loading: defaultProps => <Loader {...defaultProps}/>
+})
+
 export default class StartSection extends Component {
     state = {
-        noNameToggled: false
+        noNameToggled: false,
+        membershipToggled: false
     }
 
     componentDidMount() {
@@ -59,6 +71,8 @@ export default class StartSection extends Component {
     }
 
     render() {
+        const {isMobile, container} = this.props
+
         return (
             <Fragment>
                 <Section reference={this.whatRef}>
@@ -123,7 +137,17 @@ export default class StartSection extends Component {
                     </div>
                 </Section>
 
-                <Section>
+                <Section
+                    scrollElement={isMobile ? window : container}
+                    backgroundImage={cob_building}
+                    backgroundStyle={{
+                        width: isMobile ? '95%' : '58%',
+                        transform: {
+                            x: '10%',
+                            y: '0%'
+                        }
+                    }}
+                >
                     <h2
                         className={'Section__title'}
                         style={{
@@ -159,65 +183,6 @@ export default class StartSection extends Component {
                         Woodfire oven, community kitchen,
                         water cloning station,
                         rocketstoves and bambooroofs.
-                    </div>
-                </Section>
-
-                <Section>
-                    <h2
-                        className={'Section__title'}
-                        style={{
-                            transform: 'translateX(-2vw)'
-                        }}
-                    >
-                        Waste Management
-                    </h2>
-
-                    <div
-                        className={'Section__box'}
-                        style={{
-                            width: '50%',
-                            transform: 'translateX(-7vw)'
-                        }}
-                    >
-                        We belive in responsible living and a conscious
-                        waste cycle. All waste is collected, sorted and
-                        disposed accordingly.
-                    </div>
-
-                    <div
-                        className={'Section__box'}
-                        style={{
-                            width: '60%',
-                            transform: 'translateX(5vw)'
-                        }}
-                    >
-                        <strong>Solutions:</strong>
-
-                        <br></br>
-
-                        Composting, High temperature combustion,
-                        recycle and reuse.
-                    </div>
-                </Section>
-
-                <Section>
-                    <h2
-                        className={'Section__title'}
-                    >
-                        Degradeable Soaps
-                    </h2>
-
-                    <div
-                        className={'Section__box'}
-                        style={{
-                            width: '55%',
-                            transform: 'translateX(-3vw)'
-                        }}
-                    >
-                        Most of the water from showers and washing areas
-                        have a passive water cycle to water the garden.
-                        To sustain this cycle we make soaps and cleaning
-                        materials at home using natural ingredients.
                     </div>
                 </Section>
 
@@ -265,7 +230,17 @@ export default class StartSection extends Component {
                     </div>
                 </Section>
 
-                <Section>
+                <Section
+                    scrollElement={isMobile ? window : container}
+                    backgroundImage={crazy_cheesecake}
+                    backgroundStyle={{
+                        width: isMobile ? '115%' : '75%',
+                        transform: {
+                            x: '-12%',
+                            y: '-5%'
+                        }
+                    }}
+                >
                     <h2
                         className={'Section__title'}
                         style={{
@@ -319,7 +294,56 @@ export default class StartSection extends Component {
                     </div>
                 </Section>
 
-                <Section reference={this.whyRef}>
+                <Section>
+                    <h2
+                        className={'Section__title'}
+                        style={{
+                            transform: 'translateX(-2vw)'
+                        }}
+                    >
+                        Waste Management
+                    </h2>
+
+                    <div
+                        className={'Section__box'}
+                        style={{
+                            width: '50%',
+                            transform: 'translateX(-7vw)'
+                        }}
+                    >
+                        We belive in responsible living and a conscious
+                        waste cycle. All waste is collected, sorted and
+                        disposed accordingly.
+                    </div>
+
+                    <div
+                        className={'Section__box'}
+                        style={{
+                            width: '60%',
+                            transform: 'translateX(5vw)'
+                        }}
+                    >
+                        <strong>Solutions:</strong>
+
+                        <br></br>
+
+                        Composting, High temperature combustion,
+                        recycle and reuse.
+                    </div>
+                </Section>
+
+                <Section
+                    reference={this.whyRef}
+                    scrollElement={isMobile ? window : container}
+                    backgroundImage={palm_trees}
+                    backgroundStyle={{
+                        width: isMobile ? '110%' : '65%',
+                        transform: {
+                            x: '10%',
+                            y: '0%'
+                        }
+                    }}
+                >
                     <div className={'Section__divider'}>
                         <span>Dream of</span>
                         <h2
@@ -334,129 +358,59 @@ export default class StartSection extends Component {
                 </Section>
 
                 <Section>
-                    <h2
-                        className={'Section__title'}
-                        style={{
-                            transform: 'translateX(-6vw)'
-                        }}
-                    >
-                        Membership
-                    </h2>
-
                     <div
                         className={'Section__box'}
                         style={{
-                            width: '60%',
-                            transform: 'translateX(4vw)'
+                            width: '80%',
+                            transform: 'translateX(5vw)'
                         }}
                     >
-                        Home collective membership is an invitation to get
-                        involved with the project on a longer term. It requires
-                        each member to be a contributor in the funding
-                        of the project present and future.
-                    </div>
-
-                    <div
-                        className={'Section__box'}
-                        style={{
-                            width: '75%',
-                            transform: 'translateX(1vw)'
-                        }}
-                    >
-                        <strong>Get involved:</strong>
-
-                        <br></br>
-
-                        With your contribution we will continue
-                        to develop our network and experience.
-                        The requested minimum amount is 12€ (1000 india rupees).
-
-                        <br></br>
-
-                        <a className={'Section__link'}>
-                            No name go fund me page
-                        </a>
-                    </div>
-                </Section>
-
-                <Section>
-                    <h2
-                        className={'Section__title'}
-                        style={{
-                            transform: 'translateX(4vw)'
-                        }}
-                    >
-                        Network
-                    </h2>
-
-                    <div
-                        className={'Section__box'}
-                        style={{
-                            width: '55%',
-                            transform: 'translateX(7vw)'
-                        }}
-                    >
-                        The project originated within an international
-                        group of friends linked by a common passion for travelling.
+                        Home Collective is the dream of a larger picture that
+                        unites the hosts, our guests and the No Name experience
+                        that we create together.
                     </div>
 
                     <div
                         className={'Section__box'}
                         style={{
                             width: '60%',
-                            transform: 'translateX(3vw)'
+                            transform: 'translateX(-10vw)'
                         }}
                     >
-                        The aim is to connect people, experiencing
-                        and creating social sustainable lifestyles.
+                        We imagine it as a network of communities
+                        and travelers aiming for social impact & sustainable living.
+                        It wants to be the invitation that encourages involvement and sharing
+                        principles within the collective. Together we are limitless.
                     </div>
 
-                    <div
-                        className={'Section__box'}
-                        style={{
-                            width: '45%',
-                            transform: 'translateX(-4vw)'
-                        }}
-                    >
-                        We want this to be accessible to people
-                        that contributes, no matter where you are.
-                    </div>
-                </Section>
+                    <div className={'Section__box'}>
 
-                <Section>
-                    <h2
-                        className={'Section__title'}
-                        style={{
-                            transform: 'translateX(-4vw)'
-                        }}
-                    >
-                        Tools
-                    </h2>
+                        <div
+                            className={'Section__link'}
+                            onClick={() => this.setState(({ membershipToggled }) => ({ membershipToggled: !membershipToggled }))}
+                        >
+                            <strong>Membership details</strong>
+                        </div>
 
-                    <div
-                        className={'Section__box'}
-                        style={{
-                            width: '55%',
-                            transform: 'translateX(-2vw)'
-                        }}
-                    >
-                        We are designing and creating a space for
-                        seamless sharing.
-                    </div>
-
-                    <div
-                        className={'Section__box'}
-                        style={{
-                            width: '35%',
-                            transform: 'translateX(4vw)'
-                        }}
-                    >
-                        A space on the web to help you interact with
-                        the collective.
+                        {this.state.membershipToggled
+                            ? <Membership />
+                            : null
+                        }
                     </div>
                 </Section>
 
-                <Section reference={this.howRef}>
+                <Section
+                    reference={this.howRef}
+                    scrollElement={isMobile ? window : container}
+                    backgroundImage={balcony_chill}
+                    backgroundStyle={{
+                        width: isMobile ? '90%' : '67%',
+                        transform: {
+                            x: '0%',
+                            y: '0%'
+                        }
+                    }}
+                >
                     <div className={'Section__divider'}>
                         <span>Manifest the</span>
                         <h2
@@ -523,10 +477,21 @@ export default class StartSection extends Component {
                             ? <NoName />
                             : null
                         }
-                    </div>                    
+                    </div>
                 </Section>
 
-                <Section reference={this.volunteerRef}>
+                <Section
+                    reference={this.volunteerRef}
+                    scrollElement={isMobile ? window : container}
+                    backgroundImage={happy_volunteer}
+                    backgroundStyle={{
+                        width: isMobile ? '95%' : '75%',
+                        transform: {
+                            x: '-6%',
+                            y: '-4%'
+                        }
+                    }}
+                >
                     <h2
                         className={'Section__title'}
                         style={{

@@ -60,23 +60,26 @@ exports.blockedDates = functions.https.onRequest((req, res) => cors(req, res, ()
             }
         })
         .then(({limit}) => limit)
-        .catch(err => res.json({error: err}))
+        .catch(err => res.json(err))
 
     bedBookings(location, bed_type)
-        .where('start_date', '>=', moment().format('YYYY-MM-DD'))
-        .where('status', '==', 'booked')
-        .where('status', '==', 'confirmed')
+        .where('end_date', '>=', moment().format('YYYY-MM-DD'))
         .get()
         .then(doc => {
             if (!doc.empty) {
-                return doc.docs.map(doc => doc.data())
+                return doc.docs
+                    .map(doc => doc.data())
+                    .filter(({status}) => status !== 'canceled')
             } else {
-                throw new Error('No bookings found')
+                return []
             }
         })
         .then(data => {
-            return limit
-                .then(limit => {
+            return limit.then(limit => {
+                if (limit < requestedAmount) {
+                    // to big
+                    return res.json(true)
+                } else {
                     let bookingsPerDate = data.reduce((obj, { start_date, end_date, bed_count, room_count }) => {
                         let dateArr = getDateRange(moment(start_date), moment(end_date), 'YYYY-MM-DD')
                         let amountPerDay = dateArr.reduce((dateObj, date) => {
@@ -96,14 +99,14 @@ exports.blockedDates = functions.https.onRequest((req, res) => cors(req, res, ()
                         return Object.assign(obj, amountPerDay)
                     }, {})
 
-                    const blockedDates = Object
-                        .keys(bookingsPerDate)
+                    let blockedDates = Object.keys(bookingsPerDate)
                         .filter(key => bookingsPerDate[key] >= limit - requestedAmount)
 
                     return res.json(blockedDates)
-                })
+                }
+            })
         })
-        .catch(err => res.json({error: err}))
+        .catch(err => res.json(err))
 }))
 
 exports.addBooking = functions.https.onRequest((req, res) => cors(req, res, () => {

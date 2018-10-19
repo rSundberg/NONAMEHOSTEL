@@ -38,6 +38,8 @@ export default class NoName extends Component {
                 </div>
 
                 <div className={'NoName__icon-box'}>
+                    <DormIcon style={{ strokeWidth: '10px' }}/>
+
                     <div className={'NoName__icon-text'}>
                         <h2 className={'NoName__icon-title'}>Dorm beds</h2>
 
@@ -45,8 +47,6 @@ export default class NoName extends Component {
                             Single bed with beddings in a shared room.
                         </p>
                     </div>
-
-                    <DormIcon style={{ strokeWidth: '10px' }}/>
                 </div>
 
                 <div className={'NoName__icon-box'}>
@@ -63,6 +63,8 @@ export default class NoName extends Component {
                 </div>
 
                 <div className={'NoName__icon-box'}>
+                    <CommunityKitchenIcon />
+
                     <div className={'NoName__icon-text'}>
                         <h2 className={'NoName__icon-title'}>Community meals</h2>
 
@@ -70,8 +72,6 @@ export default class NoName extends Component {
                             In house kitchen offers two vegetarian meals on donation.
                         </p>
                     </div>
-
-                    <CommunityKitchenIcon />
                 </div>
 
                 <div className={'NoName__icon-box'}>
@@ -87,6 +87,8 @@ export default class NoName extends Component {
                 </div>
 
                 <div className={'NoName__icon-box'}>
+                    <CampfestIcon />
+
                     <div className={'NoName__icon-text'}>
                         <h2 className={'NoName__icon-title'}>Campfest</h2>
 
@@ -94,8 +96,6 @@ export default class NoName extends Component {
                             Monthly celebration with art, music and workshops.
                         </p>
                     </div>
-
-                    <CampfestIcon />
                 </div>
 
                 <div className={'NoName__icon-box'}>
@@ -111,6 +111,8 @@ export default class NoName extends Component {
                 </div>
 
                 <div className={'NoName__icon-box'}>
+                    <ArambolIcon />
+
                     <div className={'NoName__icon-text'}>
                         <h2 className={'NoName__icon-title'}>Arambol beach</h2>
 
@@ -119,8 +121,6 @@ export default class NoName extends Component {
                             reachable by motorbike.
                         </p>
                     </div>
-
-                    <ArambolIcon />
                 </div>
 
                 <div className={'NoName__icon-box'}>
@@ -136,6 +136,8 @@ export default class NoName extends Component {
                 </div>
 
                 <div className={'NoName__icon-box'}>
+                    <ToiletIcon />
+
                     <div className={'NoName__icon-text'}>
                         <h2 className={'NoName__icon-title'}>Passive toilets</h2>
 
@@ -143,8 +145,6 @@ export default class NoName extends Component {
                             Dry compost toilets for the campsite.
                         </p>
                     </div>
-
-                    <ToiletIcon />
                 </div>
 
                 <div className={'NoName__icon-box'}>
@@ -161,6 +161,8 @@ export default class NoName extends Component {
                 </div>
 
                 <div className={'NoName__icon-box'}>
+                    <WifiIcon />
+
                     <div className={'NoName__icon-text'}>
                         <h2 className={'NoName__icon-title'}>Wifi</h2>
 
@@ -168,8 +170,6 @@ export default class NoName extends Component {
                             High speed internet to stay connected with family and friends.
                         </p>
                     </div>
-
-                    <WifiIcon />
                 </div>
 
                 <div className={'NoName__icon-box'}>
@@ -186,6 +186,8 @@ export default class NoName extends Component {
                 </div>
 
                 <div className={'NoName__icon-box'}>
+                    <DigitalLabIcon />
+
                     <div className={'NoName__icon-text'}>
                         <h2 className={'NoName__icon-title'}>Digital lab</h2>
 
@@ -193,8 +195,6 @@ export default class NoName extends Component {
                             Membership based facility with production equipment.
                         </p>
                     </div>
-
-                    <DigitalLabIcon />
                 </div>
             </div>
         )

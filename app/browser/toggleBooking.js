@@ -1,8 +1,6 @@
 import React, { Component } from 'react'
 import anime from 'animejs'
 
-import ToggleIcon from '../shared/media/toggleBooking.svg'
-
 export default class ToggleBooking extends Component {
     state = {
         animationDirection: 'out',
@@ -31,11 +29,11 @@ export default class ToggleBooking extends Component {
             this.getAnimation().play()
         }
 
-        window.onscroll = this.onWindowScroll
+        window.addEventListener('scroll', this.onWindowScroll)
     }
 
     componentWillUnmount() {
-        window.onscroll = null
+        window.removeEventListener('scroll', this.onWindowScroll)
     }
 
     onWindowScroll = e => {
@@ -60,7 +58,7 @@ export default class ToggleBooking extends Component {
         if (this.state.animationDirection === 'in') {
             return anime({
                 targets: this.toggleBookingContainer.current,
-                translateX: ['55vw', '0vw'],
+                translateY: ['-6vh', '0vw'],
                 duration: 650,
                 easing: 'easeOutQuart',
                 autoplay: false
@@ -68,7 +66,7 @@ export default class ToggleBooking extends Component {
         } else {
             return anime({
                 targets: this.toggleBookingContainer.current,
-                translateX: ['0vw', '55vw'],
+                translateY: ['0vw', '-6vh'],
                 duration: 650,
                 easing: 'easeInQuart',
                 autoplay: false
@@ -114,11 +112,7 @@ export default class ToggleBooking extends Component {
     render() {
         return (
             <div className={'App__toggleBooking'} onClick={() => this.toggleBooking()} ref={this.toggleBookingContainer}>
-                <ToggleIcon />
-
-                <p>
-                    Book here
-                </p>
+                Book your stay
             </div>
         )
     }

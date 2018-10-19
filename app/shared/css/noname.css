@@ -1,14 +1,13 @@
 .NoName {
     width: 100%;
-    display: flex;
-    flex-flow: column nowrap;
-    align-items: center;
+    display: grid;
+    grid-gap: 10vw;
+    margin-top: 5vw;
 
     &__title {
         text-align: center;
         font-size: var(--font-big);
         font-weight: normal;
-        margin-top: 10px;
     }
 
     &__img {
@@ -20,9 +19,9 @@
         &-box {
             width: 100%;
             display: flex;
+            flex-flow: column nowrap;
             justify-content: space-between;
             align-items: center;
-            margin-top: 10vh;
 
             & svg {
                 stroke: black;
@@ -32,12 +31,14 @@
 
         &-text {
             width: 175px;
+            padding: 5vw 0;
         }
 
         &-title {
             margin-bottom: 10px;
             text-align: center;
-            font-size: var(--font-reallyBig);
+            font-size: 28px;
+            line-height: 30px;
         }
 
         &-description {
@@ -45,5 +46,23 @@
             font-weight: normal;
             text-align: center;
         }
+    }
+}
+
+@media only screen 
+and (min-device-width : 1280px) {
+    .NoName {
+        grid: 70px 1fr / 1fr 1fr 1fr;
+        align-items: center;
+        grid-gap: 3vw;
+        margin-top: 2vw;
+
+        &__icon-text {
+            padding: 2vw 0;
+        }
+
+        &__title {
+            grid-column: 1 / 4;
+        }        
     }
 }

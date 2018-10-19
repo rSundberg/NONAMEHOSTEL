@@ -253,7 +253,7 @@ export default class Volunteer extends Component {
 
                     <p className={'Volunteer__heading'}>Applications close on 20th of the previous month.</p>
 
-                    <div className={'Volunteer__box'}>
+                    <div className={'Volunteer__divider'}>
                         <h3 className={'Volunteer__title'}>Goa, Season 3 Season Run October – November – December 2018</h3>
 
                         <div className={'Volunteer__link'}>Application form</div>

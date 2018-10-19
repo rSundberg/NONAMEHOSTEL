@@ -130,12 +130,18 @@ export default class Home extends Component {
                         </div>
 
                         <div className={'Scrollable'} ref={this.showContainer}>
-                            <LandingPage onClick={this.toggleDashboard} onSectionClick={this.setActiveSection} />
+                            <LandingPage
+                                onClick={this.toggleDashboard}
+                                onSectionClick={this.setActiveSection}
+                                isMobile={isMobile}
+                            />
 
                             <StartSection
                                 activeSection={activeSection}
                                 scrollTarget={isMobile ? 'html, body' : this.showContainer.current }
                                 toggleVolunteer={this.toggleVolunteer}
+                                isMobile={isMobile}
+                                container={this.showContainer.current}
                             />
                         </div>
                     </Fragment>

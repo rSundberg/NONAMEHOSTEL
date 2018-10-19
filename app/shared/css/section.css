@@ -6,6 +6,7 @@
     width: 100%;
     box-sizing: border-box;
     padding: 10vh 5vw;
+    position: relative;
 
     &__title {
         padding: 5vw;
@@ -13,15 +14,24 @@
         font-size: var(--font-reallyBig);
         margin-bottom: 5vh;
         border-radius: 3px;
+        background-color: rgba(255, 255, 255, 0.6);
+        z-index: 2;
     }
 
     &__heading {
         font-size: var(--font-reallyBig);
-        margin-bottom: 5vh;
     }
 
     &__divider {
-        margin: 20vh 0;
+        margin: 25vh 0;
+        z-index: 2;
+        padding: 5vw;
+        display: flex;
+        flex-flow: column;
+        align-content: center;
+        border-radius: 3px;
+        background-color: rgba(255, 255, 255, 0.6);
+        font-size: var(--font-big);
     }
 
     &__box {
@@ -30,6 +40,10 @@
         margin-bottom: 5vh;
         line-height: 20px;
         border-radius: 3px;
+        background-color: rgba(255, 255, 255, 0.6);
+        z-index: 2;
+        font-size: var(--font-big);
+        line-height: 3.5vh;
 
         &:last-of-type {
             margin-bottom: 0;
@@ -40,20 +54,33 @@
         text-decoration: underline;
         text-align: center;
         cursor: pointer;
+        font-size: var(--font-big);
+    }
+
+    &__background-wrapper {
+        width: 100%;
+        position: absolute;
+    }
+
+    &__background-image {
+        position: absolute;
+        width: 100%;
+        opacity: 0;
     }
 }
 
-@media
-only screen and (-webkit-min-device-pixel-ratio: 2)      and (min-width: 1300px),
-only screen and (   min--moz-device-pixel-ratio: 2)      and (min-width: 1300px),
-only screen and (     -o-min-device-pixel-ratio: 2/1)    and (min-width: 1300px),
-only screen and (        min-device-pixel-ratio: 2)      and (min-width: 1300px),
-only screen and (                min-resolution: 192dpi) and (min-width: 1300px),
-only screen and (                min-resolution: 2dppx)  and (min-width: 1300px) {
+@media only screen 
+and (min-device-width : 1280px) {
     .Section {
+        padding: 15vw 5vw;
+
         &__box,
         &__title {
             padding: 5vh;
+        }
+
+        &__divider {
+            margin: 10vh 0;
         }
     }
 }

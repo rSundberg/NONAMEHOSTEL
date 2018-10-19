@@ -1,29 +1,54 @@
 .LandingPage {
     display: flex;
     flex-flow: column;
-    align-items: center;
+    align-items: flex-start;
     justify-content: center;
     height: 100vh;
     position: relative;
+    padding: 5vw;
 
     & h1 {
         user-select: none;
         cursor: pointer;
+        z-index: 2;
+        padding: 5vw;
+        background-color: white;
+        border-radius: 3px;
     }
 
     &__alternatives {
         display: flex;
         flex-flow: column;
-        align-items: center;
-        margin-top: 4vh;
+        align-items: flex-end;
+        align-self: flex-end;
+        margin-top: 40vw;
+        z-index: 2;
     }
 
     &__alternative {
         padding: 4vh;
+        text-align: center;
         box-shadow: var(--box-shadow);
+        background-color: rgba(255, 255, 255, 1);
         font-size: var(--font-big);
         margin-bottom: 5vh;
         cursor: pointer;
         border-radius: 3px;
+    }
+}
+
+@media only screen 
+and (min-device-width : 1280px) {
+    .LandingPage {
+        padding: 0;
+
+        & h1 {
+            padding: 4vh;
+        }
+
+        &__alternatives {
+            margin-top: 10vw;
+            padding: 0 5vw;
+        }
     }
 }

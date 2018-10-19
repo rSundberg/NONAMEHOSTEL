@@ -27,6 +27,7 @@
         display: flex;
         justify-content: center;
         padding: 5vw;
+        cursor: pointer;
     }
 
     &__heading {
@@ -78,16 +79,12 @@
         text-align: center;
         padding: 5vw;
         font-weight: bold;
+        cursor: pointer;
     }
 }
 
-@media
-only screen and (-webkit-min-device-pixel-ratio: 2)      and (min-width: 1300px),
-only screen and (   min--moz-device-pixel-ratio: 2)      and (min-width: 1300px),
-only screen and (     -o-min-device-pixel-ratio: 2/1)    and (min-width: 1300px),
-only screen and (        min-device-pixel-ratio: 2)      and (min-width: 1300px),
-only screen and (                min-resolution: 192dpi) and (min-width: 1300px),
-only screen and (                min-resolution: 2dppx)  and (min-width: 1300px) {
+@media only screen 
+and (min-device-width : 1280px) {
     .Volunteer {
         padding: 5vw;
 
@@ -104,12 +101,22 @@ only screen and (                min-resolution: 2dppx)  and (min-width: 1300px)
             padding: 3vw;
         }
 
+        &__divider {
+            padding: 3vw;
+            width: 35vw;
+            margin: 5vw 0;    
+        }
+
         &__text {
             margin-bottom: 1vw;
         }
 
         &__heading {
             margin-bottom: 1vw;
+        }
+
+        &__link {
+            padding: 3vw;
         }
     }
 }
