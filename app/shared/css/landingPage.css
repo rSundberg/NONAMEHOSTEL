@@ -28,7 +28,6 @@
     &__alternative {
         padding: 4vh;
         text-align: center;
-        box-shadow: var(--box-shadow);
         background-color: rgba(255, 255, 255, 1);
         font-size: var(--font-big);
         margin-bottom: 5vh;

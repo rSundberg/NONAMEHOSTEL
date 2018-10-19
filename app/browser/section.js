@@ -27,8 +27,8 @@ export default class Section extends Component {
     onScroll = () => {
         let element = this.backgroundRef.current.getBoundingClientRect();
         let {width, transform} = this.props.backgroundStyle
-        let offset = element.top - element.height
-
+        let offset = element.top - element.height - 200
+        console.log(element.offsetHeight)
         function getRandomInt(min, max) {
             min = Math.ceil(min);
             max = Math.floor(max);
@@ -40,12 +40,12 @@ export default class Section extends Component {
                 anime({
                     targets: this.backgroundRef.current,
                     width: [width, width],
-                    scale: [1.3, 1],
+                    scale: [1.1, 1],
                     opacity: [{value: 0, duration: 0}, {value: 1, duration: 1000}],
-                    translateX: [getRandomInt(-10, 10), transform.x],
-                    translateY: [getRandomInt(10, 0), transform.y],
+                    translateX: [getRandomInt(-5, 5), transform.x],
+                    translateY: [getRandomInt(5, 0), transform.y],
                     easing: 'easeOutQuart',
-                    duration: 3000
+                    duration: 2500
                 })
                 .finished
                 .then(() => this.props.scrollElement.removeEventListener('scroll', this.onScroll))

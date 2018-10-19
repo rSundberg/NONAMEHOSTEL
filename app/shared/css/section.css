@@ -14,7 +14,7 @@
         font-size: var(--font-reallyBig);
         margin-bottom: 5vh;
         border-radius: 3px;
-        background-color: rgba(255, 255, 255, 0.6);
+        background-color: rgba(255, 255, 255, 0.7);
         z-index: 2;
     }
 
@@ -30,7 +30,7 @@
         flex-flow: column;
         align-content: center;
         border-radius: 3px;
-        background-color: rgba(255, 255, 255, 0.6);
+        background-color: rgba(255, 255, 255, 0.7);
         font-size: var(--font-big);
     }
 
@@ -40,7 +40,7 @@
         margin-bottom: 5vh;
         line-height: 20px;
         border-radius: 3px;
-        background-color: rgba(255, 255, 255, 0.6);
+        background-color: rgba(255, 255, 255, 0.7);
         z-index: 2;
         font-size: var(--font-big);
         line-height: 3.5vh;

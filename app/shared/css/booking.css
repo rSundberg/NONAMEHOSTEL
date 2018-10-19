@@ -41,6 +41,8 @@
         text-transform: capitalize;
         color: white;
         font-weight: bold;
+        box-shadow: var(--box-shadow);
+        border-radius: 3px;
 
         & div:last-of-type {
             font-size: var(--font-reallyBig);
@@ -75,6 +77,7 @@
         & div {
             font-size: var(--font-small);
             margin-bottom: 12px;
+            word-break: break-word;
 
             &:last-of-type {
                 margin-bottom: 0;
