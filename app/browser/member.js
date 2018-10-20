@@ -5,7 +5,7 @@ import PictureInput from './pictureinput'
 
 import '../shared/css/member.css'
 
-import Upload from '../shared/media/upload_profile_picture.svg'
+import AddMember from '../shared/media/add_member.svg'
 import Settings from '../shared/media/settings.svg'
 
 export default class Member extends Component {
@@ -13,6 +13,7 @@ export default class Member extends Component {
         uploadedImgUrl: null,
         uploadedDocData: null,
         settingToggled: false,
+        infoToggled: false,
         loading: false
     }
 
@@ -40,7 +41,9 @@ export default class Member extends Component {
             .catch(err => console.log(err))
     }
 
-    toggleSettings = () => this.setState({settingToggled: !this.state.settingToggled})
+    toggleSettings = () => this.setState({settingToggled: !this.state.settingToggled, infoToggled: false})
+
+    toggleInfo = () => this.setState({infoToggled: !this.state.infoToggled, settingToggled: false})
 
     updateDetails = (detailObj = {}) => {
         const memberRef = this.props.firestore.doc(this.props.doc.ref.path)
@@ -61,7 +64,7 @@ export default class Member extends Component {
 
     render() {
         const {name, email, phone, country, created, imageUrl, birthdate, address} = this.getDocData()
-        const {uploadedImgUrl, settingToggled, loading} = this.state
+        const {uploadedImgUrl, settingToggled, infoToggled, loading} = this.state
 
         return (
             <div className={'Member'}>
@@ -71,7 +74,19 @@ export default class Member extends Component {
                     loading={loading === true}
                 />
 
-                {!settingToggled
+                <div className={'Member__icons'}>
+                    <AddMember
+                        className={`Member__icon ${infoToggled ? 'Member__icon--active' : ''}`}
+                        onClick={() => this.toggleInfo()}
+                    />
+
+                    <Settings
+                        className={`Member__icon ${settingToggled ? 'Member__icon--active' : ''}`}
+                        onClick={() => this.toggleSettings()}
+                    />
+                </div>
+
+                {infoToggled
                     ? <div className={'Member__info-wrapper'}>
                         <div className={'Member__info'}>
                             {name}
@@ -101,7 +116,11 @@ export default class Member extends Component {
                             {this.props.moment(created).format('DD MMM YYYY')}
                         </div>
                     </div>
-                    : <CompleteDetails
+                    : null
+                }
+
+                {settingToggled
+                    ? <CompleteDetails
                         name={name}
                         email={email}
                         phone={phone}
@@ -111,13 +130,8 @@ export default class Member extends Component {
                         confirm={this.updateDetails}
                         loading={loading === true}
                     />
+                    : null
                 }
-
-
-                <Settings
-                    className={'Member__settings'}
-                    onClick={() => this.toggleSettings()}
-                />
             </div>
         );
     }

@@ -1,4 +1,7 @@
 .ActivityDetails {
+    display: grid;
+    grid-gap: 3vw;
+    grid: 1fr 1fr 1fr 60px / 1fr;
 
     &__aligner {
         display: flex;
@@ -8,7 +11,7 @@
     &__time {
         display: grid;
         padding-top: 12px;
-        grid-gap: 6px;
+        grid-gap: 24px;
     }
 
     &__time-item {
@@ -76,14 +79,16 @@
 @media only screen 
 and (min-device-width : 1280px) {
     .ActivityDetails {
+        display: grid;
+        grid: 1fr / 1fr 1fr 1fr 60px;
+
         &__time {
-            grid: 1fr / 1fr 1fr 1fr 1fr;
+            padding-top: 0;
             align-items: center;
-            padding-top: 5vh;
         }
 
         &__info {
-            padding-top: 5vh;
+            padding-top: 0;
         }
 
         &__aligner {

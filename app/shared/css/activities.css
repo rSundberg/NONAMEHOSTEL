@@ -75,6 +75,7 @@ only screen and (                min-resolution: 2dppx)  and (min-width: 1024px)
         &__aligner {
             grid: 1fr / 1fr 1fr 1fr;
             grid-gap: 2vw;
+            align-items: flex-start;
         }
     }
 }
@@ -85,6 +86,7 @@ and (min-device-width : 1280px) {
         &__aligner {
             grid: 1fr / 1fr 1fr 1fr 1fr;
             grid-gap: 1vw;
+            align-items: flex-start;
         }
     }
 }

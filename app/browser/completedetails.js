@@ -31,53 +31,55 @@ export default class CompleteDetails extends Component {
 
         return (
             <div className={'CompleteDetails'}>
-                <input
-                    className={'CompleteDetails__input'}
-                    defaultValue={name}
-                    ref={this.name}
-                    type={'text'}
-                    placeholder={'Name'}
-                />
+                <div className={'CompleteDetails__inputs'}>
+                    <input
+                        className={'CompleteDetails__input'}
+                        defaultValue={name}
+                        ref={this.name}
+                        type={'text'}
+                        placeholder={'Name'}
+                    />
 
-                <input
-                    className={'CompleteDetails__input'}
-                    defaultValue={email}
-                    ref={this.email}
-                    type={'email'}
-                    placeholder={'Email'}
-                />
+                    <input
+                        className={'CompleteDetails__input'}
+                        defaultValue={email}
+                        ref={this.email}
+                        type={'email'}
+                        placeholder={'Email'}
+                    />
 
-                <input
-                    className={'CompleteDetails__input'}
-                    defaultValue={phone}
-                    ref={this.phone}
-                    type={'tel'}
-                    placeholder={'Phone / Whatsapp'}
-                />
+                    <input
+                        className={'CompleteDetails__input'}
+                        defaultValue={phone}
+                        ref={this.phone}
+                        type={'tel'}
+                        placeholder={'Phone / Whatsapp'}
+                    />
 
-                <input
-                    className={'CompleteDetails__input'}
-                    defaultValue={country}
-                    ref={this.country}
-                    type={'text'}
-                    placeholder={'Country'}
-                />
+                    <input
+                        className={'CompleteDetails__input'}
+                        defaultValue={country}
+                        ref={this.country}
+                        type={'text'}
+                        placeholder={'Country'}
+                    />
 
-                <input
-                    className={'CompleteDetails__input'}
-                    defaultValue={birthdate}
-                    ref={this.birthdate}
-                    type={'date'}
-                    placeholder={'Birthdate'}
-                />
+                    <input
+                        className={'CompleteDetails__input'}
+                        defaultValue={birthdate}
+                        ref={this.birthdate}
+                        type={'date'}
+                        placeholder={'Birthdate'}
+                    />
 
-                <input
-                    className={'CompleteDetails__input'}
-                    defaultValue={address}
-                    ref={this.address}
-                    type={'text'}
-                    placeholder={'Address'}
-                />
+                    <input
+                        className={'CompleteDetails__input'}
+                        defaultValue={address}
+                        ref={this.address}
+                        type={'text'}
+                        placeholder={'Address'}
+                    />
+                </div>
 
                 <div
                     className={`App__confirm ${loading ? 'App__loading' : ''}`}

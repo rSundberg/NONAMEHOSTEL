@@ -115,8 +115,8 @@ input {
     }
 
     &__confirm {
-        height: 50px;
-        width: 150px;
+        height: 100%;
+        width: 100%;
         border-radius: 3px;
         background-color: var(--active-item);
         display: flex;

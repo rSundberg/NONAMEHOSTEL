@@ -40,6 +40,7 @@
             box-sizing: border-box;
             padding: 5vw;
             display: grid;
+            align-items: flex-start;
             grid-gap: 5vw;
         }
     }

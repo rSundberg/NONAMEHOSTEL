@@ -14,13 +14,33 @@
         box-sizing: border-box;
         padding: 5vw;
         border-radius: 3px;
-        margin-top: 12px;
+    }
+
+    &__item-info-wrapper {
+        display: grid;
+        grid-gap: 5vw;
+    }
+
+    &__item-inputs {
+        display: grid;
+        grid: 1fr 1fr / 1fr 1fr;
+        grid-gap: 5vw;
+
+        & input {
+            text-align: center;
+        }
+    }
+
+    &__action-wrapper {
+        display: grid;
+        grid: 50px / 1fr 1fr;
+        align-items: center;
     }
 
     &__list {
         display: grid;
-        grid: 50px auto / 1fr;
-        grid-gap: 2vw;
+        grid-gap: 5vw;
+        padding: 5vw 0;
     }
 
     &__list-category {
@@ -35,7 +55,6 @@
         grid-gap: 12px;
         justify-items: center;
         align-items: center;
-        padding: 2vw;
         font-size: var(--font-small);
 
         & span {
@@ -53,13 +72,20 @@
         display: grid;
         grid: 1fr / 4fr 1fr;
         align-items: center;
+        padding: 2vw 0;
+    }
+
+    &__categories {
+        display: grid;
+        grid-gap: 5vw;
     }
 
     &__category-box {
         display: grid;
-        grid-gap: 2vw;
+        grid-gap: 5vw;
         padding: 5vw;
         box-shadow: var(--box-shadow);
+        border-radius: 3px;
 
         & h2 {
             margin-top: 0;
@@ -90,12 +116,28 @@
 @media only screen 
 and (min-device-width : 1280px) {
     .Requisitions {
-        &__list {
-            grid-gap: 1vw;
+        &__item-info-wrapper {
+            grid-gap: 2vw;
         }
 
-        &__list-item {
-            padding: 1vw;
+        &__item-inputs {
+            grid: 1fr / 1fr 1fr 1fr 1fr;
+            grid-gap: 2vw;
+        }
+
+        &__list {
+            grid-gap: 2vw;
+            padding: 2vw 0;
+        }
+
+        &__categories {
+            grid: 1fr / 1fr 1fr;
+            align-items: flex-start;
+            grid-gap: 2vw;
+        }
+
+        &__error-box {
+            padding: 2vw;
         }
     }
 }

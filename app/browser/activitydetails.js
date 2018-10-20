@@ -119,13 +119,13 @@ export default class ActivityDetails extends Component {
                         ref={this.description}
                         placeholder={'Info'}
                     />
+                </div>
 
-                    <div
-                        className={`App__confirm ${this.props.loading ? 'App__loading' : ''}`}
-                        onClick={() => !this.props.loading ? this.props.onConfirmClick(this.dataObj()) : null}
-                    >
-                        <CheckIcon className={'ActivityDetails__icon'} />
-                    </div>
+                <div
+                    className={`App__confirm ${this.props.loading ? 'App__loading' : ''}`}
+                    onClick={() => !this.props.loading ? this.props.onConfirmClick(this.dataObj()) : null}
+                >
+                    <CheckIcon className={'ActivityDetails__icon'} />
                 </div>
             </div>
         )

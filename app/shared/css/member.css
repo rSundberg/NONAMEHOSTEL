@@ -2,10 +2,15 @@
     width: 100%;
     box-shadow: var(--box-shadow);
     display: grid;
+    grid: 1fr 60px / 1fr;
     grid-gap: 2vw;
     box-sizing: border-box;
     padding: 5vw;
     position: relative;
+
+    & .CompleteDetails {
+        grid: 1fr 60px / 1fr;
+    }
 
     &__picture-wrapper {
         display: flex;
@@ -49,11 +54,33 @@
         }
     }
 
-    &__settings {
-        position: absolute;
-        bottom: 0;
-        right: 0;
-        width: 30px;
-        padding: 5vw;
+    &__icons {
+        display: grid;
+        grid: 1fr / 1fr 1fr;
+        align-items: center;
+        justify-items: center;
+    }
+
+    &__icon {
+        width: 40px;
+
+        &--active {
+            fill: var(--selected-item);
+        }
+    }
+}
+
+@media only screen 
+and (min-device-width : 1280px) {
+    .Member {
+        padding: 2vw;
+
+        &__setting {
+            padding: 2vw;
+        }
+
+        &__icon {
+
+        }
     }
 }

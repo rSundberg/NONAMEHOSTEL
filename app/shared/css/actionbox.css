@@ -12,7 +12,7 @@
     }
 
     & > div {
-        margin: 2vh 0;
+        margin-top: 2vh;
 
         &:first-of-type {
             margin: 0;
@@ -68,6 +68,10 @@ and (max-device-width : 1024px)  {
 and (min-device-width : 1280px) {
     .ActionBox {
         padding: 2vw;
+
+        & > div {
+            margin-top: 2vw;
+        }
 
         &__divider {
             flex-flow: row nowrap;

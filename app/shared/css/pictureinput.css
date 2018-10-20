@@ -1,6 +1,6 @@
 .PictureInput {
     &__picture-wrapper {
-        min-height: 70px;
+        min-height: 200px;
         max-width: 100%;
         display: flex;
         justify-content: center;
@@ -31,7 +31,6 @@
 and (min-device-width : 1280px) {
     .PictureInput {
         &__picture-wrapper {
-            max-width: 35%;
             min-height: 200px;
             margin: auto;
         }

@@ -13,12 +13,11 @@ export default class Section extends Component {
 
     componentDidMount() {
         if (!this.props.backgroundImage) return;
-        console.log(this.backgroundRef)
+
         this.props.scrollElement.addEventListener('scroll', this.onScroll)
     }
     
     componentWillUnmount() {
-        console.log(this.props.scrollElement)
         if (this.props.scrollElement) {
             this.props.scrollElement.removeEventListener('scroll', this.onScroll)
         }
@@ -27,8 +26,8 @@ export default class Section extends Component {
     onScroll = () => {
         let element = this.backgroundRef.current.getBoundingClientRect();
         let {width, transform} = this.props.backgroundStyle
-        let offset = element.top - element.height - 200
-        console.log(element.offsetHeight)
+        let offset = element.top
+
         function getRandomInt(min, max) {
             min = Math.ceil(min);
             max = Math.floor(max);
@@ -36,16 +35,17 @@ export default class Section extends Component {
         }
 
         if (offset < 0 && !this.state.backgroundAnimated && this.state.backgroundLoaded) {
+            console.log(offset)
             this.setState({backgroundAnimated: true}, () => {
                 anime({
                     targets: this.backgroundRef.current,
                     width: [width, width],
                     scale: [1.1, 1],
-                    opacity: [{value: 0, duration: 0}, {value: 1, duration: 1000}],
+                    opacity: [{value: 0, duration: 0}, {value: 1, duration: 4000}],
                     translateX: [getRandomInt(-5, 5), transform.x],
                     translateY: [getRandomInt(5, 0), transform.y],
                     easing: 'easeOutQuart',
-                    duration: 2500
+                    duration: 12000
                 })
                 .finished
                 .then(() => this.props.scrollElement.removeEventListener('scroll', this.onScroll))

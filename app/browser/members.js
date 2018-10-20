@@ -112,30 +112,33 @@ export default class Members extends Component {
                         </h2>
                         : null
                 }
-
-                {searchResult.map(doc => 
-                    <Member
-                        firestore={this.props.firestore}
-                        storage={this.props.storage}
-                        moment={this.props.moment}
-                        doc={doc}
-                        key={doc.id}
-                    />
-                )}
+                <div className={'Members__member-wrapper'}>
+                    {searchResult.map(doc => 
+                        <Member
+                            firestore={this.props.firestore}
+                            storage={this.props.storage}
+                            moment={this.props.moment}
+                            doc={doc}
+                            key={doc.id}
+                        />
+                    )}
+                </div>
 
                 <h2 className={'App__title'}>
                     Latest members
                 </h2>
 
-                {members.map(doc =>
-                    <Member
-                        firestore={this.props.firestore}
-                        storage={this.props.storage}
-                        moment={this.props.moment}
-                        doc={doc}
-                        key={doc.id}
-                    />
-                )}
+                <div className={'Members__member-wrapper'}>
+                    {members.map(doc =>
+                        <Member
+                            firestore={this.props.firestore}
+                            storage={this.props.storage}
+                            moment={this.props.moment}
+                            doc={doc}
+                            key={doc.id}
+                        />
+                    )}
+                </div>
             </div>
         );
     }

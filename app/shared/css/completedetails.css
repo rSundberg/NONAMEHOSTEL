@@ -1,6 +1,12 @@
 .CompleteDetails {
-    display: flex;
-    flex-flow: column nowrap;
+    display: grid;
+    grid: 1fr 60px / 1fr;
+    grid-gap: 5vw;
+
+    &__inputs {
+        display: flex;
+        flex-flow: column;
+    }
 
     &__input {
         height: 50px;
@@ -10,10 +16,6 @@
 
         &::placeholder {
             color: black;
-        }
-
-        &:last-of-type {
-            margin-bottom: 5vw;
         }
     }
 
@@ -31,5 +33,13 @@
     &__icon {
         width: 20px;
         fill: white;
+    }
+}
+
+@media only screen 
+and (min-device-width : 1280px) {
+    .CompleteDetails {
+        grid: 1fr / 1fr 60px;
+        grid-gap: 2vw;
     }
 }

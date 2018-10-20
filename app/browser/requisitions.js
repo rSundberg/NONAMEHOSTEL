@@ -247,38 +247,72 @@ export default class Requisitions extends Component {
                         activeCategory={activeCategory}
                     />
 
-                    <div className={'ActionBox__divider'}>
-                        <input
-                            className={'App__input'}
-                            type={'text'}
-                            placeholder={'Item'}
-                            onChange={e => this.setState({ item: e.target.value })}
-                            value={item}
-                        />
+                    <div className={'Requisitions__item-info-wrapper'}>
+                        <div className={'Requisitions__item-inputs'}>
+                            <input
+                                className={'App__input'}
+                                type={'text'}
+                                placeholder={'Item'}
+                                onChange={e => this.setState({ item: e.target.value })}
+                                value={item}
+                            />
 
-                        <input
-                            className={'App__input'}
-                            type={'text'}
-                            placeholder={'Amount'}
-                            onChange={e => this.setState({ amount: e.target.value })}
-                            value={amount}
-                        />
+                            <input
+                                className={'App__input'}
+                                type={'text'}
+                                placeholder={'Amount'}
+                                onChange={e => this.setState({ amount: e.target.value })}
+                                value={amount}
+                            />
 
-                        <input
-                            className={'App__input'}
-                            type={'text'}
-                            placeholder={'Price'}
-                            onChange={e => this.setState({ price: e.target.value })}
-                            value={price}
-                        />
-                    </div>
+                            <input
+                                className={'App__input'}
+                                type={'text'}
+                                placeholder={'Price'}
+                                onChange={e => this.setState({ price: e.target.value })}
+                                value={price}
+                            />
 
-                    {requiredList.length > 0
-                        ? <div className={'Requisitions__list'}>
-                            <div className={'Requisitions__options'}>
+                            <AddIcon
+                                width={'100%'}
+                                height={40}
+                                onClick={this.addClick}
+                            />
+                        </div>
+
+                        {requiredList.length > 0
+                            ? <div className={'Requisitions__list'}>
                                 <h2 className={'Requisitions__list-category'}>
                                     {activeCategory}
                                 </h2>
+
+                                <div className={'Requisitions__list-item'}>
+                                    <span className={'Requisitions__list-title'}>
+                                        Item
+                                    </span>
+
+                                    <span className={'Requisitions__list-title'}>
+                                        Amount
+                                    </span>
+
+                                    <span className={'Requisitions__list-title'}>
+                                        Price
+                                    </span>
+                                </div>
+
+                                {requiredList.map(this.listItem)}
+                            </div>
+                            : null
+                        }
+
+                        {requiredList.length > 0
+                            ? <div className={'Requisitions__action-wrapper'}> 
+                                <div
+                                    className={`App__confirm ${loadingConfirmRequired ? 'App__loading' : ''}`}
+                                    onClick={!loadingConfirmRequired ? this.confirmClick : null}
+                                >
+                                    <CheckIcon />
+                                </div>
 
                                 <AddIcon
                                     style={{ transform: 'rotate(45deg)' }}
@@ -287,42 +321,8 @@ export default class Requisitions extends Component {
                                     onClick={this.emptyRequiredList}
                                 />
                             </div>
-
-                            <div className={'Requisitions__list-item'}>
-                                <span className={'Requisitions__list-title'}>
-                                    Item
-                                </span>
-
-                                <span className={'Requisitions__list-title'}>
-                                    Amount
-                                </span>
-
-                                <span className={'Requisitions__list-title'}>
-                                    Price
-                                </span>
-                            </div>
-
-                            {requiredList.map(this.listItem)}
-                        </div>
-                        : null
-                    }
-
-                    <div className={'Requisitions__options'}>
-                        {requiredList.length > 0
-                            ? <div
-                                className={`App__confirm ${loadingConfirmRequired ? 'App__loading' : ''}`}
-                                onClick={!loadingConfirmRequired ? this.confirmClick : null}
-                            >
-                                <CheckIcon />
-                            </div>
-                            : <div></div>
+                            : null
                         }
-
-                        <AddIcon
-                            width={'100%'}
-                            height={40}
-                            onClick={this.addClick}
-                        />
                     </div>
                 </ActionBox>
 
@@ -334,31 +334,38 @@ export default class Requisitions extends Component {
                 }
 
                 {required && required.length === 0 ? <h2 className={'App__title'}>No Requisitions</h2> : null}
-    
-                {required
-                    ? this.sortByCategory(required).map(({category, docs}) =>
-                        <div className={'Requisitions__category-box'} key={category}>
-                            <h2 className={'Requisitions__list-category'}>{category}</h2>
 
-                            <div className={'Requisition'}>
-                                <span className={'Requisition__title'}>Item</span>
-                                <span className={'Requisition__title'}>Amount</span>
-                                <span className={'Requisition__title'}>Price</span>
-                            </div>
-
-                            {docs.map(doc => <Requisition
-                                doc={doc}
-                                selected={this.isSelected(doc) === true}
-                                toggle={this.toggleRequisition}
-                                upload={this.uploadRequisition}
-                                delete={this.deleteRequisition}
-                                key={doc.id}
-                            />)
-                            }
-                        </div>
-                    )
-                    : <Loader pastDelay={true} height={40} />
+                {!required
+                    ? <Loader pastDelay={true} height={40} />
+                    : null
                 }
+
+                <div className={'Requisitions__categories'}>
+                    {required
+                        ? this.sortByCategory(required).map(({category, docs}) =>
+                            <div className={'Requisitions__category-box'} key={category}>
+                                <h2 className={'Requisitions__list-category'}>{category}</h2>
+
+                                <div className={'Requisition'}>
+                                    <span className={'Requisition__title'}>Item</span>
+                                    <span className={'Requisition__title'}>Amount</span>
+                                    <span className={'Requisition__title'}>Price</span>
+                                </div>
+
+                                {docs.map(doc => <Requisition
+                                    doc={doc}
+                                    selected={this.isSelected(doc) === true}
+                                    toggle={this.toggleRequisition}
+                                    upload={this.uploadRequisition}
+                                    delete={this.deleteRequisition}
+                                    key={doc.id}
+                                />)
+                                }
+                            </div>
+                        )
+                        : null
+                    }
+                </div>
 
                 {selected.length > 0
                     ? <div className={'Requisitions__actions'}>

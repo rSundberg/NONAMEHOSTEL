@@ -151,7 +151,7 @@ export default class StartSection extends Component {
                     <h2
                         className={'Section__title'}
                         style={{
-                            transform: 'translateX(-10vw)'
+                            transform: 'translateX(-11.5vw)'
                         }}
                     >
                         Eco Projects
@@ -173,7 +173,7 @@ export default class StartSection extends Component {
                         className={'Section__box'}
                         style={{
                             width: '55%',
-                            transform: 'translateX(3vw)'
+                            transform: 'translateX(-10vw)'
                         }}
                     >
                         <strong>Buildings:</strong>
@@ -237,7 +237,7 @@ export default class StartSection extends Component {
                         width: isMobile ? '115%' : '75%',
                         transform: {
                             x: '-12%',
-                            y: '-5%'
+                            y: '0%'
                         }
                     }}
                 >
