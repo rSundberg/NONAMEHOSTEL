@@ -12,7 +12,7 @@
     }
 
     & > div {
-        margin-top: 2vh;
+        margin-top: 5vw;
 
         &:first-of-type {
             margin: 0;
@@ -24,7 +24,7 @@
         flex-flow: column;
 
         & > input {
-            margin-bottom: 1vh;
+            margin-bottom: 2vw;
 
             &:last-of-type {
                 margin-bottom: 0;

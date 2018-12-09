@@ -66,7 +66,7 @@ function Info({type, count, start, end, name, email}) {
     )
 }
 
-export default class Booking extends Component {
+export default class Booking extends Component {    
     state = {
         booking_date: this.props.moment().format('YYYY-MM-DD'),
         start_date: null,
@@ -85,20 +85,21 @@ export default class Booking extends Component {
         limit: null,
         booked: false,
         booking: false,
-        status: 'booked'
+        status: 'booked',
+        isMember: false,
+        detailsConfirmed: false
     }
-
+    
     bookingContainer = React.createRef()
 
     componentDidMount() {
-        if (!this.props.isMobile) {
-            anime({
-                targets: this.bookingContainer.current,
-                duration: 650,
-                easing: 'easeInOutQuart',
-                width: ['0vw', '32vw']
-            })
-        }
+        anime({
+            targets: this.bookingContainer.current,
+            duration: 650,
+            easing: 'easeInOutQuart',
+            scaleX: this.props.isMobile ? 1 : [{ value: -1, duration: 0 }],
+            opacity: [0, 1]
+        })
     }
 
     toggleBedType = bed => this.setState(this.resetState({ activeBed: bed, bed_count: this.state.bed_count}))
@@ -113,7 +114,6 @@ export default class Booking extends Component {
         const url = `https://us-central1-nonamehostel-a5e96.cloudfunctions.net/blockedDates${query}`
 
         Promise.all(this.fetchAll([url])).then(dates => {
-            console.log(dates)
             this.setState({
                 blockedDates: dates.join(),
                 rooms_confirmed: true
@@ -127,7 +127,14 @@ export default class Booking extends Component {
         this.updateBedType('room')
     })
 
-    customerDetails = details => this.setState(details)
+    customerDetails = details => this.setState({...details, ...{detailsConfirmed: true}}, () => {
+        anime({
+            targets: 'html, body',
+            scrollTop: 0,
+            duration: 350,
+            easing: 'easeOutQuart'
+        })
+    })
 
     backToBooking = () => this.setState(this.resetState({booked: false}))
     
@@ -155,7 +162,9 @@ export default class Booking extends Component {
             limit: null,
             booked: false,
             booking: false,
-            status: 'booked'
+            status: 'booked',
+            isMember: false,
+            detailsConfirmed: false
         }
 
         return {
@@ -166,7 +175,7 @@ export default class Booking extends Component {
 
     bookingInfo = ['start_date', 'end_date', 'booking_date', 'location', 'bed_count', 'bed_type', 'room_count', 'status']
 
-    bookingDetails = ['name', 'email', 'message', 'phone', 'country']
+    bookingDetails = ['name', 'email', 'message', 'phone', 'country', 'isMember']
 
     filterObj = (obj = {}, allowed = []) => Object
         .keys(obj)
@@ -214,110 +223,123 @@ export default class Booking extends Component {
     )
 
     render() {
-        const {start_date, end_date, location, bed_type, bed_count, room_count, name, email, phone, message, booked, booking, rooms_confirmed, activeBed, limit, docs} = this.state
+        const {start_date, end_date, location, bed_type, bed_count, room_count, name, email, phone, message, booked, booking, rooms_confirmed, activeBed, detailsConfirmed, isMember} = this.state
         const {moment} = this.props
 
         return (
-            <Fragment>
-                {!booked ?
-                    <div className={`Booking`} ref={this.bookingContainer}>
+            <div className={'Booking'} ref={this.bookingContainer}>
+                {!booked
+                    ? <Fragment>
+                        {!detailsConfirmed
+                            ? <Fragment>
+                                <h2 className={'Booking__title'}>
+                                    Stay with us!
+                                </h2>
+
+                                <Counter
+                                    title={'How many people are you booking for?'}
+                                    count={bed_count}
+                                    updateCount={this.updateBedCount}
+                                />
+
+                                <Beds
+                                    toggleBed={this.toggleBedType}
+                                    addBed={this.updateBedType}
+                                    activeBed={activeBed}
+                                />
+
+                                {activeBed === 'room'
+                                    ? <Counter limit={bed_count} showAll={true} title={'Number of rooms?'} count={room_count} updateCount={this.updateRoomCount} />
+                                    : null
+                                }
+
+                                {activeBed === 'free'
+                                    ? <div className={'Beds__alternatives'}>
+                                        <div
+                                            className={`Beds__card ${bed_type === 'camp' ? 'Beds__card--active' : ''}`}
+                                            onClick={() => this.updateBedType('camp')}>
+                                            <CampStay />
+                                            Camp beds
+                                </div>
+
+                                        <div
+                                            className={`Beds__card ${bed_type === 'tent' ? 'Beds__card--active' : ''}`}
+                                            onClick={() => this.updateBedType('tent')}>
+                                            <FreeStay />
+                                            Pitch your tent
+                                </div>
+                                    </div>
+                                    : null
+                                }
+
+                                {bed_type
+                                    ? !rooms_confirmed
+                                        ? <div className={'Booking__loader'}>Checking availability</div>
+                                        : <Calendar
+                                            getDate={this.dateRange}
+                                            blockedDays={this.state.blockedDates}
+                                        />
+                                    : null
+                                }
+
+                                {bed_type && bed_count && start_date && end_date
+                                    ? <Details getDetails={this.customerDetails} />
+                                    : null
+                                }
+                            </Fragment>
+                            : <Fragment>
+                                {bed_type && start_date && end_date && name && email && phone && message
+                                    ? <Info
+                                        name={name}
+                                        email={email}
+                                        type={bed_type}
+                                        count={room_count ? room_count : bed_count}
+                                        start={start_date}
+                                        end={end_date}
+                                    />
+                                    : null
+                                }
+
+                                {bed_type && start_date && end_date && name && email && phone && message
+                                    ? !booking
+                                        ? <span className={`Booking__confirm`} onClick={() => this.sendBooking()}>
+                                            Confirm booking
+                                        </span>
+                                        : <div className={'Booking__loader'}>
+                                            Confirming your stay
+                                        </div>
+                                    : null
+                                }
+                            </Fragment>
+                        }
+                    </Fragment>
+                    : <Fragment>
                         <h2 className={'Booking__title'}>
-                            Stay with us!
+                            Thank you for your request
                         </h2>
 
-                        <Counter title={'How many people are you booking for?'} count={bed_count} updateCount={this.updateBedCount}/>
+                        {!isMember
+                            ? <div className={'Booking__donation-info'}>
+                                <h2>One more step before we confirm your booking...</h2>
 
-                        <Beds
-                            toggleBed={this.toggleBedType}
-                            addBed={this.updateBedType}
-                            activeBed={activeBed}
-                            />
+                                <p>
+                                    In order to confirm your booking you need to
+                                    become a initiator on our crowdfunding page.
+                                </p>
 
-                        {activeBed === 'room'
-                            ? <Counter limit={bed_count} showAll={true} title={'Number of rooms?'} count={room_count} updateCount={this.updateRoomCount} />
-                            : null
-                        }
+                                <p>
+                                    Follow the link, donate and we will send you a confirmation email
+                                    asap.
+                                </p>
 
-                        {activeBed === 'free'
-                            ? <div className={'Beds__alternatives'}>
-                                <div
-                                    className={`Beds__card ${bed_type === 'camp' ? 'Beds__card--active' : ''}`}
-                                    onClick={() => this.updateBedType('camp')}>
-                                    <CampStay />
-                                    Camp beds
-                                </div>
+                                <p>
+                                    Check your email for more details.
+                                </p>
 
-                                <div
-                                    className={`Beds__card ${bed_type === 'tent' ? 'Beds__card--active' : ''}`}
-                                    onClick={() => this.updateBedType('tent')}>
-                                    <FreeStay />
-                                    Pitch your tent
-                                </div>
+                                <a href={'https://www.gofundme.com/nonamehostel'}>No Name gofundme page</a>
                             </div>
                             : null
                         }
-
-                        { bed_type
-                            ? !rooms_confirmed
-                                ? <div className={'Booking__loader'}>Checking availability</div>
-                                : <Calendar
-                                    getDate={this.dateRange}
-                                    blockedDays={this.state.blockedDates}
-                                />
-                            : null
-                        }
-
-                        { bed_type && bed_count && start_date && end_date
-                            ? <Details getDetails={this.customerDetails}/>
-                            : null
-                        }
-
-                        {
-                            bed_type && bed_count && start_date && end_date
-                                ? <Info
-                                    type={bed_type}
-                                    count={room_count ? room_count : bed_count}
-                                    start={start_date}
-                                    end={end_date}
-                                />
-                                : null
-                        }
-
-                        { bed_type && start_date && end_date && name && email && phone && message
-                            ? !booking
-                                ? <span className={`Booking__confirm`} onClick={() => this.sendBooking()}>
-                                        Confirm booking
-                                </span>
-                                : <div className={'Booking__loader'}>
-                                        Confirming your stay
-                                </div>
-                            : null
-                        }
-                    </div> :
-                    <div className={'Booking'}>
-                        <h2 className={'Booking__title'}>
-                            Thanks for staying with us!
-                        </h2>
-
-                        <div className={'Booking__donation-info'}>
-                            <h2>One more step before we confirm your booking...</h2>
-
-                            <p>
-                                In order to confirm your booking you need to
-                                become a initiator on our crowdfunding page.
-                            </p>
-
-                            <p>
-                                Follow the link, donate and we will send you a confirmation email
-                                asap.
-                            </p>
-
-                            <p>
-                                Check your email for more details.
-                            </p>
-
-                            <a href={'https://www.gofundme.com/nonamehostel'}>No Name gofundme page</a>
-                        </div>
 
                         <Info
                             type={bed_type}
@@ -331,9 +353,9 @@ export default class Booking extends Component {
                         <div className={'Booking__back'} onClick={() => this.backToBooking()}>
                             Book more beds
                         </div>
-                    </div>
+                    </Fragment>
                 }
-            </Fragment>
+            </div>
         )
     }
 }

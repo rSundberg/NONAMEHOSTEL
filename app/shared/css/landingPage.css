@@ -3,36 +3,69 @@
     flex-flow: column;
     align-items: flex-start;
     justify-content: center;
-    height: 100vh;
     position: relative;
-    padding: 5vw;
+    min-height: 100vh;
+    padding: 10vw 0;
 
     & h1 {
         user-select: none;
         cursor: pointer;
-        z-index: 2;
+        font-size: var(--font-reallyBig);
+    }
+
+    &__head {
+        width: 100%;
         padding: 5vw;
-        background-color: white;
-        border-radius: 3px;
+        box-sizing: border-box;
+        display: grid;
+        grid: 1fr / 3fr 1fr 1fr 1fr;
+        align-items: center;
+        justify-items: center;
+    }
+
+    &__alternatives-wrapper {
+        width: 100%;
+        z-index: 2;
     }
 
     &__alternatives {
-        display: flex;
-        flex-flow: column;
-        align-items: flex-end;
-        align-self: flex-end;
-        margin-top: 40vw;
-        z-index: 2;
+        display: grid;
+        grid: 1fr 1fr 1fr / 1fr;
+        grid-gap: 5vw;
+        justify-items: center;
     }
 
     &__alternative {
-        padding: 4vh;
-        text-align: center;
-        background-color: rgba(255, 255, 255, 1);
-        font-size: var(--font-big);
-        margin-bottom: 5vh;
+        width: 90vw;
+        height: 40vw;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: var(--font-reallyBig);
         cursor: pointer;
         border-radius: 3px;
+        position: relative;
+        overflow: hidden;
+    }
+
+    &__title {
+        font-size: var(--font-big);
+        background-color: white;
+        padding: 5vw;
+        border-radius: 3px;
+    }
+
+    &__background-image {
+        position: absolute;
+        opacity: 0;
+        width: 100%;
+        top: 0;
+        left: 0;
+        z-index: -1;
+    }
+
+    &__social-links {
+
     }
 }
 
@@ -42,12 +75,32 @@ and (min-device-width : 1280px) {
         padding: 0;
 
         & h1 {
-            padding: 4vh;
+            width: 100%;
+        }
+
+        &__head {
+            padding: 5vw 2vw;
+            grid: 1fr / 7fr 1fr 1fr 1fr;
+        }
+
+        &__alternatives-wrapper {
+            box-sizing: border-box;
+            padding: 0 2vw;
         }
 
         &__alternatives {
-            margin-top: 10vw;
-            padding: 0 5vw;
+            grid: 1fr / 1fr 1fr 1fr;
+            grid-gap: 2vw;
+        }
+
+        &__alternative {
+            width: 100%;
+            height: 26vw;
+        }
+
+        &__title {
+            width: 50%;
+            padding: 2vw;
         }
     }
 }

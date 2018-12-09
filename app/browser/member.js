@@ -5,7 +5,6 @@ import PictureInput from './pictureinput'
 
 import '../shared/css/member.css'
 
-import AddMember from '../shared/media/add_member.svg'
 import Settings from '../shared/media/settings.svg'
 
 export default class Member extends Component {
@@ -75,10 +74,12 @@ export default class Member extends Component {
                 />
 
                 <div className={'Member__icons'}>
-                    <AddMember
-                        className={`Member__icon ${infoToggled ? 'Member__icon--active' : ''}`}
+                    <h2
+                        className={`Member__title ${infoToggled ? 'Member__icon--active' : ''}`}
                         onClick={() => this.toggleInfo()}
-                    />
+                    >
+                        {name}
+                    </h2>
 
                     <Settings
                         className={`Member__icon ${settingToggled ? 'Member__icon--active' : ''}`}
@@ -88,10 +89,6 @@ export default class Member extends Component {
 
                 {infoToggled
                     ? <div className={'Member__info-wrapper'}>
-                        <div className={'Member__info'}>
-                            {name}
-                        </div>
-                        
                         <div className={'Member__info'}>
                             {email}
                         </div>

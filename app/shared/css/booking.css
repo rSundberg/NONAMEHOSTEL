@@ -1,7 +1,7 @@
 .Booking {
     min-height: 98vh;
     display: grid;
-    grid-gap: 10px;
+    grid-gap: 2vw;
     align-content: center;
     justify-content: center;
     padding: 32px 0;
@@ -9,7 +9,7 @@
 
     & > div {
         box-shadow: var(--box-shadow);
-        width: 23vw;
+        width: 25vw;
         border-radius: 3px;
         background-color: white;
     }
@@ -126,6 +126,7 @@ and (max-device-width : 667px) {
     .Booking {
         min-height: 100vh;
         padding: 32px 0;
+        grid-gap: 5vw;
 
         &__title {
             width: 90vw;

@@ -6,6 +6,7 @@
     align-items: center;
     font-size: var(--font-small);
     border-radius: 3px;
+    padding: 12px;
 
     &__info {
         min-width: 0;

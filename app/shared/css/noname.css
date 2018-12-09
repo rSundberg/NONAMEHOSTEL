@@ -2,7 +2,6 @@
     width: 100%;
     display: grid;
     grid-gap: 10vw;
-    margin-top: 5vw;
 
     &__title {
         text-align: center;
@@ -13,6 +12,10 @@
     &__img {
         width: 100%;
         margin-top: 10vh;
+    }
+
+    &__last-column {
+        display: grid;
     }
 
     &__icon {
@@ -52,10 +55,9 @@
 @media only screen 
 and (min-device-width : 1280px) {
     .NoName {
-        grid: 70px 1fr / 1fr 1fr 1fr;
+        grid: 1fr / 1fr 1fr 1fr;
         align-items: center;
         grid-gap: 3vw;
-        margin-top: 2vw;
 
         &__icon-text {
             padding: 2vw 0;
@@ -63,6 +65,11 @@ and (min-device-width : 1280px) {
 
         &__title {
             grid-column: 1 / 4;
-        }        
+        }
+
+        &__last-column {
+            grid: 1fr / 1fr 1fr;
+            grid-column: 1 / 4;
+        }      
     }
 }

@@ -5,6 +5,11 @@
         grid-gap: 5vw;
     }
 
+    &__add-wrapper {
+        display: grid;
+        grid-gap: 5vw;
+    }
+
     &__icon {
         width: 40px;
     }
@@ -27,6 +32,11 @@
 @media only screen 
 and (min-device-width : 1280px) {
     .Members {
+        &__add-wrapper {
+            grid: 1fr / 1fr 2fr;
+            grid-gap: 2vw;
+        }
+
         &__member-wrapper {
             grid: 1fr / 1fr 1fr 1fr;
             grid-gap: 2vw;

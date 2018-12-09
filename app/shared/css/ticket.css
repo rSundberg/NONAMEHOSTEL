@@ -4,15 +4,40 @@
     overflow: hidden;
     display: grid;
     box-sizing: border-box;
-    padding: 30px 15px;
-    grid: auto / repeat(5, 1fr);
-    grid-gap: 15px;
+    padding: 5vw;
+    grid: 1fr / 1fr;
+    grid-gap: 5vw;
     box-shadow: var(--box-shadow);
     border-radius: 3px;
+
+    &--member {
+        border: 5px solid var(--active-item);
+    }
 
     &__container {
         display: grid;
         grid-gap: 5vw;
+        align-items: center;
+    }
+
+    &__main-info {
+        display: grid;
+        grid: 1fr 2fr / 1fr;
+        grid-gap: 2vw;
+        align-items: center;
+        justify-items: center;
+
+        & h2 {
+            font-size: var(--font-big);
+            cursor: pointer;
+            text-transform: capitalize;
+            text-align: center;
+        }
+
+        &--active {
+            color: var(--active-item);
+            fill: var(--active-item);
+        }
     }
 
     &__info {
@@ -27,30 +52,53 @@
         }
     }
 
-    &__action-bar {
-        display: flex;
-        flex-flow: column nowrap;
+    &__main-bar {
+        display: grid;
+        grid: 1fr / 1fr 3fr 1fr;
+        grid-gap: 5vw;
         align-items: center;
-        justify-content: space-between;
-        grid-column: 1 / 2;
     }
 
     &__info-bar {
-        grid-column: 2 / 6;
+        
     }
 
-    &__action-icon {
+    &__date-wrapper {
         display: grid;
-        grid: 50px / 1fr 1fr;
-        grid-gap: 10px;
-        grid-column: 1 / 6;
+        grid: 1fr 1fr / 1fr;
+        grid-gap: 2vw;
+        font-size: var(--font-big);
+    }
 
-        & div {
-            border-radius: 3px;
-            box-sizing: border-box;
-            padding: 15px;
-            text-align: center;
+    &__date {
+        display: flex;
+        flex-flow: column;
+        justify-content: center;
+        align-items: center;
+
+        & span:first-of-type {
+            font-weight: bold;
+
         }
+    }
+
+    &__action-bar {
+        display: grid;
+        grid: 1fr / 1fr 1fr;
+        align-items: center;
+        justify-items: center;
+        grid-gap: 2vw;
+    }
+
+    &__action {
+        width: 100%;
+        box-sizing: border-box;
+        padding: 5vw;
+        color: white;
+        font-size: var(--font-big);
+        text-align: center;
+        border-radius: 3px;
+        cursor: pointer;
 
         &--confirm {
             background-color: var(--active-item);
@@ -106,6 +154,17 @@ and (min-device-width : 1024px)  {
 @media only screen 
 and (min-device-width : 1280px) {
     .Ticket {
+        padding: 2vw;
+        grid-gap: 2vw;
+
+        &__action {
+            padding: 2vw;
+        }
+
+        &__main-bar {
+            grid-gap: 2vw;
+        }
+
         &__container {
             grid: 1fr / 1fr 1fr 1fr;
             grid-gap: 1vw;

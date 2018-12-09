@@ -1,0 +1,36 @@
+.Page {
+    position: fixed;
+    top: 0;
+    width: 100vw;
+    height: 100vh;
+    overflow: scroll;
+    z-index: 99999;
+    background-color: white;
+    padding: 10vw 5vw;
+    box-sizing: border-box;
+
+    &__back-button {
+        position: fixed;
+        z-index: 100000;
+        bottom: 0;
+        right: 0;
+        background-color: white;
+        box-shadow: var(--box-shadow);
+        border-radius: 3px 3px 0px 0px;
+        width: 20vw;
+        display: flex;
+        justify-content: center;
+        padding: 5vw;
+        cursor: pointer;
+    }
+}
+
+@media only screen 
+and (min-device-width : 1280px) {
+    .Page {
+        &__back-button {
+            width: 10vw;
+            padding: 2vw;
+        }
+    }
+}

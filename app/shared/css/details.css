@@ -1,0 +1,60 @@
+.Details {
+    display: flex;
+    flex-flow: column nowrap;
+    justify-content: center;
+
+    & input {
+        height: 50px;
+        font-size: var(--font-small);
+        padding-left: 22px;
+        font-weight: bold;
+        border: 0;
+        outline: 0;
+        background-color: transparent;
+        border-radius: 3px;
+
+        &::placeholder {
+            color: black;
+            font-weight: bold;
+        }
+
+        &:hover {
+            background-color: var(--active-item);
+            color: white;
+
+            &::placeholder {
+                color: white;
+            }
+        }
+    }
+
+    & textarea {
+        height: 200px;
+        font-size: var(--font-small);
+        padding: 12px 22px;
+        font-weight: lighter;
+        border: 0;
+        background-color: transparent;
+
+        &:focus {
+            outline: none;
+            background-color: var(--active-item);
+            color: white;
+
+            &::placeholder {
+                color: white;
+            }
+        }
+    }
+
+    & > div {
+        height: 50px;
+        color: white;
+        cursor: pointer;
+    }
+
+    &__error {
+        width: 100%;
+        padding: 2vw;
+    }
+}

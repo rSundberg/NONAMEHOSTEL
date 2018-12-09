@@ -20,8 +20,8 @@
     ],
     "rewrites": [
       {
-        "source": "/",
-        "function": "home"
+        "source": "/juicebar",
+        "function": "juicebar"
       }
     ]
   },

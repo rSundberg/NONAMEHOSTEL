@@ -29,19 +29,24 @@ export default class Dashboard extends Component {
     setPassword = event => this.setState({ password: event.target.value })
 
     signIn = () => {
-        this.props.auth.signInWithEmailAndPassword(this.state.email, this.state.password).catch(error => {
-            // Handle Errors here.
-            var errorCode = error.code;
-            var errorMessage = error.message;
-            // ...
-        });
+        this.setState({loading: true})
+
+        this.props.auth
+            .signInWithEmailAndPassword(this.state.email, this.state.password)
+            .catch(error => {
+                this.setState({ loading: false })
+                // Handle Errors here.
+                var errorCode = error.code;
+                var errorMessage = error.message;
+                // ...
+            });
     }
 
     signOut = () => {
         this.props.auth
-        .signOut()
-        .then(() => this.setState({user: null}))
-        .catch(err => console.log(err))
+            .signOut()
+            .then(() => this.setState({user: null}))
+            .catch(err => console.log(err))
     }
 
     shouldComponentUpdate(nextProps, nextState) {
@@ -63,7 +68,6 @@ export default class Dashboard extends Component {
         })
 
         this.props.auth.onAuthStateChanged(user => {
-            console.log(user)
             if (user) {
                 this.setState({ user: user, loading: false })
             } else {

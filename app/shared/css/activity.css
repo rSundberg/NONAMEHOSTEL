@@ -93,5 +93,9 @@ and (min-device-width : 1280px) {
         &__category {
             
         }
+
+        &__time-item {
+            font-size: var(--font-tiny);
+        }
     }
 }

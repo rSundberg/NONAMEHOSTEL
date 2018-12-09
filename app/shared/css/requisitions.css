@@ -82,7 +82,7 @@
 
     &__category-box {
         display: grid;
-        grid-gap: 5vw;
+        grid-gap: 2vw;
         padding: 5vw;
         box-shadow: var(--box-shadow);
         border-radius: 3px;

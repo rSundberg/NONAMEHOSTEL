@@ -5,8 +5,9 @@
     align-items: center;
     width: 100%;
     box-sizing: border-box;
-    padding: 10vh 5vw;
+    padding: 20vh 5vw;
     position: relative;
+    overflow: hidden;
 
     &__title {
         padding: 5vw;
@@ -14,7 +15,7 @@
         font-size: var(--font-reallyBig);
         margin-bottom: 5vh;
         border-radius: 3px;
-        background-color: rgba(255, 255, 255, 0.7);
+        background-color: rgba(255, 255, 255, 0.8);
         z-index: 2;
     }
 
@@ -30,7 +31,7 @@
         flex-flow: column;
         align-content: center;
         border-radius: 3px;
-        background-color: rgba(255, 255, 255, 0.7);
+        background-color: rgba(255, 255, 255, 0.8);
         font-size: var(--font-big);
     }
 
@@ -40,7 +41,7 @@
         margin-bottom: 5vh;
         line-height: 20px;
         border-radius: 3px;
-        background-color: rgba(255, 255, 255, 0.7);
+        background-color: rgba(255, 255, 255, 0.8);
         z-index: 2;
         font-size: var(--font-big);
         line-height: 3.5vh;
@@ -51,10 +52,14 @@
     }
 
     &__link {
-        text-decoration: underline;
         text-align: center;
         cursor: pointer;
         font-size: var(--font-big);
+        padding: 5vw;
+        background-color: var(--active-item);
+        color: white;
+        border-radius: 3px;
+        z-index: 2;
     }
 
     &__background-wrapper {
@@ -81,6 +86,10 @@ and (min-device-width : 1280px) {
 
         &__divider {
             margin: 10vh 0;
+        }
+
+        &__link {
+            padding: 2vw;
         }
     }
 }

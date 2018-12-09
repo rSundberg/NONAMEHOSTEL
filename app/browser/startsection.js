@@ -10,23 +10,15 @@ import happy_volunteer from '../shared/media/happy_volunteer.jpg'
 import balcony_chill from '../shared/media/balcony_chill.jpg'
 import palm_trees from '../shared/media/palm_trees.jpg'
 import crazy_cheesecake from '../shared/media/crazy_cheesecake.jpg'
+import organic_garden from '../shared/media/organic_garden.jpg'
+import papaya_house from '../shared/media/papaya_house.jpg'
 
 const NoName = Loadable({
     loader: () => import(/* webpackChunkName: 'nonamehostel' */ './noname'),
     loading: defaultProps => <Loader {...defaultProps}/>
 })
 
-const Membership = Loadable({
-    loader: () => import(/* webpackChunkName: 'membership' */ './membership'),
-    loading: defaultProps => <Loader {...defaultProps}/>
-})
-
 export default class StartSection extends Component {
-    state = {
-        noNameToggled: false,
-        membershipToggled: false
-    }
-
     componentDidMount() {
         if (this.props.activeSection) {
             this.scrollToSection()
@@ -75,21 +67,36 @@ export default class StartSection extends Component {
 
         return (
             <Fragment>
-                <Section reference={this.whatRef}>
+                <Section
+                    reference={this.whatRef}
+                    scrollElement={isMobile ? window : container}
+                    backgroundImage={papaya_house}
+                    backgroundStyle={{
+                        width: isMobile ? '90%' : '60%',
+                        transform: `${isMobile ? '0%' : '0%'} ${isMobile ? '0%' : '0%'}`
+                    }}
+                >
                     <div className={'Section__divider'}>
-                        <span>A day at</span>
+                        <span>No Name</span>
                         <h2
                             className={'Section__heading'}
                             style={{
                                 transform: 'translateX(0px)'
                             }}
                         >
-                            No name
+                            Experience
                         </h2>
                     </div>
                 </Section>
 
-                <Section>
+                <Section
+                    scrollElement={isMobile ? window : container}
+                    backgroundImage={organic_garden}
+                    backgroundStyle={{
+                        width: isMobile ? '155%' : '80%',
+                        transform: `${isMobile ? '-5%' : '-8%'} ${isMobile ? '0%' : '0%'}`
+                    }}
+                >
                     <h2
                         className={'Section__title'}
                         style={{
@@ -141,7 +148,7 @@ export default class StartSection extends Component {
                     scrollElement={isMobile ? window : container}
                     backgroundImage={cob_building}
                     backgroundStyle={{
-                        width: isMobile ? '95%' : '58%',
+                        width: isMobile ? '130%' : '58%',
                         transform: {
                             x: '10%',
                             y: '0%'
@@ -234,7 +241,7 @@ export default class StartSection extends Component {
                     scrollElement={isMobile ? window : container}
                     backgroundImage={crazy_cheesecake}
                     backgroundStyle={{
-                        width: isMobile ? '115%' : '75%',
+                        width: isMobile ? '143%' : '75%',
                         transform: {
                             x: '-12%',
                             y: '0%'
@@ -337,27 +344,36 @@ export default class StartSection extends Component {
                     scrollElement={isMobile ? window : container}
                     backgroundImage={palm_trees}
                     backgroundStyle={{
-                        width: isMobile ? '110%' : '65%',
+                        width: isMobile ? '90%' : '65%',
                         transform: {
-                            x: '10%',
+                            x: '0%',
                             y: '0%'
                         }
                     }}
                 >
                     <div className={'Section__divider'}>
-                        <span>Dream of</span>
+                        <span>A global</span>
                         <h2
                             className={'Section__heading'}
                             style={{
                                 transform: 'translateX(0vw)'
                             }}
                         >
-                            Home Collective
+                            Network
                         </h2>
                     </div>
                 </Section>
 
                 <Section>
+                    <h2
+                        className={'Section__title'}
+                        style={{
+                            transform: 'translateX(-2vw)'
+                        }}
+                    >
+                        Home Collective
+                    </h2>
+
                     <div
                         className={'Section__box'}
                         style={{
@@ -378,24 +394,25 @@ export default class StartSection extends Component {
                         }}
                     >
                         We imagine it as a network of communities
-                        and travelers aiming for social impact & sustainable living.
-                        It wants to be the invitation that encourages involvement and sharing
-                        principles within the collective. Together we are limitless.
+                        and travelers aiming for social impact and sustainable living.
                     </div>
 
-                    <div className={'Section__box'}>
+                    <div
+                        className={'Section__box'}
+                        style={{
+                            width: '70%'
+                        }}
+                    >
+                        It wants to be the invitation that encourages involvement and
+                        sharing principles within the collective. Participate in the
+                        magic of happiness, love and togetherness.
+                    </div>
 
-                        <div
-                            className={'Section__link'}
-                            onClick={() => this.setState(({ membershipToggled }) => ({ membershipToggled: !membershipToggled }))}
-                        >
-                            <strong>Membership details</strong>
-                        </div>
-
-                        {this.state.membershipToggled
-                            ? <Membership />
-                            : null
-                        }
+                    <div
+                        className={'Section__link'}
+                        onClick={this.props.toggleMembership}
+                    >
+                        <strong>Membership</strong>
                     </div>
                 </Section>
 
@@ -412,14 +429,14 @@ export default class StartSection extends Component {
                     }}
                 >
                     <div className={'Section__divider'}>
-                        <span>Manifest the</span>
+                        <span>Help us</span>
                         <h2
                             className={'Section__heading'}
                             style={{
                                 transform: 'translateX(0vw)'
                             }}
                         >
-                            Experience
+                            Manifest
                         </h2>
                     </div>
                 </Section>
@@ -441,9 +458,8 @@ export default class StartSection extends Component {
                             transform: 'translateX(3vw)'
                         }}
                     >
-                        Express your freedom and
-                        embody the soul of the
-                        project through your unique contribution.
+                        Visit the homesite located in a tranquil
+                        fishing village in the north most part of Goa.
                     </div>
 
                     <div
@@ -453,30 +469,25 @@ export default class StartSection extends Component {
                             transform: 'translateX(0vw)'
                         }}
                     >
-                        <strong>Let's co-create:</strong>
+                        <strong>No Name Experience:</strong>
 
                         <br></br>
 
-                        Joining our shared Home as volunteer
-                        requires the ability to work with focused mind,
-                        in a team as well as individually,
-                        while understanding the place and time requirements.
-                        It also implies an extraordinary human experience in
-                        a magical place, among friends of an extended family.
+                        Alchemy of nature therapy, living together & multi-cultural exchange in a handcrafted space.
                     </div>
 
                     <div className={'Section__box'}>
-                        <div
-                            className={'Section__link'}
-                            onClick={() => this.setState(({noNameToggled}) => ({noNameToggled: !noNameToggled}))}
-                    >
-                            <strong>Discover No Name</strong>
-                        </div>
+                        A place crafted with love expressions of
+                        thousands of travelers.
+                    </div>
 
-                        { this.state.noNameToggled
-                            ? <NoName />
-                            : null
-                        }
+                    <div 
+                        className={'Section__box'}
+                        style={{
+                            width: '90%'
+                        }}
+                    >
+                        <NoName />
                     </div>
                 </Section>
 
@@ -485,10 +496,10 @@ export default class StartSection extends Component {
                     scrollElement={isMobile ? window : container}
                     backgroundImage={happy_volunteer}
                     backgroundStyle={{
-                        width: isMobile ? '95%' : '75%',
+                        width: isMobile ? '144%' : '80%',
                         transform: {
                             x: '-6%',
-                            y: '-4%'
+                            y: '0%'
                         }
                     }}
                 >
@@ -508,8 +519,7 @@ export default class StartSection extends Component {
                             transform: 'translateX(3vw)'
                         }}
                     >
-                        Express your freedom and
-                        embody the soul of the
+                        Embody the soul of the
                         project through your unique contribution.
                     </div>
 
@@ -520,25 +530,20 @@ export default class StartSection extends Component {
                             transform: 'translateX(0vw)'
                         }}
                     >
-                        <strong>Let's co-create:</strong>
+                        <strong>We believe what is done with passion</strong>
 
                         <br></br>
 
-                        Joining our shared Home as volunteer
-                        requires the ability to work with focused mind,
-                        in a team as well as individually,
-                        while understanding the place and time requirements.
-                        It also implies an extraordinary human experience in
-                        a magical place, among friends of an extended family.
+                        Joining as a volunteer is a way of getting highly involved
+                        with the project. Help us with the daily missions in our
+                        shared home and express your talent to co-create the No Name Experience.
                     </div>
 
-                    <div className={'Section__box'}>
-                        <div
-                            className={'Section__link'}
-                            onClick={() => this.props.toggleVolunteer()}
-                        >
-                            <strong>Application and details</strong>
-                        </div>
+                    <div
+                        className={'Section__link'}
+                        onClick={this.props.toggleVolunteer}
+                    >
+                        <strong>Application and details</strong>
                     </div>
                 </Section>
 
@@ -581,10 +586,10 @@ export default class StartSection extends Component {
                         The requested minimum amount is 12€ (1000 india rupees).
 
                         <br></br>
+                    </div>
 
-                        <a className={'Section__link'}>
-                            No name go fund me page
-                        </a>
+                    <div className={'Section__link'}>
+                        No name go fund me page
                     </div>
                 </Section>
             </Fragment>

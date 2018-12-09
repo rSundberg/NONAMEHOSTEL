@@ -7,7 +7,7 @@ import {importFirebase, importLocalforage, importMoment} from '../shared/utils'
 import ToggleBooking from './toggleBooking'
 import Loader from './loader'
 import LandingPage from './landingPage'
-import Volunteer from './volunteer'
+import Page from './page'
 
 const config = {
     apiKey: "AIzaSyAMicQRJfWpjotCfxq9xs_VdO_6wvkeVyc",
@@ -51,12 +51,24 @@ const StartSection = Loadable({
     delay: 600
 })
 
+const Volunteer = Loadable({
+    loader: () => import(/* webpackChunkName: 'volunteer' */ './volunteer'),
+    loading: defaultProps => <Loader {...defaultProps} />
+})
+
+const Membership = Loadable({
+    loader: () => import(/* webpackChunkName: 'membership' */ './membership'),
+    loading: defaultProps => <Loader {...defaultProps} />
+})
+
 export default class Home extends Component {
     state = {
         isMobile: /iPhone|iPod|Android|iPad/i.test(navigator.userAgent),
         dashboardToggled: false,
         activeSection: null,
-        volunteerToggled: false
+        volunteerToggled: false,
+        membershipToggled: false,
+        bookingToggled: false
     }
 
     bookingContainer = React.createRef()
@@ -64,6 +76,10 @@ export default class Home extends Component {
     showContainer = React.createRef()
 
     componentDidMount() {
+        if (!this.state.isMobile) {
+            this.setState({bookingToggled: true})
+        }
+
         let hashLink = window.location.hash.substring(1)
 
         if (hashLink === 'whatwedo' || 'howwedo' || 'whywedo' || 'volunteer') {
@@ -105,14 +121,16 @@ export default class Home extends Component {
 
     getBookingContainer = () => this.bookingContainer.current
 
-    setActiveSection = section => {
-        this.setState({activeSection: section})
-    }
+    setActiveSection = section => this.setState({activeSection: section})
+
+    toggleBooking = () => this.setState({bookingToggled: true})
 
     toggleVolunteer = () => this.setState(({ volunteerToggled }) => ({ volunteerToggled: !volunteerToggled }))
 
+    toggleMembership = () => this.setState(({ membershipToggled }) => ({ membershipToggled: !membershipToggled}))
+
     render() {
-        const {dashboardToggled, isMobile, activeSection} = this.state
+        const {dashboardToggled, membershipToggled, volunteerToggled, bookingToggled, isMobile, activeSection} = this.state
 
         return (
             <div className={`App`}>
@@ -120,13 +138,31 @@ export default class Home extends Component {
 
                 {dashboardToggled ||
                     <Fragment>
-                        {this.state.volunteerToggled
-                            ? <Volunteer backClick={this.toggleVolunteer} />
+                        {volunteerToggled
+                            ? <Page backClick={this.toggleVolunteer}>
+                                <Volunteer />
+                            </Page>
                             : null
                         }
 
-                        <div className={'Scrollable'} ref={this.bookingContainer}>
-                            <Booking isMobile={isMobile} />
+                        {membershipToggled
+                            ? <Page backClick={this.toggleMembership}>
+                                <Membership />
+                            </Page>
+                            : null
+                        }
+
+                        <div
+                            className={'Scrollable'}
+                            style={{
+                                transform: isMobile ? '' : 'scaleX(-1)'
+                            }}
+                            ref={this.bookingContainer}
+                        >
+                            {bookingToggled
+                                ? <Booking isMobile={isMobile} />
+                                : null
+                            }
                         </div>
 
                         <div className={'Scrollable'} ref={this.showContainer}>
@@ -140,6 +176,7 @@ export default class Home extends Component {
                                 activeSection={activeSection}
                                 scrollTarget={isMobile ? 'html, body' : this.showContainer.current }
                                 toggleVolunteer={this.toggleVolunteer}
+                                toggleMembership={this.toggleMembership}
                                 isMobile={isMobile}
                                 container={this.showContainer.current}
                             />
@@ -148,7 +185,7 @@ export default class Home extends Component {
                 }
 
                 {isMobile && !dashboardToggled
-                    ? <ToggleBooking getTarget={this.getBookingContainer} />
+                    ? <ToggleBooking getTarget={this.getBookingContainer} toggle={this.toggleBooking} />
                     : null
                 }
             </div>

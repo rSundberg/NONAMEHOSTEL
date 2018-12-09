@@ -108,6 +108,7 @@ export default class CheckIn extends Component {
                     onCancelClick={this.cancelBooking}
                     reload={this.getTodays}
                     loading={ticketsLoading}
+                    moment={this.props.moment}
                 />
 
                 { loadingTodays
@@ -122,6 +123,7 @@ export default class CheckIn extends Component {
                     onCancelClick={this.cancelBooking}
                     reload={this.getPending}
                     loading={ticketsLoading}
+                    moment={this.props.moment}
                 />
 
                 { loadingPending

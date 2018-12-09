@@ -20,11 +20,6 @@ export default class NoName extends Component {
     render() {
         return (
             <div className={'NoName'}>
-                <h2 className={'NoName__title'}>
-                    A place crafted with love expressions of
-                    thousands of travelers.
-                </h2>
-
                 <div className={'NoName__icon-box'}>
                     <FreeIcon style={{ strokeWidth: '10px' }}/>
 
@@ -172,28 +167,30 @@ export default class NoName extends Component {
                     </div>
                 </div>
 
-                <div className={'NoName__icon-box'}>
-                    <ProductiveIcon />
+                <div className={'NoName__last-column'}>
+                    <div className={'NoName__icon-box'}>
+                        <ProductiveIcon />
 
-                    <div className={'NoName__icon-text'}>
-                        <h2 className={'NoName__icon-title'}>Co-working space</h2>
+                        <div className={'NoName__icon-text'}>
+                            <h2 className={'NoName__icon-title'}>Co-working space</h2>
 
-                        <p className={'NoName__icon-description'}>
-                            Creative space with working desks in
-                            a calm environment.
-                        </p>
+                            <p className={'NoName__icon-description'}>
+                                Creative space with working desks in
+                                a calm environment.
+                            </p>
+                        </div>
                     </div>
-                </div>
 
-                <div className={'NoName__icon-box'}>
-                    <DigitalLabIcon />
+                    <div className={'NoName__icon-box'}>
+                        <DigitalLabIcon />
 
-                    <div className={'NoName__icon-text'}>
-                        <h2 className={'NoName__icon-title'}>Digital lab</h2>
+                        <div className={'NoName__icon-text'}>
+                            <h2 className={'NoName__icon-title'}>Digital lab</h2>
 
-                        <p className={'NoName__icon-description'}>
-                            Membership based facility with production equipment.
-                        </p>
+                            <p className={'NoName__icon-description'}>
+                                Membership based facility with production equipment.
+                            </p>
+                        </div>
                     </div>
                 </div>
             </div>

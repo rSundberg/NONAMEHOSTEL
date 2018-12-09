@@ -12,20 +12,13 @@ export default class ToggleBooking extends Component {
 
     componentDidMount() {
         if (!this.state.bookingToggled && window.scrollY === 0) {
-            anime({
-                targets: this.props.getTarget(),
-                height: 0,
-                easing: 'easeInQuart',
-                duration: 0
-            })
-
             if (window.location.hash.substring(1) === 'staywithus') {
                 setTimeout(() => {
                     this.toggleBookingContainer.current.click()
                 }, 1000);
             }
         } else {
-            this.setState({ bookingToggled: true })
+            this.setState({ bookingToggled: true }, () => this.props.toggle())
             this.getAnimation().play()
         }
 
@@ -88,6 +81,7 @@ export default class ToggleBooking extends Component {
         }).finished.then(() => {
             if (!this.state.bookingToggled) {
                 this.setState({ bookingToggled: true }, () => {
+                    this.props.toggle()
                     anime({
                         targets: this.props.getTarget(),
                         height: [0, window.innerHeight],

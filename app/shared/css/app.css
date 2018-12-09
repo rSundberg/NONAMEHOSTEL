@@ -51,17 +51,19 @@ input {
     &__toggleBooking {
         position: fixed;
         top: 0vw;
-        right: 0vw;
+        right: 5vw;
         z-index: 999;
-        width: 100vw;
-        padding: 2vh 0;
+        width: 90vw;
+        border-radius: 0 0 3px 3px;
+        padding: 3vw 0;
         display: flex;
         justify-content: center;
         align-items: center;
         flex-flow: column nowrap;
-        background-color: white;
-        box-shadow: inset 0px 1px 2px 2px rgba(0,0,0,0.05);
-        text-decoration: underline;
+        background-color: var(--active-item);
+        box-shadow: var(--box-shadow);
+        color: white;
+        font-weight: bold;
 
         & svg {
             width: 70px;
@@ -392,56 +394,6 @@ input {
         padding: 10px;
         box-sizing: border-box;
         cursor: pointer;
-    }
-}
-
-.Details {
-    display: flex;
-    flex-flow: column nowrap;
-    justify-content: center;
-    margin-top: 5px;
-
-    & input {
-        height: 50px;
-        font-size: var(--font-small);
-        padding-left: 22px;
-        font-weight: bold;
-        border: 0;
-        outline: 0;
-        background-color: transparent;
-
-        &::placeholder {
-            color: black;
-            font-weight: bold;
-        }
-
-        &:hover {
-            background-color: var(--active-item);
-            color: white;
-
-            &::placeholder {
-                color: white;
-            }
-        }
-    }
-
-    & textarea {
-        height: 200px;
-        font-size: var(--font-small);
-        padding: 12px 22px;
-        font-weight: lighter;
-        border: 0;
-        background-color: transparent;
-
-        &:focus {
-            outline: none;
-            background-color: var(--active-item);
-            color: white;
-
-            &::placeholder {
-                color: white;
-            }
-        }
     }
 }
 

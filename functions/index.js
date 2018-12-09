@@ -8,8 +8,8 @@ const cors = require('cors')({
 
 admin.initializeApp()
 
-exports.home = functions.https.onRequest((req, res) => {
-    res.json({test: 'test'})
+exports.juicebar = functions.https.onRequest((req, res) => {
+    res.json('<h1>Hello</h1>')
 })
 
 function bedBookings(location, bedType) {
@@ -44,6 +44,19 @@ function getDateRange(startDate, endDate, dateFormat) {
 
     return dates
 }
+
+exports.isMember = functions.https.onRequest((req, res) => cors(req, res, () => {
+    admin.firestore()
+        .collection('members')
+        .where('email', '==', req.query.email)
+        .get()
+        .then(query => {
+            console.log(query.docs[0].data())
+            return query.docs[0].data() || false
+        })
+        .then(data => res.json(data))
+        .catch(err => res.json(err))
+}))
 
 exports.blockedDates = functions.https.onRequest((req, res) => cors(req, res, () => {
     let location = req.query.location
@@ -82,6 +95,7 @@ exports.blockedDates = functions.https.onRequest((req, res) => cors(req, res, ()
                 } else {
                     let bookingsPerDate = data.reduce((obj, { start_date, end_date, bed_count, room_count }) => {
                         let dateArr = getDateRange(moment(start_date), moment(end_date), 'YYYY-MM-DD')
+                        console.log(dateArr)
                         let amountPerDay = dateArr.reduce((dateObj, date) => {
                             let amount = room_count
                                 ? obj[date]

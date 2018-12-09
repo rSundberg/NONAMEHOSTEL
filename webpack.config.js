@@ -35,7 +35,7 @@ module.exports = {
                             disable: true,
                             mozjpeg: {
                                 progressive: true,
-                                quality: 50
+                                quality: 40
                             },
                         }
                     }

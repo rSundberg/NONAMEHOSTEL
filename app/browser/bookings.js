@@ -223,6 +223,7 @@ export default class Bookings extends Component {
                         onConfirmClick={this.confirmBooking}
                         onCancelClick={this.cancelBooking}
                         loading={ticketsLoading}
+                        moment={this.props.moment}
                     />
                     : null
                 }
@@ -234,6 +235,7 @@ export default class Bookings extends Component {
                     onCancelClick={this.cancelBooking}
                     loading={ticketsLoading}
                     reload={this.getRecentBookings}
+                    moment={this.props.moment}
                 />
 
                 {recentLoading

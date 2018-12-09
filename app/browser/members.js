@@ -3,6 +3,8 @@ import React, { Component } from 'react';
 import Member from './member'
 import CompleteDetails from './completedetails'
 import ActionBox from './actionbox'
+import Loader from './loader'
+import PictureInput from './pictureinput'
 
 import '../shared/css/members.css'
 
@@ -13,7 +15,9 @@ export default class Members extends Component {
         searchResult: [],
         members: [],
         searched: false,
-        addMemberToggled: false
+        addMemberToggled: false,
+        loading: false,
+        loadingMembers: false
     }
 
     searchRef = React.createRef()
@@ -37,11 +41,14 @@ export default class Members extends Component {
     getMembers = () => {
         const members = this.props.firestore.collection('members').orderBy('created', 'desc').limit(3)
 
+        this.setState({members: [], loadingMembers: true})
+
         members
             .get()
             .then(query =>
                 this.setState({
-                    members: query.docs || []
+                    members: query.docs || [],
+                    loadingMembers: false
                 })
             )
     }
@@ -56,23 +63,41 @@ export default class Members extends Component {
 
         memberRef
             .add({...detailObj, ...created})
-            .then(docRef => docRef.get())
-            .then(doc => {
-                this.setState(({members}) => {
-                    return {
-                        members: members.concat(doc),
-                        loading: false
-                    }
-                })
+            .then(docRef => {
+                this.uploadPicture(docRef)
+                    .then(() => docRef.get())
+                    .then(doc => {
+                        this.setState(({ members }) => ({
+                            members: members.concat(doc),
+                            loading: false
+                        }))
 
-                this.toggleAddMember()
+                        this.toggleAddMember()
+                    })
             })
+    }
+
+    uploadPicture = docRef => {
+        const pictureRef = this.props.storage.ref()
+
+        return pictureRef
+            .child(`profile_pictures/${docRef.id}`)
+            .put(this.state.uploadBlob)
+            .then(snapshot => pictureRef
+                .child(snapshot.ref.fullPath)
+                .getDownloadURL()
+            )
+            .then(url => this.props.firestore
+                .doc(docRef.path)
+                .update({ imageUrl: url })
+            )
+            .catch(err => console.log(err))
     }
 
     toggleAddMember = () => this.setState({addMemberToggled: !this.state.addMemberToggled})
 
     render() {
-        const { addMemberToggled, loading, searchResult, searched, members} = this.state
+        const { addMemberToggled, loading, loadingMembers, searchResult, searched, members, uploadBlob} = this.state
 
         return (
             <div className={`Members`}>
@@ -81,10 +106,17 @@ export default class Members extends Component {
                     toggle={this.toggleAddMember}
                     isOpen={addMemberToggled === true}
                 >
-                    <CompleteDetails
-                        confirm={this.addMember}
-                        loading={loading === true}
-                    />
+                    <div className={'Members__add-wrapper'}>
+                        <PictureInput
+                            blob={blob => this.setState({uploadBlob: blob})}
+                            preview={uploadBlob}
+                        />
+
+                        <CompleteDetails
+                            confirm={this.addMember}
+                            loading={loading === true}
+                        />    
+                    </div>
                 </ActionBox>
 
                 <h2
@@ -124,9 +156,17 @@ export default class Members extends Component {
                     )}
                 </div>
 
-                <h2 className={'App__title'}>
+                <h2
+                    className={'App__title'}
+                    onClick={() => this.getMembers()}
+                >
                     Latest members
                 </h2>
+
+                {loadingMembers
+                    ? <Loader pastDelay={true} height={40} />
+                    : null
+                }
 
                 <div className={'Members__member-wrapper'}>
                     {members.map(doc =>
