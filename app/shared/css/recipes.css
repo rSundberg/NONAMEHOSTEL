@@ -1,0 +1,14 @@
+.Recipes {
+    display: grid;
+    grid: 1fr / 1fr 1fr;
+
+    &__box {
+        height: 150px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: var(--font-big);
+        box-shadow: var(--box-shadow);
+        border-radius: 3px;
+    }
+}

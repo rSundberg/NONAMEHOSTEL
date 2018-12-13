@@ -85,6 +85,7 @@ export default class Box extends Component {
                         className={'Dashboard__box-title'}
                         innerRef={(el) => this.titleRef = el}
                         onSwipedRight={this.triggerClick}
+                        onTap={this.triggerClick}
                         trackMouse={true}
                     >
                         {name}
@@ -95,10 +96,11 @@ export default class Box extends Component {
                     className={'Dashboard__content-box'}
                     innerRef={(el) => this.boxRef = el}
                     onSwipedLeft={this.triggerClick}
+                    onTap={this.triggerClick}
                     trackMouse={true}
                     flickThreshold={1}
                 >
-                    {children}
+                    {isOpen ? children : null}
                 </Swipeable>
             </Fragment>
         )

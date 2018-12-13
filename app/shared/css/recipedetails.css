@@ -1,0 +1,5 @@
+.RecipeDetails {
+    &__ingredients {
+        display: grid;
+    }
+}

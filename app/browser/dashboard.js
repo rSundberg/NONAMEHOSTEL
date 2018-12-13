@@ -9,6 +9,7 @@ import Members from './members'
 import Bookings from './bookings'
 import Activities from './activities'
 import Requisitions from './requisitions'
+import Juicebar from './juicebar'
 
 import Back from '../shared/media/back.svg'
 
@@ -19,7 +20,7 @@ export default class Dashboard extends Component {
         password: null,
         user: null,
         activeBox: false,
-        boxes: ['Check in', 'Bookings', 'Activities', 'Home collective members', 'Requisition']
+        boxes: ['Check in', 'Bookings', 'Activities', 'Home collective members', 'Requisition', 'Juicebar']
     }
 
     dashboardRef = React.createRef()
@@ -109,6 +110,10 @@ export default class Dashboard extends Component {
             return <Requisitions
                 firestore={firestore}
                 moment={moment}
+            />
+        } else if (box === 'Juicebar') {
+            return <Juicebar
+                firestore={firestore}
             />
         } else {
             return null

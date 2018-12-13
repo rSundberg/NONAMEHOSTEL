@@ -29,6 +29,7 @@
         background-color: white;
         overflow: scroll;
         position: fixed;
+        top: 0;
 
         &--logout {
             background-color: var(--dangerous-item);

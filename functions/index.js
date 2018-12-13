@@ -9,7 +9,17 @@ const cors = require('cors')({
 admin.initializeApp()
 
 exports.juicebar = functions.https.onRequest((req, res) => {
-    res.json('<h1>Hello</h1>')
+    res.status(200).end(`
+        <!DOCTYPE html>
+        <html>
+            <head>
+            </head>
+
+            <body>
+                <h1>Hi</h1>
+            </body>
+        </html>
+    `)
 })
 
 function bedBookings(location, bedType) {

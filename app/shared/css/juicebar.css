@@ -1,0 +1,21 @@
+.Juicebar {
+    &__actions {
+        display: grid;
+        grid: 1fr / 1fr 1fr;
+    }
+
+    &__action-button {
+        width: 100%;
+        display: flex;
+        justify-content: center;
+        font-size: var(--font-big);
+        padding: 5vw;
+        box-sizing: border-box;
+        border-radius: 3px;
+
+        &--active {
+            background-color: var(--active-item);
+            color: white;
+        }
+    }
+}
