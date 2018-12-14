@@ -1,15 +1,17 @@
 .Juicebar {
     &__actions {
         display: grid;
-        grid: 1fr / 1fr 1fr;
+        grid: 70px / 1fr 1fr;
+        box-shadow: var(--box-shadow);
+        border-radius: 3px;
     }
 
     &__action-button {
         width: 100%;
         display: flex;
         justify-content: center;
+        align-items: center;
         font-size: var(--font-big);
-        padding: 5vw;
         box-sizing: border-box;
         border-radius: 3px;
 

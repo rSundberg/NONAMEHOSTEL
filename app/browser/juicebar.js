@@ -12,7 +12,7 @@ export default class Juicebar extends Component {
     }
 
     componentDidMount = () => {
-        this.getRecipies().then((snapshot) => this.setState({recipies: snapshot.docs}))
+        this.getRecipies().then((snapshot) => this.setState({recipes: snapshot.docs}))
     }
 
     toggleAction = action => {
@@ -22,6 +22,8 @@ export default class Juicebar extends Component {
     }
 
     getRecipies = () => this.props.firestore.collection('recipes').get()
+
+    addRecipe = data => this.props.firestore.collection('recipes').add(data)
 
     render() {
         const {activeAction, recipes} = this.state
@@ -43,7 +45,7 @@ export default class Juicebar extends Component {
                 </div>
 
                 { activeAction === 'recipes'
-                    ? <Recipes data={recipes} />
+                    ? <Recipes data={recipes} addRecipe={this.addRecipe} />
                     : null
                 }
             </div>

@@ -1,5 +1,30 @@
 .RecipeDetails {
-    &__ingredients {
-        display: grid;
+    &__description {
+        width: 100%;
+        resize: vertical;
+        font-size: var(--font-big);
+        outline: none;
+        overflow: visible;
+
+        &::placeholder {
+            color: black;
+        }
+
+        &:focus {
+            color: var(--selected-item);
+
+            &::placeholder {
+                color: var(--selected-item);
+            }
+        }
+    }
+
+    &__confirm {
+        padding: 5vw;
+        text-align: center;
+        background-color: var(--active-item);
+        color: white;
+        font-size: var(--font-big);
+        border-radius: 3px;
     }
 }

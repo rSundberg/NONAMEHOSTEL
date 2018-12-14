@@ -1,14 +1,25 @@
 .Recipes {
     display: grid;
-    grid: 1fr / 1fr 1fr;
+
+    &__wrapper {
+        display: grid;
+        grid: 1fr / 1fr 1fr;
+        grid-gap: 5vw;
+        padding: 5vw 0;
+    }
 
     &__box {
         height: 150px;
         display: flex;
+        flex-flow: column;
         align-items: center;
         justify-content: center;
         font-size: var(--font-big);
         box-shadow: var(--box-shadow);
         border-radius: 3px;
+
+        &--expanded {
+            grid-column: 1 / 3;
+        }
     }
 }

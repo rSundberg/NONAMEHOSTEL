@@ -1,60 +1,151 @@
 import React, { Component, Fragment } from 'react';
+import Anime from 'animejs'
 
 import Categories from './categories'
+import ListMaker from './listmaker'
 
 import '../shared/css/recipedetails.css'
 
 export default class RecipeDetails extends Component {
     state = {
-        categories: ['drink', 'food', 'dessert'],
-        selectedCategory: null,
-        activeIngredient: '',
-        ingredients: []
+        categories: ['drink', 'food', 'dessert', 'snack'],
+        category: '',
+        name: '',
+        price: '',
+        ingredient: '',
+        ingredients: [],
+        instruction: '',
+        instructions: [],
+        loading: false
     }
 
-    setCategory = category => this.setState({selectedCategory: category})
-
-    updateActiveIngredient = event => {
-        console.log(event.target.value)
-        this.setState({activeIngredient: event.target.value})
-    }
+    descriptionRef = React.createRef()
 
     addIngredient = () => {
-        console.log(this.state.activeIngredient)
-        this.setState(({ingredients}) => {
-            ingredients.push(this.state.activeIngredient)
+        this.setState(({ingredients, ingredient}) => {
+            if (ingredient) {
+                ingredients.push(ingredient)
 
-            return ({ingredients: ingredients})
+                return ({ingredients: ingredients, ingredient: ''})
+            }
         })
     }
 
+    deleteIngredient = value => this.setState(({ ingredients }) => ({
+        ingredients: ingredients.filter(ingredient => ingredient !== value)
+    }))
+
+    addInstruction = () => {
+        this.setState(({ instructions, instruction }) => {
+            if (instruction) {
+                instructions.push(instruction)
+
+                return ({ instructions: instructions, instruction: '' })
+            }
+        })
+    }
+
+    deleteInstruction = value => this.setState(({ instructions }) => ({
+        instructions: instructions.filter(instruction => instruction !== value)
+    }))
+
+    updateInfo = (key, data) => this.setState({[key]: data})
+
+    autoResizeDescription = e => {
+        let elementHeight = this.descriptionRef.current.offsetHeight
+        let scrollHeight = e.target.scrollHeight + 2 // 2 px difference compared to scrollheight
+
+        if (elementHeight !== scrollHeight) {
+            Anime({
+                targets: this.descriptionRef.current,
+                height: e.target.scrollHeight,
+                duration: 0,
+                easing: 'easeOutQuad'
+            })
+        }
+
+        this.updateInfo('description', e.target.value)
+    }
+
+    confirmRecipe = () => {
+        this.setState({loading: true})
+
+        const {name, price, description, category, ingredients, instructions} = this.state
+
+        const data = {
+            name: name,
+            price: price,
+            description: description,
+            category: category,
+            ingredients: ingredients,
+            instructions: instructions,
+            active: false
+        }
+
+        this.props.onConfirm(data).then(() => this.setState({loading: false}, this.props.toggleBox))
+    }
+
     render() {
-        const {categories, selectedCategory, ingredients} = this.state
+        const {name, price, description, ingredient, instruction, categories, category, ingredients, instructions, loading} = this.state
 
         return (
             <Fragment>
-                <input type={'text'} placeholder={'Name'} />
+                <div>
+                    <input
+                        className={'App__input'}
+                        type={'text'}
+                        placeholder={'Name'}
+                        onChange={e => this.updateInfo('name', e.target.value)}
+                        value={name}
+                    />
+                </div>
 
-                <input type={'text'} placeholder={'Price'} />
+                <div>
+                    <input
+                        className={'App__input'}
+                        type={'number'}
+                        placeholder={'Price'}
+                        onChange={e => this.updateInfo('price', e.target.value)}
+                        value={price}
+                    />
+                </div>
+                
+                <div>
+                    <textarea
+                        className={'RecipeDetails__description'}
+                        placeholder={'Description'}
+                        ref={this.descriptionRef}
+                        onChange={this.autoResizeDescription}
+                        value={description}
+                    ></textarea>
+                </div>
 
                 <Categories
                     categories={categories}
-                    setCategory={this.setCategory}
-                    activeCategory={selectedCategory}
+                    setCategory={category => this.updateInfo('category', category)}
+                    activeCategory={category}
                 />
 
-                <div className={'RecipeDetails__ingredients'}>
-                    <input type={'text'} placeholder={'Ingredient'} onChange={this.updateActiveIngredient}/>
+                <ListMaker
+                    title={'Ingredients'}
+                    onInputValueChange={e => this.updateInfo('ingredient', e.target.value)}
+                    currentInputValue={ingredient}
+                    addInputValue={this.addIngredient}
+                    currentList={ingredients}
+                    deleteListItem={this.deleteIngredient}
+                />
 
-                    <span onClick={this.addIngredient}>Add Ingredient</span>
+                <ListMaker
+                    title={'Instructions'}
+                    onInputValueChange={e => this.updateInfo('instruction', e.target.value)}
+                    currentInputValue={instruction}
+                    addInputValue={this.addInstruction}
+                    currentList={instructions}
+                    deleteListItem={this.deleteInstruction}
+                />
 
-                    {
-                        ingredients.map(ingredient => 
-                            <span>
-                                {ingredient}
-                            </span>
-                        )
-                    }
+                <div className={`RecipeDetails__confirm ${loading ? 'App__loading' : ''}`} onClick={this.confirmRecipe}>
+                    Confirm recipe
                 </div>
             </Fragment>
         );
