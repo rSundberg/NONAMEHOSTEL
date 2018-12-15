@@ -25,6 +25,21 @@ export default class Juicebar extends Component {
 
     addRecipe = data => this.props.firestore.collection('recipes').add(data)
 
+    activeRecipe = (id, bool) => this.props.firestore.collection('recipes').doc(id).update({active: bool})
+        .then(() => this.props.firestore.collection('recipes').doc(id).get())
+        .then(doc => {
+            this.setState(({recipes}) => {
+                let withoutOldDoc = recipes.filter(recipe => recipe.id !== id)
+
+                withoutOldDoc.push(doc)
+
+                return ({recipes: withoutOldDoc})
+            })
+        })
+
+    deleteRecipe = id => this.props.firestore.collection('recipes').doc(id).delete()
+        .then(() => this.setState(({recipes}) => ({recipes: recipes.filter(recipe => recipe.id !== id)})))
+
     render() {
         const {activeAction, recipes} = this.state
 
@@ -45,7 +60,12 @@ export default class Juicebar extends Component {
                 </div>
 
                 { activeAction === 'recipes'
-                    ? <Recipes data={recipes} addRecipe={this.addRecipe} />
+                    ? <Recipes
+                        data={recipes}
+                        addRecipe={this.addRecipe}
+                        activeRecipe={this.activeRecipe}
+                        deleteRecipe={this.deleteRecipe}
+                    />
                     : null
                 }
             </div>

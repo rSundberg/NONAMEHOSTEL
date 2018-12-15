@@ -1,25 +1,73 @@
 .Recipes {
     display: grid;
+    grid-gap: 5vw;
 
     &__wrapper {
         display: grid;
-        grid: 1fr / 1fr 1fr;
+        grid: 1fr / 1fr;
         grid-gap: 5vw;
         padding: 5vw 0;
     }
 
     &__box {
-        height: 150px;
-        display: flex;
-        flex-flow: column;
+        display: grid;
+        grid-gap: 5vw;
         align-items: center;
-        justify-content: center;
         font-size: var(--font-big);
         box-shadow: var(--box-shadow);
         border-radius: 3px;
+        box-sizing: border-box;
+        padding: 5vw;
+    }
 
-        &--expanded {
-            grid-column: 1 / 3;
+    &__category {
+        font-size: var(--font-reallyBig);
+        text-transform: capitalize;
+    }
+
+    &__title {
+        font-size: var(--font-big);
+        text-transform: capitalize;
+    }
+
+    &__description {
+        font-size: var(--font-small);
+    }
+
+    &__details {
+        display: grid;
+        grid-gap: 5vw;
+    }
+
+    &__list-wrapper {
+        display: grid;
+        grid-gap: 2vw;
+    }
+
+    &__list {
+        display: grid;
+        grid-gap: 2vw;
+    }
+
+    &__actions {
+        display: grid;
+        grid: 70px / 1fr 1fr;
+        grid-gap: 5px;
+        box-shadow: var(--box-shadow);
+        border-radius: 3px;
+    }
+
+    &__action {
+        border-radius: 3px;
+        background-color: var(--active-item);
+        color: white;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+
+        &--active {
+            background-color: var(--dangerous-item);
+            color: white;
         }
     }
 }
