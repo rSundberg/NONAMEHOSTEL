@@ -5,13 +5,20 @@ import ActionBox from './actionbox'
 import '../shared/css/recipes.css'
 import RecipeDetails from './recipedetails';
 
-function Recipe({name, price, description, ingredients, instructions, active, activate, remove, id, expand, expanded}) {
+function Recipe({name, imageUrl, price, description, ingredients, instructions, active, activate, remove, id, expand, expanded}) {
     return <div
         className={`Recipes__box`}
         onClick={() => expand(id)}
     >
-        <h2 className={'Recipes__title'}>{name}</h2>
-        <span className={'Recipes__description'}>{description}</span>
+        <div className={'Recipes__preview-wrapper'}>
+            <img className={'Recipes__picture'} src={imageUrl} />
+
+            <div className={'Recipes__preview-info'}>
+                <h2 className={'Recipes__title'}>{name}</h2>
+
+                <span className={'Recipes__description'}>{description}</span>
+            </div>
+        </div>
 
         { expanded
             ? <div className={'Recipes__details'}>
@@ -39,8 +46,6 @@ function Recipe({name, price, description, ingredients, instructions, active, ac
                     </div>
                 </div>
 
-                {console.log(active)}
-
                 <div className={'Recipes__actions'}>
                     <div
                         className={`Recipes__action ${active ? 'Recipes__action--active' : ''}`}
@@ -62,15 +67,59 @@ function Recipe({name, price, description, ingredients, instructions, active, ac
     </div>
 }
 
-export default class Recipies extends Component {
+export default class Recipes extends Component {
     state = {
         addRecipeToggled: false,
-        expandedRecipe: false
+        expandedRecipe: false,
+        recipes: []
     }
 
-    toggleAddRecipe = () => this.setState(({addRecipeToggled}) => ({addRecipeToggled: !addRecipeToggled}))
+    componentDidMount = () => {
+        this.getRecipies().then((snapshot) => this.setState({ recipes: snapshot.docs }))
+    }
 
-    getDataAndAddRecipe = data => this.props.addRecipe(data)
+    getRecipies = () => this.props.firestore.collection('recipes').get()
+
+    addRecipe = (data, image) =>
+        this.props.firestore.collection('recipes').add(data)
+            .then(docRef =>
+                this.uploadRecipeImage(image, docRef)
+                    .then(url => this.props.firestore.doc(docRef.path).update({ imageUrl: url }))    
+                    .then(() => this.props.firestore.collection('recipes').doc(docRef.id).get())
+                    .then(doc => {
+                        this.setState(({ recipes }) => {
+                            recipes.push(doc)
+
+                            return ({ recipes: recipes })
+                        })
+
+                        return true
+                    })
+            )
+
+    deleteRecipe = id => this.props.firestore.collection('recipes').doc(id).delete()
+        .then(() => this.props.storage.ref().child(`recipe_images/${id}`).delete())
+        .then(() => this.setState(({ recipes }) => ({ recipes: recipes.filter(recipe => recipe.id !== id) })))
+
+    activeRecipe = (id, bool) => this.props.firestore.collection('recipes').doc(id).update({ active: bool })
+        .then(() => this.props.firestore.collection('recipes').doc(id).get())
+        .then(doc => {
+            this.setState(({ recipes }) => {
+                let withoutOldDoc = recipes.filter(recipe => recipe.id !== id)
+
+                withoutOldDoc.push(doc)
+
+                return ({ recipes: withoutOldDoc })
+            })
+        })
+
+    uploadRecipeImage = (file, docRef) => this.props.storage
+        .ref()
+        .child(`recipe_images/${docRef.id}`)
+        .put(file)
+        .then(snapshot => this.props.storage.ref().child(snapshot.ref.fullPath).getDownloadURL())
+
+    toggleAddRecipe = () => this.setState(({addRecipeToggled}) => ({addRecipeToggled: !addRecipeToggled}))
 
     expandRecipe = id => this.setState({expandedRecipe: id})
 
@@ -118,7 +167,7 @@ export default class Recipies extends Component {
     }
 
     render() {
-        const {addRecipeToggled, expandedRecipe} = this.state
+        const {addRecipeToggled, expandedRecipe, recipes} = this.state
 
         return (
             <div className={'Recipes'}>
@@ -127,11 +176,14 @@ export default class Recipies extends Component {
                     isOpen={addRecipeToggled}
                     toggle={this.toggleAddRecipe}
                 >
-                    <RecipeDetails onConfirm={this.getDataAndAddRecipe} toggleBox={this.toggleAddRecipe} />
+                    <RecipeDetails
+                        onConfirm={this.addRecipe}
+                        toggleBox={this.toggleAddRecipe}
+                    />
                 </ActionBox>
 
                 {
-                    this.sortByCategory(this.props.data)
+                    this.sortByCategory(recipes)
                         .map(({category, docs}) => <div>
                             <h2 className={'Recipes__category'}>{category}</h2>
 
@@ -142,8 +194,8 @@ export default class Recipies extends Component {
                                             id={doc.id}
                                             expand={this.expandRecipe}
                                             expanded={expandedRecipe === doc.id}
-                                            activate={this.props.activeRecipe}
-                                            remove={this.props.deleteRecipe}
+                                            activate={this.activeRecipe}
+                                            remove={this.deleteRecipe}
                                         />)
                                 }
                             </div>

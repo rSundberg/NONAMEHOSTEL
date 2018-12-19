@@ -20,9 +20,22 @@
     }
 
     &__confirm {
-        padding: 5vw;
-        text-align: center;
+        display: grid;
+        grid: 70px / 1fr;
+        align-items: center;
+        justify-items: center;
         background-color: var(--active-item);
+        color: white;
+        font-size: var(--font-big);
+        border-radius: 3px;
+    }
+
+    &__error {
+        display: grid;
+        grid: 70px / 1fr;
+        align-items: center;
+        justify-items: center;
+        background-color: var(--dangerous-item);
         color: white;
         font-size: var(--font-big);
         border-radius: 3px;

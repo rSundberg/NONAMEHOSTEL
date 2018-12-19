@@ -3,11 +3,13 @@ import Anime from 'animejs'
 
 import Categories from './categories'
 import ListMaker from './listmaker'
+import PictureInput from './pictureinput'
 
 import '../shared/css/recipedetails.css'
 
 export default class RecipeDetails extends Component {
     state = {
+        uploadBlob: null,
         categories: ['drink', 'food', 'dessert', 'snack'],
         category: '',
         name: '',
@@ -68,9 +70,9 @@ export default class RecipeDetails extends Component {
     }
 
     confirmRecipe = () => {
-        this.setState({loading: true})
+        this.setState({error: false, loading: true})
 
-        const {name, price, description, category, ingredients, instructions} = this.state
+        const {name, price, description, category, ingredients, instructions, uploadBlob} = this.state
 
         const data = {
             name: name,
@@ -82,14 +84,24 @@ export default class RecipeDetails extends Component {
             active: false
         }
 
-        this.props.onConfirm(data).then(() => this.setState({loading: false}, this.props.toggleBox))
+        if (name && price && description && category && ingredients.length > 0 && instructions.length > 0 && uploadBlob) {
+            this.props.onConfirm(data, uploadBlob).then(() => this.setState({loading: false}, this.props.toggleBox))
+        } else {
+            this.setState({error: true, loading: false})
+        }
+
     }
 
     render() {
-        const {name, price, description, ingredient, instruction, categories, category, ingredients, instructions, loading} = this.state
+        const {uploadBlob, name, price, description, ingredient, instruction, categories, category, ingredients, instructions, loading, error} = this.state
 
         return (
             <Fragment>
+                <PictureInput
+                    blob={blob => this.setState({uploadBlob: blob})}
+                    preview={uploadBlob}
+                />
+
                 <div>
                     <input
                         className={'App__input'}
@@ -105,7 +117,7 @@ export default class RecipeDetails extends Component {
                         className={'App__input'}
                         type={'number'}
                         placeholder={'Price'}
-                        onChange={e => this.updateInfo('price', e.target.value)}
+                        onChange={e => this.updateInfo('price', parseInt(e.target.value))}
                         value={price}
                     />
                 </div>
@@ -147,6 +159,13 @@ export default class RecipeDetails extends Component {
                 <div className={`RecipeDetails__confirm ${loading ? 'App__loading' : ''}`} onClick={this.confirmRecipe}>
                     Confirm recipe
                 </div>
+
+                {error
+                    ? <div className={'RecipeDetails__error'}>
+                        Don't forget any fields!
+                    </div>
+                    : null
+                }
             </Fragment>
         );
     }

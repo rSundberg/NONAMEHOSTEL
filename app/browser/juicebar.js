@@ -1,18 +1,25 @@
 import React, { Component } from 'react'
+import Loadable from 'react-loadable'
 
-import Recipes from './recipes'
-import Orders from './orders'
+import Loader from './loader'
+
+const Recipes = Loadable({
+    loader: () => import(/* webpackChunkName: 'recipes' */ './recipes'),
+    loading: defaultProps => <Loader {...defaultProps} height={50} title={'Recipes'} />,
+    delay: 600
+})
+
+const Orders = Loadable({
+    loader: () => import(/* webpackChunkName: 'orders' */ './orders'),
+    loading: defaultProps => <Loader {...defaultProps} height={50} title={'Orders'} />,
+    delay: 600
+})
 
 import '../shared/css/juicebar.css'
 
 export default class Juicebar extends Component {
     state = {
-        activeAction: null,
-        recipes: []
-    }
-
-    componentDidMount = () => {
-        this.getRecipies().then((snapshot) => this.setState({recipes: snapshot.docs}))
+        activeAction: null
     }
 
     toggleAction = action => {
@@ -21,27 +28,8 @@ export default class Juicebar extends Component {
         )
     }
 
-    getRecipies = () => this.props.firestore.collection('recipes').get()
-
-    addRecipe = data => this.props.firestore.collection('recipes').add(data)
-
-    activeRecipe = (id, bool) => this.props.firestore.collection('recipes').doc(id).update({active: bool})
-        .then(() => this.props.firestore.collection('recipes').doc(id).get())
-        .then(doc => {
-            this.setState(({recipes}) => {
-                let withoutOldDoc = recipes.filter(recipe => recipe.id !== id)
-
-                withoutOldDoc.push(doc)
-
-                return ({recipes: withoutOldDoc})
-            })
-        })
-
-    deleteRecipe = id => this.props.firestore.collection('recipes').doc(id).delete()
-        .then(() => this.setState(({recipes}) => ({recipes: recipes.filter(recipe => recipe.id !== id)})))
-
     render() {
-        const {activeAction, recipes} = this.state
+        const {activeAction} = this.state
 
         return (
             <div className={'Juicebar'}>
@@ -60,12 +48,12 @@ export default class Juicebar extends Component {
                 </div>
 
                 { activeAction === 'recipes'
-                    ? <Recipes
-                        data={recipes}
-                        addRecipe={this.addRecipe}
-                        activeRecipe={this.activeRecipe}
-                        deleteRecipe={this.deleteRecipe}
-                    />
+                    ? <Recipes firestore={this.props.firestore} storage={this.props.storage} />
+                    : null
+                }
+
+                { activeAction === 'orders'
+                    ? <Orders firestore={this.props.firestore} storage={this.props.storage} />
                     : null
                 }
             </div>

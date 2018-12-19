@@ -114,6 +114,7 @@ export default class Dashboard extends Component {
         } else if (box === 'Juicebar') {
             return <Juicebar
                 firestore={firestore}
+                storage={storage}
             />
         } else {
             return null
