@@ -115,6 +115,7 @@ export default class Dashboard extends Component {
             return <Juicebar
                 firestore={firestore}
                 storage={storage}
+                moment={moment}
             />
         } else {
             return null

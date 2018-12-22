@@ -30,6 +30,7 @@ export default class Juicebar extends Component {
 
     render() {
         const {activeAction} = this.state
+        const {firestore, storage, moment} = this.props
 
         return (
             <div className={'Juicebar'}>
@@ -48,12 +49,12 @@ export default class Juicebar extends Component {
                 </div>
 
                 { activeAction === 'recipes'
-                    ? <Recipes firestore={this.props.firestore} storage={this.props.storage} />
+                    ? <Recipes firestore={firestore} storage={storage} />
                     : null
                 }
 
                 { activeAction === 'orders'
-                    ? <Orders firestore={this.props.firestore} storage={this.props.storage} />
+                    ? <Orders firestore={firestore} storage={storage} moment={moment}/>
                     : null
                 }
             </div>

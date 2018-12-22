@@ -75,43 +75,23 @@ export default class Recipes extends Component {
     }
 
     componentDidMount = () => {
-        this.getRecipies().then((snapshot) => this.setState({ recipes: snapshot.docs }))
+        this.getRecipies().onSnapshot(snapshot => this.setState({ recipes: snapshot.docs }))
     }
 
-    getRecipies = () => this.props.firestore.collection('recipes').get()
+    getRecipies = () => this.props.firestore.collection('recipes')
 
     addRecipe = (data, image) =>
         this.props.firestore.collection('recipes').add(data)
             .then(docRef =>
                 this.uploadRecipeImage(image, docRef)
-                    .then(url => this.props.firestore.doc(docRef.path).update({ imageUrl: url }))    
-                    .then(() => this.props.firestore.collection('recipes').doc(docRef.id).get())
-                    .then(doc => {
-                        this.setState(({ recipes }) => {
-                            recipes.push(doc)
-
-                            return ({ recipes: recipes })
-                        })
-
-                        return true
-                    })
+                    .then(url =>
+                        this.props.firestore.doc(docRef.path).update({ imageUrl: url }))
             )
 
     deleteRecipe = id => this.props.firestore.collection('recipes').doc(id).delete()
         .then(() => this.props.storage.ref().child(`recipe_images/${id}`).delete())
-        .then(() => this.setState(({ recipes }) => ({ recipes: recipes.filter(recipe => recipe.id !== id) })))
 
     activeRecipe = (id, bool) => this.props.firestore.collection('recipes').doc(id).update({ active: bool })
-        .then(() => this.props.firestore.collection('recipes').doc(id).get())
-        .then(doc => {
-            this.setState(({ recipes }) => {
-                let withoutOldDoc = recipes.filter(recipe => recipe.id !== id)
-
-                withoutOldDoc.push(doc)
-
-                return ({ recipes: withoutOldDoc })
-            })
-        })
 
     uploadRecipeImage = (file, docRef) => this.props.storage
         .ref()
