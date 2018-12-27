@@ -121,41 +121,26 @@ export default class Dashboard extends Component {
             return null
         }
     }
-
+    
     setActiveBox = boxId => this.setState({activeBox: this.state.activeBox === boxId ? false : boxId})
-
+    
     render() {
         const {boxes, activeBox, user, loading} = this.state
 
         return (
             <div className={'Dashboard'} ref={this.dashboardRef}>
-                {
-                    !user ?
-                        <div className={'Dashboard__login'}>
-                            <h1 className={`Dashboard__title ${loading ? 'App__loading' : ''}`}>Let's keep it a secret</h1>
+                {!user
+                    ? <div className={'Dashboard__login'}>
+                        <h1 className={`Dashboard__title ${loading ? 'App__loading' : ''}`}>Let's keep it a secret</h1>
 
-                            <div className={'Dashboard__inputs'}>
-                                <form>
-                                    <input type={'email'} className={'Dashboard__input'} placeholder={'Email'} onChange={this.setEmail} />
-                                    <input type={'password'} className={'Dashboard__input'} placeholder={'Password'} onChange={this.setPassword} />
-                                </form>
-                            </div>
-                        </div> :
-                        <div className={'Dashboard__home'}>
-                            <div className={'Dashboard__account-info'}>
-                                <h1 className={'Dashboard__title'}>Welcome</h1>
-                                <span>
-                                    {this.state.user.email}
-                                </span>
-                            </div>
-
-                            {boxes.map((box, i) =>
-                                <Box key={i} name={box} id={i} isOpen={activeBox === i} onClick={this.setActiveBox}>
-                                    {this.getBoxContent(box)}
-                                </Box>
-                                )
-                            }
+                        <div className={'Dashboard__inputs'}>
+                            <form>
+                                <input type={'email'} className={'Dashboard__input'} placeholder={'Email'} onChange={this.setEmail} />
+                                <input type={'password'} className={'Dashboard__input'} placeholder={'Password'} onChange={this.setPassword} />
+                            </form>
                         </div>
+                    </div>
+                    : null
                 }
 
                 <div className={'Dashboard__action-box'}>
@@ -165,11 +150,32 @@ export default class Dashboard extends Component {
                     >
                         {user ? 'Logout' : 'Login'}
                     </span>
-
+            
                     <span className={'Dashboard__back'} onClick={() => this.props.backClick()}>
                         <Back />
                     </span>
                 </div>
+
+                {
+                    user
+                        ? <Fragment>
+                            <div className={'Dashboard__account-info'}>
+                                <h1 className={'Dashboard__title'}>Welcome</h1>
+                                <span>
+                                    {this.state.user.email}
+                                </span>
+                            </div>
+
+                            <div className={'Dashboard__home'}>
+                                {boxes.map((box, i) =>
+                                    <Box key={i} name={box} id={i} isOpen={activeBox === i} onClick={this.setActiveBox}>
+                                        {this.getBoxContent(box)}
+                                    </Box>
+                                )}
+                            </div>
+                        </Fragment>
+                        : null
+                }
             </div>
         )
     }

@@ -1,7 +1,6 @@
 import anime from 'animejs';
 import React, { Component, Fragment } from 'react'
 import CancelIcon from '../shared/media/cancel.svg'
-import Swipeable from 'react-swipeable'
 
 
 export default class Box extends Component {
@@ -35,14 +34,14 @@ export default class Box extends Component {
 
     open = () => {
         anime({
-            targets: this.boxRef,
+            targets: this.boxRef.current,
             translateX: ['-100vw', 0],
             easing: 'easeInOutQuart',
             duration: 250,
         })
 
         anime({
-            targets: this.titleRef,
+            targets: this.titleRef.current,
             translateX: [0, '100vw'],
             easing: 'easeInOutQuart',
             duration: 250,
@@ -51,57 +50,51 @@ export default class Box extends Component {
 
     close = () => {
         anime({
-            targets: this.boxRef,
+            targets: this.boxRef.current,
             translateX: [0, '-100vw'],
             easing: 'easeOutQuart',
             duration: 250
         }).finished.then(() => {
-            this.boxRef.style = ''
+            this.boxRef.current.style = ''
         })
 
         anime({
-            targets: this.titleRef,
+            targets: this.titleRef.current,
             translateX: ['100vw', 0],
             easing: 'easeOutQuart',
             duration: 250,
         }).finished.then(() => {
-            this.titleRef.style = ''
+            this.titleRef.current.style = ''
         })
     }
 
-    triggerClick = (e, deltaY, isFlick) => {
-        if (isFlick) {
-            this.props.onClick(this.props.id)
-        }
-    }
+    triggerClick = () => this.props.onClick(this.props.id)
 
     render() {
         const {name, id, isOpen, onClick, children} = this.props
 
         return (
             <Fragment>
-                <span>
-                    <Swipeable
-                        className={'Dashboard__box-title'}
-                        innerRef={(el) => this.titleRef = el}
-                        onSwipedRight={this.triggerClick}
-                        onTap={this.triggerClick}
-                        trackMouse={true}
-                    >
-                        {name}
-                    </Swipeable>
+                <span
+                    className={'Dashboard__box-title'}
+                    ref={this.titleRef}
+                    onClick={this.triggerClick}
+                >
+                    {name}
                 </span>
 
-                <Swipeable
+                <div
                     className={'Dashboard__content-box'}
-                    innerRef={(el) => this.boxRef = el}
-                    onSwipedLeft={this.triggerClick}
-                    onTap={this.triggerClick}
-                    trackMouse={true}
-                    flickThreshold={1}
+                    ref={this.boxRef}
                 >
+                    <span className={'Dashboard__content-navigation'}>
+                        <h2 className={'Dashboard__navigation-title'}>{name}</h2>
+
+                        <CancelIcon className={'Dashboard__close-icon'} onClick={this.triggerClick} />
+                    </span>
+
                     {isOpen ? children : null}
-                </Swipeable>
+                </div>
             </Fragment>
         )
     }

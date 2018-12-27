@@ -1,4 +1,5 @@
 .Booking {
+    width: 100vw;
     min-height: 98vh;
     display: grid;
     grid-gap: 2vw;

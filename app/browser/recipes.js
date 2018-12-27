@@ -5,66 +5,100 @@ import ActionBox from './actionbox'
 import '../shared/css/recipes.css'
 import RecipeDetails from './recipedetails';
 
-function Recipe({name, imageUrl, price, description, ingredients, instructions, active, activate, remove, id, expand, expanded}) {
-    return <div
-        className={`Recipes__box`}
-        onClick={() => expand(id)}
-    >
-        <div className={'Recipes__preview-wrapper'}>
-            <img className={'Recipes__picture'} src={imageUrl} />
+import Settings from '../shared/media/settings.svg'
 
-            <div className={'Recipes__preview-info'}>
-                <h2 className={'Recipes__title'}>{name}</h2>
+class Recipe extends Component {
+    state = {
+        settingsToggled: false,
+        recipeToggled: false
+    }
 
-                <span className={'Recipes__description'}>{description}</span>
-            </div>
-        </div>
+    toggleSettings = () => this.setState(({settingsToggled}) => ({settingsToggled: !settingsToggled, recipeToggled: false}))
 
-        { expanded
-            ? <div className={'Recipes__details'}>
-                <div className={'Recipes__list-wrapper'}>
-                    <h2 className={'Recipes__title'}>Ingredients</h2>
+    toggleRecipe = () => this.setState(({ recipeToggled }) => ({ recipeToggled: !recipeToggled, settingsToggled: false}))
 
-                    <div className={'Recipes__list'}>
-                        {   
-                            ingredients.map(ingredient => <span className={'Recipes__description'}>
-                                {ingredient}
-                            </span>)
-                        }
-                    </div>
-                </div>
+    render() {
+        const {settingsToggled, recipeToggled} = this.state
+        const { name, imageUrl, price, description, ingredients, instructions, active, activate, category, id, update } = this.props
 
-                <div className={'Recipes__list-wrapper'}>
-                    <h2 className={'Recipes__title'}>Instructions</h2>
-                    
-                    <div className={'Recipes__list'}>
-                        {
-                            instructions.map(instruction => <span className={'Recipes__description'}>
-                                {instruction}
-                            </span>)
-                        }
-                    </div>
-                </div>
+        return (<div className={`Recipes__box`}>
+            <div className={'Recipes__preview-wrapper'} onClick={this.toggleRecipe}>
+                <img className={'Recipes__picture'} src={imageUrl} />
 
-                <div className={'Recipes__actions'}>
-                    <div
-                        className={`Recipes__action ${active ? 'Recipes__action--active' : ''}`}
-                        onClick={() => activate(id, !active)}
-                    >
-                        {active ? 'Deactivate' : 'Activate'}
-                    </div>
-                    
-                    <div
-                        className={'Recipes__action Recipes__action--active'}
-                        onClick={() => remove(id)}
-                    >
-                        Remove
+                <div className={'Recipes__preview-info'}>
+                    <h2 className={'Recipes__title'}>{name}</h2>
+
+                    <span className={'Recipes__description'}>{description}</span>
+
+                    <div className={'Recipes__actions'}>
+                        <Settings
+                            className={`Recipes__settings ${settingsToggled ? 'Recipes__settings--active' : ''}`}
+                            width={30}
+                            onClick={e => {
+                                e.stopPropagation()
+                                this.toggleSettings()
+                            }}
+                        />
+
+                        <div
+                            className={`Recipes__activate ${active ? 'Recipes__activate--active' : ''}`}
+                            onClick={e => {
+                                e.stopPropagation()
+                                activate(id, !active)
+                            }}
+                        >
+                            {active ? 'Remove' : 'Add'}
+                        </div>                        
                     </div>
                 </div>
             </div>
-            : null
-        }
-    </div>
+
+            {recipeToggled
+                ? <div className={'Recipes__details'}>
+                    <div className={'Recipes__list-wrapper'}>
+                        <h2 className={'Recipes__title'}>Ingredients</h2>
+
+                        <div className={'Recipes__list'}>
+                            {
+                                ingredients.map(ingredient => <span className={'Recipes__description'}>
+                                    {ingredient}
+                                </span>)
+                            }
+                        </div>
+                    </div>
+
+                    <div className={'Recipes__list-wrapper'}>
+                        <h2 className={'Recipes__title'}>Instructions</h2>
+
+                        <div className={'Recipes__list'}>
+                            {
+                                instructions.map(instruction => <span className={'Recipes__description'}>
+                                    {instruction}
+                                </span>)
+                            }
+                        </div>
+                    </div>
+                </div>
+                : null
+            }
+
+            {settingsToggled
+                ? <RecipeDetails
+                    preFill={true}
+                    id={id}
+                    name={name}
+                    price={price}
+                    description={description}
+                    category={category}
+                    ingredients={ingredients}
+                    instructions={instructions}
+                    imageUrl={imageUrl}
+                    onConfirm={update}
+                />
+                : null
+            }
+        </div>)
+    }
 }
 
 export default class Recipes extends Component {
@@ -80,28 +114,34 @@ export default class Recipes extends Component {
 
     getRecipies = () => this.props.firestore.collection('recipes')
 
-    addRecipe = (data, image) =>
-        this.props.firestore.collection('recipes').add(data)
-            .then(docRef =>
-                this.uploadRecipeImage(image, docRef)
-                    .then(url =>
-                        this.props.firestore.doc(docRef.path).update({ imageUrl: url }))
-            )
+    addRecipe = (data, imageFile) => this.props.firestore.collection('recipes').add(data)
+        .then(docRef => imageFile ? this.uploadRecipeImage(imageFile, docRef.id, docRef.path) : false)
+        .then(() => {
+            this.toggleAddRecipe()
+
+            return true
+        })
 
     deleteRecipe = id => this.props.firestore.collection('recipes').doc(id).delete()
         .then(() => this.props.storage.ref().child(`recipe_images/${id}`).delete())
 
     activeRecipe = (id, bool) => this.props.firestore.collection('recipes').doc(id).update({ active: bool })
 
-    uploadRecipeImage = (file, docRef) => this.props.storage
+    updateRecipe = (docRef) =>
+        (data, imageFile) =>
+            this.props.firestore.collection('recipes').doc(docRef.id).update(data)
+                .then(() => imageFile ? this.uploadRecipeImage(imageFile, docRef.id, docRef.ref.path) : false)
+
+    uploadRecipeImage = (file, id, path) => this.props.storage
         .ref()
-        .child(`recipe_images/${docRef.id}`)
+        .child(`recipe_images/${id}`)
         .put(file)
         .then(snapshot => this.props.storage.ref().child(snapshot.ref.fullPath).getDownloadURL())
+        .then(url => {
+            this.props.firestore.doc(path).update({ imageUrl: url })
+        })
 
     toggleAddRecipe = () => this.setState(({addRecipeToggled}) => ({addRecipeToggled: !addRecipeToggled}))
-
-    expandRecipe = id => this.setState({expandedRecipe: id})
 
     sortByCategory = docs => {
         let categories = docs
@@ -147,7 +187,7 @@ export default class Recipes extends Component {
     }
 
     render() {
-        const {addRecipeToggled, expandedRecipe, recipes} = this.state
+        const {addRecipeToggled, recipes} = this.state
 
         return (
             <div className={'Recipes'}>
@@ -156,10 +196,7 @@ export default class Recipes extends Component {
                     isOpen={addRecipeToggled}
                     toggle={this.toggleAddRecipe}
                 >
-                    <RecipeDetails
-                        onConfirm={this.addRecipe}
-                        toggleBox={this.toggleAddRecipe}
-                    />
+                    <RecipeDetails onConfirm={this.addRecipe} />
                 </ActionBox>
 
                 {
@@ -172,10 +209,7 @@ export default class Recipes extends Component {
                                     docs.sort(this.byName)
                                         .map(doc => <Recipe {...doc.data()}
                                             id={doc.id}
-                                            expand={this.expandRecipe}
-                                            expanded={expandedRecipe === doc.id}
-                                            activate={this.activeRecipe}
-                                            remove={this.deleteRecipe}
+                                            update={this.updateRecipe(doc)}
                                         />)
                                 }
                             </div>

@@ -102,7 +102,7 @@ export default class CheckIn extends Component {
         return (
             <div className={'CheckIn'}>
                 <Tickets
-                    title={'Check in'}
+                    title={'Today'}
                     data={todays}
                     onConfirmClick={this.confirmBooking}
                     onCancelClick={this.cancelBooking}

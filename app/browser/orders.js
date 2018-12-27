@@ -1,53 +1,11 @@
-import React, { Component } from 'react'
+import React, { Component, Fragment } from 'react'
 
 import ActionBox from './actionbox'
 import Categories from './categories'
+import Order from './order'
 import AddIcon from '../shared/media/add.svg'
 
 import '../shared/css/orders.css'
-
-function OrderTicket({name, items, payed, served, id, payAction}) {
-    return <div className={'Orders__ticket'}>
-        <div className={'Orders__ticket-info'}>
-            <h2 className={'Orders__ticket-title'}>{name}</h2>
-
-            <div className={'Orders__ticket-items'}>
-                {
-                    items.map(item => <div className={'Orders__ticket-item'}>
-                        <span>{item.name}</span>
-
-                        <span>{item.quantity}</span>
-                    </div>)
-                }
-
-                <div className={'Orders__ticket-item'}>
-                    <h2 className={'Orders__title'}>Total:</h2>
-
-                    <span>{items.reduce((sum, { price }) => sum + price, 0)}</span>
-                </div>
-            </div>
-        </div>
-
-        <div className={'Orders__ticket-actions'}>
-            <div
-                className={'Orders__ticket-action'}
-                onClick={() => payAction(id, {payed: true, served: true})}
-            >
-                Pay now
-            </div>
-
-            { !served
-                ? <div
-                    className={'Orders__ticket-action'}
-                    onClick={() => payAction(id, { payed: false, served: true })}
-                >
-                    Pay later
-                </div>
-                : null
-            }
-        </div>
-    </div>
-}
 
 export default class Orders extends Component {
     state = {
@@ -56,10 +14,11 @@ export default class Orders extends Component {
         items: [],
         order: [],
         category: null,
-        payed: false,
+        paid: false,
         loading: false,
         orders: [],
-        unpaidOrders: []
+        unpaidOrders: [],
+        paidOrders: []
     }
 
     componentDidMount() {
@@ -68,19 +27,28 @@ export default class Orders extends Component {
         this.getOrders().onSnapshot(querySnapshot => this.setState({orders: querySnapshot.docs}))
 
         this.getUnpaidOrders().onSnapshot(querySnapshot => this.setState({unpaidOrders: querySnapshot.docs}))
+
+        this.getPaidOrders().onSnapshot(querySnapshot => this.setState({paidOrders: querySnapshot.docs}))
     }
 
     toggleAddOrder = () => this.setState(({addOrderToggled}) => ({addOrderToggled: !addOrderToggled}))
 
-    getActiveItems = () => this.props.firestore.collection('recipes').where('active', '==', true).get()
+    getActiveItems = () => this.props.firestore.collection('recipes')
+        .where('active', '==', true).get()
 
     getOrders = () => this.props.firestore.collection('orders')
         .where('served', '==', false)
         .where('order_time', '>=', this.props.moment().startOf('day').unix())
 
     getUnpaidOrders = () => this.props.firestore.collection('orders')
-        .where('payed', '==', false)
+        .where('paid', '==', false)
         .where('served', '==', true)
+    
+    getPaidOrders = () => this.props.firestore.collection('orders')
+        .where('served', '==', true)
+        .where('paid', '==', true)
+        .where('order_time', '>=', this.props.moment().startOf('day').unix())
+        .orderBy('order_time', 'desc')
 
     getActiveCategories = () => this.state.items.reduce((categories, item) => {
         const {category} = item.data()
@@ -101,9 +69,11 @@ export default class Orders extends Component {
     removeOrder = id => this.setState(({order}) => ({
             order: order.filter(value => value.id !== id)
         }))
+    
+    deleteOrder = id => this.props.firestore.collection('orders').doc(id).delete()
 
     confirmOrder = order => {
-        const {name, payed} = this.state
+        const {name, paid} = this.state
 
         if (order.length > 0 && name) {
             this.setState({error: false, loading: true})
@@ -113,7 +83,7 @@ export default class Orders extends Component {
                 name: name,
                 items: order,
                 served: false,
-                payed: payed
+                paid: paid
             }
     
             const dbRef = this.props.firestore.collection('orders')
@@ -124,7 +94,7 @@ export default class Orders extends Component {
                     name: '',
                     order: [],
                     category: null,
-                    payed: false,
+                    paid: false,
                     loading: false
                 }))
         } else {
@@ -132,13 +102,16 @@ export default class Orders extends Component {
         }
     }
 
-    updateOrderPaymentStatus = (id, data) => this.props.firestore.collection('orders').doc(id).update(data)
+    updateOrderPaymentStatus = (id, data) => this.props.firestore.collection('orders').doc(id)
+        .update(Object.assign({
+            order_time: this.props.moment().unix()
+        }, data))
 
     updateActiveCategory = category => this.setState({category: category})
 
     updateName = e => this.setState({name: e.target.value})
 
-    payNow = () => this.setState(({payed}) => ({payed: !payed}))
+    payNow = () => this.setState(({paid}) => ({paid: !paid}))
 
     getSummary = data => {
         return data.reduce((summary, item) => {
@@ -187,7 +160,7 @@ export default class Orders extends Component {
     }
 
     render() {
-        const {name, payed, addOrderToggled, items, category, order, loading, orders, unpaidOrders} = this.state
+        const {name, paid, addOrderToggled, items, category, order, loading, orders, unpaidOrders, paidOrders, error} = this.state
 
         return (
             <div className={'Orders'}>
@@ -259,7 +232,7 @@ export default class Orders extends Component {
 
                             <div className={'Orders__total'}>
                                 <span
-                                    className={`Orders__pay-now ${payed ? 'Orders__pay-now--confirmed' : ''}`}
+                                    className={`Orders__pay-now ${paid ? 'Orders__pay-now--confirmed' : ''}`}
                                     onClick={this.payNow}
                                 >
                                     Pay now
@@ -276,17 +249,29 @@ export default class Orders extends Component {
                             >
                                 Confirm order
                             </div>
+
+                            {error
+                                ? <div className={'Orders__error'}>
+                                    Don't forget any fields!
+                                </div>
+                                : null
+                            }
                         </div>
                         : null
                     }
-
                 </ActionBox>
 
                 <h2 className={'App__title'}>Recent orders</h2>
                 
                 <div className={'Orders__ticket-wrapper'}>
                     {
-                        orders.map(order => <OrderTicket {...order.data()} id={order.id} payAction={this.updateOrderPaymentStatus} />)
+                        orders.map(order =>
+                            <Order
+                                {...order.data()}
+                                id={order.id}
+                                payAction={this.updateOrderPaymentStatus}
+                                deleteAction={this.deleteOrder}
+                            />)
                     }
                 </div>
 
@@ -294,7 +279,25 @@ export default class Orders extends Component {
 
                 <div className={'Orders__ticket-wrapper'}>
                     {
-                        unpaidOrders.map(order => <OrderTicket {...order.data()} id={order.id} payAction={this.updateOrderPaymentStatus}/>)
+                        unpaidOrders.map(order =>
+                            <Order
+                                {...order.data()}
+                                id={order.id}
+                                payAction={this.updateOrderPaymentStatus}
+                            />)
+                    }
+                </div>
+
+                <h2 className={'App__title'}>Paid orders</h2>
+
+                <div className={'Orders__ticket-wrapper'}>
+                    {
+                        paidOrders.map(order =>
+                            <Order
+                                {...order.data()}
+                                id={order.id}
+                                payAction={this.updateOrderPaymentStatus}
+                            />)
                     }
                 </div>
             </div>

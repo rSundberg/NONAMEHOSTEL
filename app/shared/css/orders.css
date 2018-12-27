@@ -110,6 +110,12 @@
         color: white;
         text-align: center;
         border-radius: 3px;
+        width: 100%;
+        box-sizing: border-box;
+
+        &--delete {
+            background-color: var(--dangerous-item);
+        }
     }
 
     &__ticket-title {
@@ -125,5 +131,22 @@
         display: grid;
         grid: 1fr / 4fr 1fr;
         align-items: center;
+        border-bottom: 1px solid black;
+        padding-bottom: 2vw;
+
+        &:last-of-type {
+            border-bottom: 0;
+        }
+    }
+
+    &__error {
+        display: grid;
+        grid: 70px / 1fr;
+        align-items: center;
+        justify-items: center;
+        background-color: var(--dangerous-item);
+        color: white;
+        font-size: var(--font-big);
+        border-radius: 3px;
     }
 }

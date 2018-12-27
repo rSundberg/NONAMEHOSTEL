@@ -67,23 +67,28 @@
 
     &__actions {
         display: grid;
-        grid: 70px / 1fr 1fr;
-        grid-gap: 5px;
-        box-shadow: var(--box-shadow);
-        border-radius: 3px;
+        grid: 1fr / 1fr 2fr;
+        align-items: center;
     }
 
-    &__action {
+    &__activate {
         border-radius: 3px;
         background-color: var(--active-item);
         color: white;
-        display: flex;
-        justify-content: center;
-        align-items: center;
+        padding: 3vw;
+        text-align: center;
 
         &--active {
             background-color: var(--dangerous-item);
             color: white;
+        }
+    }
+
+    &__settings {
+        padding: 3vw;
+
+        &--active {
+            fill: var(--active-item);
         }
     }
 }

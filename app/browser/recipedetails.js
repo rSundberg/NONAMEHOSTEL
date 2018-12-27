@@ -10,7 +10,8 @@ import '../shared/css/recipedetails.css'
 export default class RecipeDetails extends Component {
     state = {
         uploadBlob: null,
-        categories: ['drink', 'food', 'dessert', 'snack'],
+        imageUrl: null,
+        categories: ['drink', 'food', 'dessert', 'snack', 'custom'],
         category: '',
         name: '',
         price: '',
@@ -22,6 +23,23 @@ export default class RecipeDetails extends Component {
     }
 
     descriptionRef = React.createRef()
+
+    componentDidMount() {
+        const {name, price, description, category, ingredients, instructions, imageUrl, preFill} = this.props
+
+        if (preFill) {
+            this.setState({
+                name: name,
+                price: price,
+                description: description,
+                category: category,
+                ingredients: ingredients,
+                instructions: instructions,
+                imageUrl: imageUrl
+            })
+        }
+
+    }
 
     addIngredient = () => {
         this.setState(({ingredients, ingredient}) => {
@@ -84,8 +102,8 @@ export default class RecipeDetails extends Component {
             active: false
         }
 
-        if (name && price && description && category && ingredients.length > 0 && instructions.length > 0 && uploadBlob) {
-            this.props.onConfirm(data, uploadBlob).then(() => this.setState({loading: false}, this.props.toggleBox))
+        if (name && price && description && category && ingredients.length > 0 && instructions.length > 0) {
+            this.props.onConfirm(data, uploadBlob)
         } else {
             this.setState({error: true, loading: false})
         }
@@ -93,13 +111,13 @@ export default class RecipeDetails extends Component {
     }
 
     render() {
-        const {uploadBlob, name, price, description, ingredient, instruction, categories, category, ingredients, instructions, loading, error} = this.state
+        const {uploadBlob, imageUrl, name, price, description, ingredient, instruction, categories, category, ingredients, instructions, loading, error} = this.state
 
         return (
             <Fragment>
                 <PictureInput
                     blob={blob => this.setState({uploadBlob: blob})}
-                    preview={uploadBlob}
+                    preview={uploadBlob ? uploadBlob : imageUrl}
                 />
 
                 <div>

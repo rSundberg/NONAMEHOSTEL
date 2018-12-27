@@ -9,8 +9,10 @@
     overflow: hidden;
 
     &__box-title {
-        height: 102px;
-        width: 90vw;
+        height: 18vh;
+        width: 100%;
+        padding: 5vw;
+        box-sizing: border-box;
         font-weight: bold;
         display: flex;
         justify-content: center;
@@ -19,6 +21,7 @@
         border-radius: 3px;
         user-select: none;
         cursor: pointer;
+        text-align: center;
     }
 
     &__content-box {
@@ -30,6 +33,8 @@
         overflow: scroll;
         position: fixed;
         top: 0;
+        padding-bottom: 10vh;
+        box-sizing: border-box;
 
         &--logout {
             background-color: var(--dangerous-item);
@@ -47,11 +52,8 @@
     }
 
     &__close-icon {
-        width: 40px;
-        height: 40px;
-        position: fixed;
-        bottom: 5vh;
-        left: 2vw;
+        width: 30px;
+        height: 30px;
     }
 
     &__action-box {
@@ -61,9 +63,22 @@
         align-items: center;
     }
 
+    &__content-navigation {
+        display: grid;
+        grid: 10vh / 3fr 1fr;
+        justify-items: center;
+        align-items: center;
+        padding: 5vw;
+    }
+
+    &__navigation-title {
+        font-size: var(--font-reallyBig);
+        text-align: center;
+    }
+
     &__account-info {
         background-color: white;
-        width: 90vw;
+        padding: 5vw;
         display: grid;
         grid: 1fr 1fr / 1fr;
         align-items: center;
@@ -107,10 +122,9 @@
 
     &__home {
         width: 100%;
-        height: 90vh;
         display: grid;
-        grid: 102px / 1fr;
-        grid-gap: 2vw;
+        grid: 1fr / 1fr 1fr;
+        grid-gap: 5vw;
         justify-items: center;
         align-items: center;
         background-color: white;
