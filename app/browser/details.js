@@ -1,5 +1,4 @@
 import React, { Component, Fragment } from 'react'
-import localforage from 'localforage'
 import fetch from 'isomorphic-fetch'
 
 import '../shared/css/details.css'
@@ -15,12 +14,6 @@ export default class Details extends Component {
         error: false,
         emailVerified: false,
         loading: false
-    }
-
-    componentDidMount() {
-        localforage.getItem('bookingDetails')
-            .then(details => details ? this.setState({...details, ...{emailVerified: true}}) : null)
-            .catch(err => console.log(err))
     }
 
     setName = event => this.setState({ name: event.target.value })
@@ -125,14 +118,14 @@ export default class Details extends Component {
                     }
                 </div>
 
-                <span className={`Booking__confirm ${loading ? 'Booking__loader' : ''}`} onClick={emailVerified ? this.confirmInfo : this.onNextClick}>
+                <div className={`Booking__confirm ${loading ? 'Booking__loader' : ''}`} onClick={emailVerified ? this.confirmInfo : this.onNextClick}>
                     {emailVerified ? 'Confirm details' : 'Next'}
-                </span>
+                </div>
 
                 {error
-                    ? <span className={'Details__error'}>
+                    ? <div className={'Details__error'}>
                         Please double check your information
-                    </span>
+                    </div>
                     : null
                 }
             </Fragment>

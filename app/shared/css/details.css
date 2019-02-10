@@ -54,7 +54,9 @@
     }
 
     &__error {
-        width: 100%;
-        padding: 2vw;
+        color: white;
+        padding: 22px;
+        box-sizing: border-box;
+        background-color: var(--dangerous-item);
     }
 }

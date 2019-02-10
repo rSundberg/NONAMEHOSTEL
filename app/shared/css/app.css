@@ -83,6 +83,7 @@ input {
         margin-top: 7vw;
         text-transform: capitalize;
         cursor: pointer;
+        color: var(--active-item);
     }
 
     &__action-box {

@@ -2,23 +2,27 @@
     display: grid;
     grid-gap: 5vw;
 
+    &__name {
+        margin: 5vw 0;
+    }
+
     &__box-wrapper {
         display: grid;
-        grid: 1fr / 1fr 1fr;
-        grid-gap: 5vw;
     }
 
     &__box {
-        min-height: 100px;
         display: grid;
+        grid: 1fr / 1fr auto;
+        grid-gap: 12px;
         align-items: center;
-        box-shadow: var(--box-shadow);
-        padding: 5vw;
+        padding: 6px;
+        margin: 6px 0;
         border-radius: 3px;
     }
 
     &__title {
         font-size: var(--font-big);
+        overflow: hidden;
     }
 
     &__price {
@@ -27,8 +31,8 @@
 
     &__summary-wrapper {
         display: grid;
-        grid-gap: 5vw;
-        padding-top: 5vw;
+        grid-gap: 12px;
+        padding-top: 12px;
     }
 
     &__summary {
@@ -38,24 +42,38 @@
         justify-items: center;
         text-align: center;
         border-bottom: 1px solid black;
-        padding: 5vw 0;
+        padding: 12px 0;
+    }
+
+    &__total-wrapper {
+        display: grid;
+        grid: 1fr / 1fr 1fr;
+        justify-items: center;
+        align-items: center;
+        padding: 12px 0;
     }
 
     &__total {
-        display: grid;
-        grid: 1fr / 4fr 1fr 2fr;
-        justify-items: center;
-        align-items: center;
+        text-align: center;
     }
 
     &__remove {
         transform: rotate(45deg);
     }
 
-    &__pay-now {
-        padding: 5vw;
+    &__total-actions {
+        display: flex;
+    }
+
+    &__total-action {
+        padding: 12px;
         box-shadow: var(--box-shadow);
         border-radius: 3px;
+        text-align: center;
+
+        &:first-of-type {
+            margin-right: 12px;
+        }
 
         &--confirmed {
             background-color: var(--active-item);
@@ -72,7 +90,6 @@
         font-size: var(--font-big);
         justify-items: center;
         align-items: center;
-        margin-top: 5vw;
     }
 
     &__ticket-wrapper {
@@ -148,5 +165,17 @@
         color: white;
         font-size: var(--font-big);
         border-radius: 3px;
+    }
+}
+
+@media only screen and (min-device-width: 480px) 
+                   and (max-device-width: 812px) 
+                   and (orientation: landscape) {
+
+    .Orders {
+        &__box-wrapper {
+            grid: 1fr / 1fr 1fr 1fr;
+            grid-gap: 12px;
+        }
     }
 }

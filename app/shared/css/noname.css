@@ -1,7 +1,5 @@
 .NoName {
     width: 100%;
-    display: grid;
-    grid-gap: 10vw;
 
     &__title {
         text-align: center;
@@ -16,6 +14,7 @@
 
     &__last-column {
         display: grid;
+        grid-gap: 10vh;
     }
 
     &__icon {
@@ -25,11 +24,18 @@
             flex-flow: column nowrap;
             justify-content: space-between;
             align-items: center;
+            margin: 22px 0;
+
+            &-special path {
+                stroke-width: 10px;
+            }
 
             & svg {
                 stroke: black;
                 width: 100px;
             }
+
+            
         }
 
         &-text {
@@ -42,6 +48,7 @@
             text-align: center;
             font-size: 28px;
             line-height: 30px;
+            color: var(--active-item);
         }
 
         &-description {
@@ -55,9 +62,14 @@
 @media only screen 
 and (min-device-width : 1280px) {
     .NoName {
+        display: grid;
         grid: 1fr / 1fr 1fr 1fr;
         align-items: center;
         grid-gap: 3vw;
+
+        &__icon-box {
+            margin: 0;
+        }
 
         &__icon-text {
             padding: 2vw 0;
@@ -68,7 +80,7 @@ and (min-device-width : 1280px) {
         }
 
         &__last-column {
-            grid: 1fr / 1fr 1fr;
+            grid: 1fr / 1fr;
             grid-column: 1 / 4;
         }      
     }

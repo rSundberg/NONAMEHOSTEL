@@ -81,24 +81,18 @@ export default class ToggleBooking extends Component {
         }).finished.then(() => {
             if (!this.state.bookingToggled) {
                 this.setState({ bookingToggled: true }, () => {
-                    this.props.toggle()
                     anime({
                         targets: this.props.getTarget(),
-                        height: [0, window.innerHeight],
+                        minHeight: [0, '70vh'],
                         easing: 'easeOutQuart',
                         duration: 650
                     })
                     .finished
-                    .then(() => {
-                        return this.props.getTarget().removeAttribute('style')
-                    })
-                    .catch(err => console.log(err))
+                        .then(this.props.toggle)
                 })
 
                 this.getAnimation().play()
             }
-
-            return true
         })
         .catch(err => console.log(err))
     }

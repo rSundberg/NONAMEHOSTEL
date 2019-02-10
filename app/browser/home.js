@@ -37,10 +37,9 @@ const Dashboard = Loadable.Map({
 const Booking = Loadable.Map({
     loader: {
         Booking: () => import(/* webpackChunkName: 'booking' */ './booking'),
-        moment: () => importMoment(),
-        localforage: () => importLocalforage()
+        moment: () => importMoment()
     },
-    loading: defaultProps => <Loader {...defaultProps} height={100} title={'Booking'} />,
+    loading: defaultProps => <Loader {...defaultProps} height={70} title={'Booking'} />,
     delay: 600,
     render: ({Booking, localforage, moment}, props) => <Booking.default localforage={localforage} moment={moment} {...props} />
 })
@@ -138,19 +137,13 @@ export default class Home extends Component {
 
                 {dashboardToggled ||
                     <Fragment>
-                        {volunteerToggled
-                            ? <Page backClick={this.toggleVolunteer}>
-                                <Volunteer />
-                            </Page>
-                            : null
-                        }
+                        <Page backClick={this.toggleVolunteer} toggled={volunteerToggled}>
+                            <Volunteer />
+                        </Page>
 
-                        {membershipToggled
-                            ? <Page backClick={this.toggleMembership}>
-                                <Membership />
-                            </Page>
-                            : null
-                        }
+                        <Page backClick={this.toggleMembership} toggled={membershipToggled}>
+                            <Membership />
+                        </Page>
 
                         <div
                             className={'Scrollable'}
@@ -167,7 +160,6 @@ export default class Home extends Component {
 
                         <div className={'Scrollable'} ref={this.showContainer}>
                             <LandingPage
-                                onClick={this.toggleDashboard}
                                 onSectionClick={this.setActiveSection}
                                 isMobile={isMobile}
                             />

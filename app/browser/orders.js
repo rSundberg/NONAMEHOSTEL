@@ -15,6 +15,7 @@ export default class Orders extends Component {
         order: [],
         category: null,
         paid: false,
+        served: false,
         loading: false,
         orders: [],
         unpaidOrders: [],
@@ -73,7 +74,7 @@ export default class Orders extends Component {
     deleteOrder = id => this.props.firestore.collection('orders').doc(id).delete()
 
     confirmOrder = order => {
-        const {name, paid} = this.state
+        const {name, paid, served} = this.state
 
         if (order.length > 0 && name) {
             this.setState({error: false, loading: true})
@@ -83,7 +84,8 @@ export default class Orders extends Component {
                 name: name,
                 items: order,
                 served: false,
-                paid: paid
+                paid: paid,
+                served: served
             }
     
             const dbRef = this.props.firestore.collection('orders')
@@ -95,6 +97,7 @@ export default class Orders extends Component {
                     order: [],
                     category: null,
                     paid: false,
+                    served: false,
                     loading: false
                 }))
         } else {
@@ -110,6 +113,8 @@ export default class Orders extends Component {
     updateActiveCategory = category => this.setState({category: category})
 
     updateName = e => this.setState({name: e.target.value})
+
+    serveNow = () => this.setState(({ served }) => ({ served: !served }))
 
     payNow = () => this.setState(({paid}) => ({paid: !paid}))
 
@@ -160,7 +165,7 @@ export default class Orders extends Component {
     }
 
     render() {
-        const {name, paid, addOrderToggled, items, category, order, loading, orders, unpaidOrders, paidOrders, error} = this.state
+        const {name, paid, served, addOrderToggled, items, category, order, loading, orders, unpaidOrders, paidOrders, error} = this.state
 
         return (
             <div className={'Orders'}>
@@ -169,16 +174,6 @@ export default class Orders extends Component {
                     isOpen={addOrderToggled}
                     toggle={this.toggleAddOrder}
                 >
-                    <div>
-                        <input
-                            className={'App__input'}
-                            type={'text'}
-                            placeholder={'Name'}
-                            onChange={this.updateName}
-                            value={name}
-                        />
-                    </div>
-
                     <Categories
                         categories={this.getActiveCategories()}
                         setCategory={category => this.updateActiveCategory(category)}
@@ -186,6 +181,7 @@ export default class Orders extends Component {
                     />
 
                     <div className={'Orders__box-wrapper'}>
+
                         { category
                             ? items
                                 .filter(item => item.data().category === category)
@@ -193,11 +189,12 @@ export default class Orders extends Component {
                                     const {name, price} = item.data()
 
                                     return <div
+                                        key={item.id}
                                         className={`Orders__box`}
                                         onClick={() => this.addToOrder(item)}
                                     >
                                         <h2 className={'Orders__title'}>{name}</h2>
-                                        <span className={'Orders__price'}>{price} rps</span>
+                                        <span className={'Orders__price'}>{price}</span>
                                     </div>
                                 })
                             : null
@@ -208,7 +205,7 @@ export default class Orders extends Component {
                         ? <div className={'Orders__summary-wrapper'}>
                             {
                                 this.getSummary(order).map(({ id, name, quantity, price }) =>
-                                    <div className={'Orders__summary'}>
+                                    <div className={'Orders__summary'} key={id}>
                                         <AddIcon
                                             width={20}
                                             className={'Orders__remove'}
@@ -230,17 +227,39 @@ export default class Orders extends Component {
                                 )
                             }
 
-                            <div className={'Orders__total'}>
-                                <span
-                                    className={`Orders__pay-now ${paid ? 'Orders__pay-now--confirmed' : ''}`}
-                                    onClick={this.payNow}
-                                >
-                                    Pay now
-                                </span>
+                            <div className={'Orders__total-wrapper'}>
+                                <div className={'Orders__total-actions'}>
+                                    <span
+                                        className={`Orders__total-action ${paid ? 'Orders__total-action--confirmed' : ''}`}
+                                        onClick={this.payNow}
+                                    >
+                                        Pay now
+                                    </span>
 
-                                <h2 className={'Orders__title'}>Total:</h2>
+                                    <span
+                                        className={`Orders__total-action ${served ? 'Orders__total-action--confirmed' : ''}`}
+                                        onClick={this.serveNow}
+                                    >
+                                        Serve now
+                                    </span>
+                                </div>
 
-                                <span>{this.getTotalPrice(order)}</span>
+                                <div className={'Orders__total'}>
+                                    <h2 className={'Orders__title'}>Total</h2>
+
+                                    <span>{this.getTotalPrice(order)}</span>
+                                </div>
+
+                            </div>
+
+                            <div className={'Orders__name'}>
+                                <input
+                                    className={'App__input'}
+                                    type={'text'}
+                                    placeholder={'Name'}
+                                    onChange={this.updateName}
+                                    value={name}
+                                />
                             </div>
 
                             <div
@@ -267,6 +286,7 @@ export default class Orders extends Component {
                     {
                         orders.map(order =>
                             <Order
+                                key={order.id}
                                 {...order.data()}
                                 id={order.id}
                                 payAction={this.updateOrderPaymentStatus}
@@ -281,6 +301,7 @@ export default class Orders extends Component {
                     {
                         unpaidOrders.map(order =>
                             <Order
+                                key={order.id}
                                 {...order.data()}
                                 id={order.id}
                                 payAction={this.updateOrderPaymentStatus}
@@ -294,6 +315,7 @@ export default class Orders extends Component {
                     {
                         paidOrders.map(order =>
                             <Order
+                                key={order.id}
                                 {...order.data()}
                                 id={order.id}
                                 payAction={this.updateOrderPaymentStatus}

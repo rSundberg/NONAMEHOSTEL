@@ -10,17 +10,17 @@ import CampfestIcon from '../shared/media/camp_fest.svg'
 import KerimIcon from '../shared/media/kerim.svg'
 import ArambolIcon from '../shared/media/arambol.svg'
 import BanyanIcon from '../shared/media/banyon_tree.svg'
-import ToiletIcon from '../shared/media/toilet.svg'
-import SolarIcon from '../shared/media/solar_panel.svg'
+// import ToiletIcon from '../shared/media/toilet.svg'
+// import SolarIcon from '../shared/media/solar_panel.svg'
 import WifiIcon from '../shared/media/wifi.svg'
-import ProductiveIcon from '../shared/media/productive_space.svg'
-import DigitalLabIcon from '../shared/media/digital_lab.svg'
+// import ProductiveIcon from '../shared/media/productive_space.svg'
+// import DigitalLabIcon from '../shared/media/digital_lab.svg'
 
 export default class NoName extends Component {
     render() {
         return (
             <div className={'NoName'}>
-                <div className={'NoName__icon-box'}>
+                <div className={'NoName__icon-box NoName__icon-box-special'}>
                     <FreeIcon style={{ strokeWidth: '10px' }}/>
 
                     <div className={'NoName__icon-text'}>
@@ -32,7 +32,7 @@ export default class NoName extends Component {
                     </div>
                 </div>
 
-                <div className={'NoName__icon-box'}>
+                <div className={'NoName__icon-box NoName__icon-box-special'}>
                     <DormIcon style={{ strokeWidth: '10px' }}/>
 
                     <div className={'NoName__icon-text'}>
@@ -44,7 +44,7 @@ export default class NoName extends Component {
                     </div>
                 </div>
 
-                <div className={'NoName__icon-box'}>
+                <div className={'NoName__icon-box NoName__icon-box-special'}>
                     <RoomIcon style={{ strokeWidth: '10px' }} />
 
                     <div className={'NoName__icon-text'}>
@@ -130,7 +130,22 @@ export default class NoName extends Component {
                     </div>
                 </div>
 
-                <div className={'NoName__icon-box'}>
+                <div className={'NoName__last-column'}>
+                    <div className={'NoName__icon-box'}>
+                        <WifiIcon />
+                    
+                        <div className={'NoName__icon-text'}>
+                            <h2 className={'NoName__icon-title'}>Wifi</h2>
+                    
+                            <p className={'NoName__icon-description'}>
+                                High speed internet to stay connected with family and friends.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+
+                {/* <div className={'NoName__icon-box'}>
                     <ToiletIcon />
 
                     <div className={'NoName__icon-text'}>
@@ -140,9 +155,9 @@ export default class NoName extends Component {
                             Dry compost toilets for the campsite.
                         </p>
                     </div>
-                </div>
+                </div> */}
 
-                <div className={'NoName__icon-box'}>
+                {/* <div className={'NoName__icon-box'}>
                     <SolarIcon />
 
                     <div className={'NoName__icon-text'}>
@@ -153,21 +168,9 @@ export default class NoName extends Component {
                             and the commonareas.
                         </p>
                     </div>
-                </div>
+                </div> */}
 
-                <div className={'NoName__icon-box'}>
-                    <WifiIcon />
-
-                    <div className={'NoName__icon-text'}>
-                        <h2 className={'NoName__icon-title'}>Wifi</h2>
-
-                        <p className={'NoName__icon-description'}>
-                            High speed internet to stay connected with family and friends.
-                        </p>
-                    </div>
-                </div>
-
-                <div className={'NoName__last-column'}>
+                {/* <div className={'NoName__last-column'}>
                     <div className={'NoName__icon-box'}>
                         <ProductiveIcon />
 
@@ -192,7 +195,7 @@ export default class NoName extends Component {
                             </p>
                         </div>
                     </div>
-                </div>
+                </div> */}
             </div>
         )
     }

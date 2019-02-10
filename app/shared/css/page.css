@@ -6,8 +6,18 @@
     overflow: scroll;
     z-index: 99999;
     background-color: white;
-    padding: 10vw 5vw;
+    padding: 10vh 5vw;
     box-sizing: border-box;
+    transform: translateX(-100vw);
+
+    &__title {
+        position: absolute;
+        top: 0;
+        font-size: var(--font-big);
+        text-align: center;
+        padding: 5vw;
+        box-shadow: var(--box-shadow);
+    }
 
     &__back-button {
         position: fixed;
@@ -22,12 +32,17 @@
         justify-content: center;
         padding: 5vw;
         cursor: pointer;
+        transform: translateY(20vw);
     }
 }
 
 @media only screen 
 and (min-device-width : 1280px) {
     .Page {
+        &__title {
+            padding: 2vw;
+        }
+
         &__back-button {
             width: 10vw;
             padding: 2vw;

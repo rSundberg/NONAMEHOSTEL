@@ -11,7 +11,7 @@ export default class RecipeDetails extends Component {
     state = {
         uploadBlob: null,
         imageUrl: null,
-        categories: ['drink', 'food', 'dessert', 'snack', 'custom'],
+        categories: ['drink', 'food', 'dessert', 'snack', 'smoking', 'custom'],
         category: '',
         name: '',
         price: '',

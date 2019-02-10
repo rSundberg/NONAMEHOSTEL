@@ -14,6 +14,29 @@ import Counter from './counter'
 import CampStay from '../shared/media/camp_bed_stay.svg'
 import FreeStay from '../shared/media/free_stay.svg'
 
+function PriceTag({type, beds = 0, rooms = 0, days = 0}) {
+    return (
+        <div className={'Booking__pricetag'}>
+            <h2>Total Price:</h2>
+
+            { type === 'camp' || type === 'tent'
+                ? 'Free of charge!'
+                : null
+            }
+
+            { type === 'dorm'
+                ? `${(beds * 200) * days} rps`
+                : null
+            }
+
+            { type === 'room'
+                ? beds > rooms ? `${((rooms * 700) + ((beds - (rooms * 2)) * 200) * days)}` : `${((rooms * 700) * days)} rps`
+                : null
+            }
+        </div>
+    )
+}
+
 function Info({type, count, start, end, name, email}) {
     return (
         <div className={'Booking__info'}>
@@ -194,20 +217,16 @@ export default class Booking extends Component {
         let _this = this
 
         this.setState({booking: true}, () => {
-            this.props.localforage
-                .setItem('bookingDetails', this.filterObj(this.state, this.bookingDetails))
-                .then(() => Promise.all(_this.fetchAll([url])))
-                .then(() => {
-                    this.setState({booked: true, booking: false}, () => {
+            Promise.all(_this.fetchAll([url]))
+                .then(() =>
+                    this.setState({ booked: true, booking: false }, () =>
                         anime({
                             targets: "html, body",
                             scrollTop: [window.scrollY, 0],
                             easing: 'easeInQuart',
                             duration: window.scrollY > 0 ? 550 : 0
                         })
-                    })
-                })
-                .catch(err => console.log(err))
+                    ))
         })
     }
 
@@ -300,6 +319,13 @@ export default class Booking extends Component {
                                     : null
                                 }
 
+                                <PriceTag
+                                    type={bed_type}
+                                    beds={bed_count}
+                                    rooms={room_count}
+                                    days={moment(end_date).diff(start_date, 'days')}
+                                />
+
                                 {bed_type && start_date && end_date && name && email && phone && message
                                     ? !booking
                                         ? <span className={`Booking__confirm`} onClick={() => this.sendBooking()}>
@@ -320,23 +346,16 @@ export default class Booking extends Component {
 
                         {!isMember
                             ? <div className={'Booking__donation-info'}>
-                                <h2>One more step before we confirm your booking...</h2>
+                                <h2>To stay with us you need to be a home collective member.</h2>
 
                                 <p>
-                                    In order to confirm your booking you need to
-                                    become a initiator on our crowdfunding page.
+                                    Please contribute a minimum of {bed_count * 12} euros
+                                    on our crowdfunding to initiate your membership and confirm the booking.
                                 </p>
 
-                                <p>
-                                    Follow the link, donate and we will send you a confirmation email
-                                    asap.
-                                </p>
-
-                                <p>
-                                    Check your email for more details.
-                                </p>
-
-                                <a href={'https://www.gofundme.com/nonamehostel'}>No Name gofundme page</a>
+                                <div className={'Booking__donation-button'}>
+                                    <a href={'https://www.gofundme.com/nonamehostel/donate'}>No Name gofundme page</a>
+                                </div>
                             </div>
                             : null
                         }
@@ -358,4 +377,4 @@ export default class Booking extends Component {
             </div>
         )
     }
-}
+}    

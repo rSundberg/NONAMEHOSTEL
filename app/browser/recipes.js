@@ -17,11 +17,15 @@ class Recipe extends Component {
 
     toggleRecipe = () => this.setState(({ recipeToggled }) => ({ recipeToggled: !recipeToggled, settingsToggled: false}))
 
+    updateRecipe = (data, imageFile) => {
+        this.props.update(data, imageFile).then(() => this.setState({settingsToggled: false}))
+    }
+
     render() {
         const {settingsToggled, recipeToggled} = this.state
-        const { name, imageUrl, price, description, ingredients, instructions, active, activate, category, id, update } = this.props
+        const { name, imageUrl, price, description, ingredients, instructions, active, activate, category, id } = this.props
 
-        return (<div className={`Recipes__box`}>
+        return (<div key={id} className={`Recipes__box`}>
             <div className={'Recipes__preview-wrapper'} onClick={this.toggleRecipe}>
                 <img className={'Recipes__picture'} src={imageUrl} />
 
@@ -93,7 +97,7 @@ class Recipe extends Component {
                     ingredients={ingredients}
                     instructions={instructions}
                     imageUrl={imageUrl}
-                    onConfirm={update}
+                    onConfirm={this.updateRecipe}
                 />
                 : null
             }
@@ -201,15 +205,17 @@ export default class Recipes extends Component {
 
                 {
                     this.sortByCategory(recipes)
-                        .map(({category, docs}) => <div>
+                        .map(({category, docs}) => <div key={category}>
                             <h2 className={'Recipes__category'}>{category}</h2>
 
                             <div className={'Recipes__wrapper'}>
                                 {
                                     docs.sort(this.byName)
                                         .map(doc => <Recipe {...doc.data()}
+                                            key={doc.id}
                                             id={doc.id}
                                             update={this.updateRecipe(doc)}
+                                            activate={this.activeRecipe}
                                         />)
                                 }
                             </div>

@@ -10,6 +10,7 @@
         font-size: var(--font-big);
         font-weight: bold;
         margin-bottom: 5vw;
+        color: var(--active-item);
     }
 
     &__title {
@@ -42,12 +43,13 @@
         box-sizing: border-box;
         display: grid;
         grid-gap: 5vw;
-        margin-bottom: 5vw;
+        margin-bottom: 10vw;
     }
 
     &__mission-title {
         font-size: var(--font-reallyBig);
         font-weight: normal;
+        color: var(--active-item);
     }
 
     &__link {
@@ -56,6 +58,10 @@
         padding: 5vw;
         font-weight: bold;
         cursor: pointer;
+        
+        & a {
+            color: black;
+        }
     }
 }
 
@@ -71,6 +77,7 @@ and (min-device-width : 1280px) {
         &__missions {
             grid: 1fr / 1fr 1fr 1fr;
             grid-gap: 1vw;
+            margin-bottom: 5vw;
         }
 
         &__box {

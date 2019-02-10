@@ -1,18 +1,12 @@
 .Booking {
-    width: 100vw;
-    min-height: 98vh;
-    display: grid;
-    grid-gap: 2vw;
-    align-content: center;
-    justify-content: center;
-    padding: 32px 0;
+    padding: 5vw;
     box-sizing: border-box;
+    margin-top: 10vh;
 
     & > div {
         box-shadow: var(--box-shadow);
-        width: 25vw;
         border-radius: 3px;
-        background-color: white;
+        margin: 1vw auto;
     }
 
     &__loader {
@@ -27,8 +21,9 @@
     &__title {
         width: 23vw;
         box-sizing: border-box;
-        padding-bottom: 22px;
         font-size: var(--font-reallyBig);
+        margin: 5vw auto;
+        color: var(--active-item);
     }
 
     &__confirm {
@@ -86,6 +81,16 @@
         }
     }
 
+    &__pricetag {
+        padding: 22px;
+        box-sizing: border-box;
+
+        & h2 {
+            margin-bottom: 12px;
+            font-size: var(--font-big);
+        }
+    }
+
     &__donation-info {
         padding: 22px;
         box-sizing: border-box;
@@ -99,11 +104,18 @@
             font-size: var(--font-small);
             margin-bottom: 12px;
         }
+    }
+
+    &__donation-button {
+        padding: 22px;
+        text-align: center;
+        background-color: var(--active-item);
+        border-radius: 3px;
 
         & a {
             font-size: var(--font-small);
             font-weight: bold;
-            color: black;
+            color: white;
         }
     }
 }
@@ -125,9 +137,11 @@ and (max-device-width : 1024px)  {
 @media only screen 
 and (max-device-width : 667px) {
     .Booking {
-        min-height: 100vh;
-        padding: 32px 0;
-        grid-gap: 5vw;
+        margin-top: 5vh;
+
+        & > div {
+            margin: 5vw auto;            
+        }
 
         &__title {
             width: 90vw;

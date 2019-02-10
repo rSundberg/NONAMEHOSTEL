@@ -6,7 +6,9 @@ export default class Membership extends Component {
     render() {
         return (
             <div className={'Membership'}>
-                <h2 className={'App__title'}>Membership</h2>
+                <h2 className={'Page__title'}>Membership</h2>
+
+                <h2 className={'App__title'}>What is it about?</h2>
 
                 <div>
                     We are collecting funds for  the daily running of the

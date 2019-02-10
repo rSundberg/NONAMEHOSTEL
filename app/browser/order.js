@@ -7,7 +7,7 @@ const Order = ({name, items, paid, served, id, payAction, deleteAction}) =>
 
             <div className={'Orders__ticket-items'}>
                 {
-                    items.map(item => <div className={'Orders__ticket-item'}>
+                    items.map(item => <div className={'Orders__ticket-item'} key={item.id}>
                         <span>{item.name}</span>
 
                         <span>{item.quantity}</span>

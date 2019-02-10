@@ -19,6 +19,8 @@ export default class LandingPage extends Component {
         clearTimeout(this.buttonPressTimer);
     }
 
+    goToUrl = url => window.open(url, '_blank')
+
     loadImage = e => {
         anime({
             targets: e.target,
@@ -38,19 +40,24 @@ export default class LandingPage extends Component {
         return (
             <div className={'LandingPage'}>
                 <div className={'LandingPage__head'}>
-                    <h1
+                    <div
                         onTouchStart={() => this.handleButtonPress()}
                         onTouchEnd={() => this.handleButtonRelease()}
                         onMouseDown={() => this.handleButtonPress()}
-                        onMouseUp={() => this.handleButtonRelease()}>
-                        Welcome Home
-                    </h1>
+                        onMouseUp={() => this.handleButtonRelease()}
+                    >
+                        <h1 className={'App__title'}>
+                            Welcome Home
+                        </h1>
+                    </div>
 
-                    <FacebookIcon width={30} />
+                    <div className={'LandingPage__social-links'}>
+                        <FacebookIcon width={30} onClick={() => this.goToUrl('https://www.facebook.com/nonamehostel/')}/>
 
-                    <InstagramIcon width={30} />
+                        <InstagramIcon width={30} onClick={() => this.goToUrl('https://www.instagram.com/nonamehostel/')}/>
 
-                    <GoogleIcon width={30} />
+                        <GoogleIcon width={30} onClick={() => this.goToUrl('https://goo.gl/maps/tSCKQK8zTsq')}/>
+                    </div>
                 </div>
 
                 <div className={'LandingPage__alternatives-wrapper'}>

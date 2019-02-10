@@ -5,7 +5,8 @@
     align-items: center;
     width: 100%;
     box-sizing: border-box;
-    padding: 20vh 5vw;
+    padding: 10vw 5vw;
+    margin: 20vh 0;
     position: relative;
     overflow: hidden;
 
@@ -17,6 +18,7 @@
         border-radius: 3px;
         background-color: rgba(255, 255, 255, 0.8);
         z-index: 2;
+        color: var(--active-item);
     }
 
     &__heading {
@@ -45,6 +47,7 @@
         z-index: 2;
         font-size: var(--font-big);
         line-height: 3.5vh;
+        word-break: break-word;
 
         &:last-of-type {
             margin-bottom: 0;
@@ -60,6 +63,14 @@
         color: white;
         border-radius: 3px;
         z-index: 2;
+
+        & a {
+            color: white;
+        }
+    }
+
+    &__spacer {
+        padding: 12px;
     }
 
     &__background-wrapper {
@@ -77,11 +88,10 @@
 @media only screen 
 and (min-device-width : 1280px) {
     .Section {
-        padding: 15vw 5vw;
 
         &__box,
         &__title {
-            padding: 5vh;
+            padding: 32px;
         }
 
         &__divider {
@@ -89,7 +99,7 @@ and (min-device-width : 1280px) {
         }
 
         &__link {
-            padding: 2vw;
+            padding: 32px;
         }
     }
 }

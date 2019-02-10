@@ -1,22 +1,18 @@
 import React, { Component, Fragment } from 'react'
-import Loadable from 'react-loadable'
 import anime from 'animejs'
 
 import Section from './section'
-import Loader from './loader'
+import NoName from './noname'
 
 import cob_building from '../shared/media/cob_building.jpg'
 import happy_volunteer from '../shared/media/happy_volunteer.jpg'
 import balcony_chill from '../shared/media/balcony_chill.jpg'
 import palm_trees from '../shared/media/palm_trees.jpg'
-import crazy_cheesecake from '../shared/media/crazy_cheesecake.jpg'
 import organic_garden from '../shared/media/organic_garden.jpg'
 import papaya_house from '../shared/media/papaya_house.jpg'
-
-const NoName = Loadable({
-    loader: () => import(/* webpackChunkName: 'nonamehostel' */ './noname'),
-    loading: defaultProps => <Loader {...defaultProps}/>
-})
+import self_care from '../shared/media/self_care.jpeg'
+import mr_dj from '../shared/media/mr_dj.jpeg'
+import macrame_strings from '../shared/media/macrame_strings.jpeg'
 
 export default class StartSection extends Component {
     componentDidMount() {
@@ -28,6 +24,14 @@ export default class StartSection extends Component {
     componentDidUpdate(prevProps) {
         if (this.props.activeSection && this.props.activeSection !== prevProps.activeSection) {
             this.scrollToSection()
+        }
+    }
+
+    shouldComponentUpdate(prevProps) {
+        if (this.props.activeSection === prevProps.activeSection) {
+            return false
+        } else {
+            return true
         }
     }
 
@@ -54,9 +58,12 @@ export default class StartSection extends Component {
             return
         }
 
+        console.log(correctSectionRef.current.offsetTop)
+        console.log(correctSectionRef.current.offsetParent)
+
         anime({
             targets: this.props.scrollTarget,
-            scrollTop: correctSectionRef.current.offsetTop,
+            scrollTop: correctSectionRef.current.offsetTop - 100,
             easing: 'easeOutQuart',
             duration: 1000
         })
@@ -69,7 +76,6 @@ export default class StartSection extends Component {
             <Fragment>
                 <Section
                     reference={this.whatRef}
-                    scrollElement={isMobile ? window : container}
                     backgroundImage={papaya_house}
                     backgroundStyle={{
                         width: isMobile ? '90%' : '60%',
@@ -90,10 +96,9 @@ export default class StartSection extends Component {
                 </Section>
 
                 <Section
-                    scrollElement={isMobile ? window : container}
                     backgroundImage={organic_garden}
                     backgroundStyle={{
-                        width: isMobile ? '155%' : '80%',
+                        width: isMobile ? '155%' : '100%',
                         transform: `${isMobile ? '-5%' : '-8%'} ${isMobile ? '0%' : '0%'}`
                     }}
                 >
@@ -145,10 +150,9 @@ export default class StartSection extends Component {
                 </Section>
 
                 <Section
-                    scrollElement={isMobile ? window : container}
                     backgroundImage={cob_building}
                     backgroundStyle={{
-                        width: isMobile ? '130%' : '58%',
+                        width: isMobile ? '130%' : '100%',
                         transform: {
                             x: '10%',
                             y: '0%'
@@ -193,20 +197,29 @@ export default class StartSection extends Component {
                     </div>
                 </Section>
 
-                <Section>
+                <Section
+                    backgroundImage={mr_dj}
+                    backgroundStyle={{
+                        width: isMobile ? '143%' : '100%',
+                        transform: {
+                            x: '-12%',
+                            y: '0%'
+                        }
+                    }}
+                >
                     <h2
                         className={'Section__title'}
                         style={{
                             transform: 'translateX(6vw)'
                         }}
                     >
-                        Juicebar
+                        Yard café
                     </h2>
 
                     <div
                         className={'Section__box'}
                         style={{
-                            width: '60%',
+                            width: '80%',
                             transform: 'translateX(-2vw)'
                         }}
                     >
@@ -238,12 +251,11 @@ export default class StartSection extends Component {
                 </Section>
 
                 <Section
-                    scrollElement={isMobile ? window : container}
-                    backgroundImage={crazy_cheesecake}
+                    backgroundImage={self_care}
                     backgroundStyle={{
-                        width: isMobile ? '143%' : '75%',
+                        width: isMobile ? '160%' : '100%',
                         transform: {
-                            x: '-12%',
+                            x: '0%',
                             y: '0%'
                         }
                     }}
@@ -254,7 +266,7 @@ export default class StartSection extends Component {
                             transform: 'translateX(-7vw)'
                         }}
                     >
-                        Bakery
+                        Self care
                     </h2>
 
                     <div
@@ -264,9 +276,8 @@ export default class StartSection extends Component {
                             transform: 'translateX(1vw)'
                         }}
                     >
-                        Homemade breads and cakes baked using our
-                        woodfire oven complemented with
-                        no bake techniques and recipies.
+                        Daily yoga and meditation classes, individual reiki sessions and juggling
+                        workshops for a healthy body and mind.
                     </div>
 
                     <div
@@ -276,11 +287,12 @@ export default class StartSection extends Component {
                             transform: 'translateX(4vw)'
                         }}
                     >
-                        <strong>Baking:</strong>
+                        <strong>Facilities:</strong>
 
                         <br></br>
 
-                        Breads, cheesecakes, cookies, cinnamon buns.
+                        Yoga / meditation rooftop equipped with yoga mats and blocks.
+                        Juggling space with props.
                     </div>
 
                     <div
@@ -294,54 +306,70 @@ export default class StartSection extends Component {
 
                         <br></br>
 
-                        Opening for experienced baker to help us
-                        with the daily making of the home made
-                        recipies and to bring their knowledge of
-                        food alchemy in our bake-shop.
+                        Openings for experienced teachers and facilitators
+                        in any of the mentioned activities.
                     </div>
                 </Section>
 
-                <Section>
+                <Section
+                    backgroundImage={macrame_strings}
+                    backgroundStyle={{
+                        width: isMobile ? '140%' : '100%',
+                        transform: {
+                            x: '0%',
+                            y: '0%'
+                        }
+                    }}
+                >
                     <h2
                         className={'Section__title'}
                         style={{
                             transform: 'translateX(-2vw)'
                         }}
                     >
-                        Waste Management
+                        Camp fest
                     </h2>
 
                     <div
                         className={'Section__box'}
                         style={{
-                            width: '50%',
+                            width: '65%',
                             transform: 'translateX(-7vw)'
                         }}
                     >
-                        We belive in responsible living and a conscious
-                        waste cycle. All waste is collected, sorted and
-                        disposed accordingly.
+                        Campfest is a monthly gathering with an organized flow of workshops,
+                        celebrations, skill/ knowledge sharing opportunities, music, movie
+                        screenings and a free campsite for all home collective members.
                     </div>
 
                     <div
                         className={'Section__box'}
                         style={{
-                            width: '60%',
-                            transform: 'translateX(5vw)'
+                            transform: 'translateX(1vw)'
                         }}
                     >
-                        <strong>Solutions:</strong>
+                        <strong>Upcoming campfests:</strong>
 
                         <br></br>
 
-                        Composting, High temperature combustion,
-                        recycle and reuse.
+                        Febuary 16 - 19
+
+                        <br></br>
+
+                        March 20 - 24
+                        
+                        <div className={'Section__spacer'}></div>
+
+                        Connect
+
+                        <br></br>
+                        
+                        freedormculture@gmail.com
                     </div>
                 </Section>
 
                 <Section
                     reference={this.whyRef}
-                    scrollElement={isMobile ? window : container}
                     backgroundImage={palm_trees}
                     backgroundStyle={{
                         width: isMobile ? '90%' : '65%',
@@ -418,7 +446,6 @@ export default class StartSection extends Component {
 
                 <Section
                     reference={this.howRef}
-                    scrollElement={isMobile ? window : container}
                     backgroundImage={balcony_chill}
                     backgroundStyle={{
                         width: isMobile ? '90%' : '67%',
@@ -473,7 +500,7 @@ export default class StartSection extends Component {
 
                         <br></br>
 
-                        Alchemy of nature therapy, living together & multi-cultural exchange in a handcrafted space.
+                        Alchemy of nature therapy, living together and multi-cultural exchange in a handcrafted space.
                     </div>
 
                     <div className={'Section__box'}>
@@ -493,10 +520,9 @@ export default class StartSection extends Component {
 
                 <Section
                     reference={this.volunteerRef}
-                    scrollElement={isMobile ? window : container}
                     backgroundImage={happy_volunteer}
                     backgroundStyle={{
-                        width: isMobile ? '144%' : '80%',
+                        width: isMobile ? '144%' : '100%',
                         transform: {
                             x: '-6%',
                             y: '0%'
@@ -564,10 +590,7 @@ export default class StartSection extends Component {
                             transform: 'translateX(4vw)'
                         }}
                     >
-                        Home collective membership is an invitation to get
-                        involved with the project on a longer term. It requires
-                        each member to be a contributor in the funding
-                        of the project present and future.
+                        Make the life changing experience of travel accessible to everyone.
                     </div>
 
                     <div
@@ -577,19 +600,25 @@ export default class StartSection extends Component {
                             transform: 'translateX(1vw)'
                         }}
                     >
-                        <strong>Get involved:</strong>
+                        The project originated within an international group of friends linked by a common passion for travelling.
+                        The intention is to create and co-develop sustainable spaces providing free/ affordable accommodation.
+                    </div>
 
-                        <br></br>
-
-                        With your contribution we will continue
-                        to develop our network and experience.
-                        The requested minimum amount is 12€ (1000 india rupees).
-
-                        <br></br>
+                    <div
+                        className={'Section__box'}
+                        style={{
+                            width: '75%',
+                            transform: 'translateX(1vw)'
+                        }}
+                    >
+                        The larger picture of the project is to empower individuals by sharing the benefits from the sustainable community.
+                        Benefits of interdependence, life and purity.
+                        The project exists because you do.
+                        Contribute for the material requirement.
                     </div>
 
                     <div className={'Section__link'}>
-                        No name go fund me page
+                        <a href={'https://www.gofundme.com/nonamehostel'}>No name go fund me page</a>
                     </div>
                 </Section>
             </Fragment>
