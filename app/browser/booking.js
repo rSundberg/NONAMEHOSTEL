@@ -30,14 +30,14 @@ function PriceTag({type, beds = 0, rooms = 0, days = 0}) {
             }
 
             { type === 'room'
-                ? beds > rooms ? `${((rooms * 700) + ((beds - (rooms * 2)) * 200) * days)}` : `${((rooms * 700) * days)} rps`
+                ? beds > rooms ? `${((rooms * 700) + ((beds - (rooms * 2)) * 200) * days)} rps` : `${((rooms * 700) * days)} rps`
                 : null
             }
         </div>
     )
 }
 
-function Info({type, count, start, end, name, email}) {
+function Info({type, bedCount, roomCount, start, end, name, email}) {
     return (
         <div className={'Booking__info'}>
             <h2>Booking info</h2>
@@ -58,12 +58,12 @@ function Info({type, count, start, end, name, email}) {
             <div>
                 {
                     type === 'tent' || type === 'camp'
-                        ? `${count} ${type === 'camp'
-                            ? `Camp ${count > 1
+                        ? `${bedCount} ${type === 'camp'
+                            ? `Camp ${bedCount > 1
                                 ? 'beds'
                                 : 'bed'}`
                             : type === 'tent'
-                                ? `Pitch your own ${count > 1
+                                ? `Pitch your own ${bedCount > 1
                                     ? 'tents'
                                     : 'tent'}`
                                 : ''}`
@@ -71,12 +71,12 @@ function Info({type, count, start, end, name, email}) {
                 }
                 {
                     type === 'dorm' ?
-                        `${count} dorm ${count > 1 ? 'beds' : 'bed'}` :
+                        `${bedCount} dorm ${bedCount > 1 ? 'beds' : 'bed'}` :
                         ''
                 }
                 {
                     type === 'room' ?
-                        `${count} ${count > 1 ? 'people' : 'person'} - ${count} ${count > 1 ? 'rooms' : 'room'}` :
+                        `${bedCount} ${bedCount > 1 ? 'people' : 'person'} - ${roomCount} ${roomCount > 1 ? 'rooms' : 'room'}` :
                         ''
                 }
             </div>
@@ -142,6 +142,11 @@ export default class Booking extends Component {
                 rooms_confirmed: true
             })
         })
+        .catch(err => this.setState({
+            bed_type: null,
+            activeBed: null,
+            rooms_confirmed: false
+        }))
     })
 
     updateBedCount = count => count <= 10 ? this.setState(this.resetState({bed_count: count})) : null
@@ -312,7 +317,8 @@ export default class Booking extends Component {
                                         name={name}
                                         email={email}
                                         type={bed_type}
-                                        count={room_count ? room_count : bed_count}
+                                        bedCount={bed_count}
+                                        roomCount={room_count}
                                         start={start_date}
                                         end={end_date}
                                     />
@@ -362,7 +368,8 @@ export default class Booking extends Component {
 
                         <Info
                             type={bed_type}
-                            count={room_count ? room_count : bed_count}
+                            bedCount={bed_count}
+                            roomCount={room_count}
                             start={start_date}
                             end={end_date}
                             name={name}

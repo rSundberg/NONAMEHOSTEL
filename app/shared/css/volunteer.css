@@ -37,6 +37,7 @@
         box-shadow: var(--box-shadow);
         border-radius: 3px;
         margin: 10vw 0;
+        background-color: var(--active-item);
     }
 
     &__missions {
@@ -48,19 +49,17 @@
 
     &__mission-title {
         font-size: var(--font-reallyBig);
-        font-weight: normal;
         color: var(--active-item);
     }
 
     &__link {
         text-decoration: underline;
         text-align: center;
-        padding: 5vw;
         font-weight: bold;
         cursor: pointer;
         
         & a {
-            color: black;
+            color: white;
         }
     }
 }
@@ -96,10 +95,6 @@ and (min-device-width : 1280px) {
 
         &__heading {
             margin-bottom: 1vw;
-        }
-
-        &__link {
-            padding: 3vw;
         }
     }
 }

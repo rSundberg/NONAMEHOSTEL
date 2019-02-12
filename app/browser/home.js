@@ -161,6 +161,7 @@ export default class Home extends Component {
                         <div className={'Scrollable'} ref={this.showContainer}>
                             <LandingPage
                                 onSectionClick={this.setActiveSection}
+                                activeSection={activeSection}
                                 isMobile={isMobile}
                             />
 

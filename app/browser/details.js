@@ -27,7 +27,7 @@ export default class Details extends Component {
     setMessage = event => this.setState({ message: event.target.value })
 
     onNextClick = () => {
-        this.setState({loading: true})
+        this.setState({loading: true, error: false})
 
         this.getMembership(this.state.email)
             .then(data => {
@@ -46,6 +46,7 @@ export default class Details extends Component {
                     })
                 }
             })
+            .catch(err => this.setState({loading: false, error: true}))
     }
 
     getMembership = email => {

@@ -4,7 +4,6 @@
     align-items: flex-start;
     justify-content: center;
     position: relative;
-    min-height: 100vh;
     padding: 10vw 0;
 
     & h1 {
@@ -21,12 +20,22 @@
 
     &__alternatives-wrapper {
         width: 100%;
-        z-index: 2;
+        z-index: 3;
+        overflow: hidden;
+
+        &--sticky {
+            position: fixed;
+            bottom: 0;
+        }
     }
 
     &__alternatives {
         display: flex;
         flex-flow: column;
+
+        &--sticky {
+            flex-flow: row;
+        }
     }
 
     &__alternative {
@@ -41,6 +50,13 @@
         border-radius: 3px;
         position: relative;
         overflow: hidden;
+        box-shadow: var(--box-shadow);
+
+        &--sticky {
+            width: 30vw;
+            height: auto;
+            font-size: var(--font-tiny);
+        }
     }
 
     &__title {
@@ -48,6 +64,19 @@
         background-color: white;
         padding: 5vw;
         border-radius: 3px;
+
+        &--sticky {
+            font-size: var(--font--tiny);
+            background-color: transparent;
+            color: white;
+            width: 100%;
+            text-align: center;
+        }
+
+        &--active {
+            background-color: var(--active-item);
+            color: white;
+        }
     }
 
     &__background-image {
@@ -84,6 +113,11 @@ and (min-device-width : 1280px) {
         &__alternatives-wrapper {
             box-sizing: border-box;
             padding: 0 2vw;
+            
+            &--sticky {
+                width: 35%;
+                right: 0;
+            }
         }
 
         &__alternatives {
@@ -94,11 +128,20 @@ and (min-device-width : 1280px) {
             width: 100%;
             height: 26vw;
             margin: 0.5vw;
+
+            &--sticky {
+                height: 5vw;
+            }
         }
 
         &__title {
             width: 50%;
             padding: 2vw;
+
+            &--sticky {
+                width: 100%;
+                font-size: var(--font-small);
+            }
         }
 
         &__social-links {

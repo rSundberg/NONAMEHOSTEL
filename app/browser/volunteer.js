@@ -248,8 +248,6 @@ export default class Volunteer extends Component {
                 <p className={'Volunteer__heading'}>Applications close on 20th of the previous month.</p>
 
                 <div className={'Volunteer__divider'}>
-                    <h3 className={'Volunteer__title'}>Apply here</h3>
-
                     <div className={'Volunteer__link'}>
                         <a href={'https://goo.gl/forms/dOTVSU5Z5p5QWJEs1'}>Application form</a>
                     </div>

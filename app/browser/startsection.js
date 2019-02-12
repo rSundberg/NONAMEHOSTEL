@@ -58,12 +58,9 @@ export default class StartSection extends Component {
             return
         }
 
-        console.log(correctSectionRef.current.offsetTop)
-        console.log(correctSectionRef.current.offsetParent)
-
         anime({
             targets: this.props.scrollTarget,
-            scrollTop: correctSectionRef.current.offsetTop - 100,
+            scrollTop: correctSectionRef.current.offsetTop - 50,
             easing: 'easeOutQuart',
             duration: 1000
         })
