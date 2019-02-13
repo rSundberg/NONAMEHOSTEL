@@ -12,6 +12,7 @@ import GoogleIcon from '../shared/media/google.svg'
 
 export default class LandingPage extends Component {
     handleButtonPress() {
+        console.log('ey')
         this.buttonPressTimer = setTimeout(() => this.props.onClick(), 1500);
     }
 
@@ -40,13 +41,14 @@ export default class LandingPage extends Component {
         return (
             <div className={`LandingPage`}>
                 <div className={'LandingPage__head'}>
-                    <div
-                        onTouchStart={() => this.handleButtonPress()}
-                        onTouchEnd={() => this.handleButtonRelease()}
-                        onMouseDown={() => this.handleButtonPress()}
-                        onMouseUp={() => this.handleButtonRelease()}
-                    >
-                        <h1 className={'App__title'}>
+                    <div>
+                        <h1
+                            className={'App__title'}
+                            onTouchStart={() => this.handleButtonPress()}
+                            onTouchEnd={() => this.handleButtonRelease()}
+                            onMouseDown={() => this.handleButtonPress()}
+                            onMouseUp={() => this.handleButtonRelease()}
+                        >
                             Welcome Home
                         </h1>
                     </div>

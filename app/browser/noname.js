@@ -51,7 +51,7 @@ export default class NoName extends Component {
                         <h2 className={'NoName__icon-title'}>Rooms</h2>
 
                         <p className={'NoName__icon-description'}>
-                            Doubble bed with bathroom and balcony.
+                            Double bed with bathroom and balcony.
                         </p>
                     </div>
 
@@ -64,7 +64,7 @@ export default class NoName extends Component {
                         <h2 className={'NoName__icon-title'}>Community meals</h2>
 
                         <p className={'NoName__icon-description'}>
-                            In house kitchen offers two vegetarian meals on donation.
+                            In-house kitchen offers two vegetarian meals on donation.
                         </p>
                     </div>
                 </div>

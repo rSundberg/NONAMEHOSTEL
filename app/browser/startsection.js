@@ -190,7 +190,7 @@ export default class StartSection extends Component {
 
                         Woodfire oven, community kitchen,
                         water cloning station,
-                        rocketstoves and bambooroofs.
+                        rocket stoves and bamboo roofs.
                     </div>
                 </Section>
 
@@ -220,10 +220,10 @@ export default class StartSection extends Component {
                             transform: 'translateX(-2vw)'
                         }}
                     >
-                        Enjoy vegan and home made recipies
+                        Enjoy vegan and home made recipes
                         in a chillout ambience. Start your day,
                         refresh your afternoon and bring your friends
-                        for post dinner desserts and movies.
+                        for post-dinner desserts and movies.
                     </div>
 
                     <div

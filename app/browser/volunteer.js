@@ -158,8 +158,8 @@ export default class Volunteer extends Component {
                         <h3 className={'Volunteer__heading'}>Musicians</h3>
 
                         <p className={'Volunteer__text'}>
-                            Open mics, bonfire jam sessions and parties is very appreciated activities.
-                            We are looking for passionate musicians who wants to contribute to the daily vibe and events.
+                            Open mics, bonfire jam sessions and parties are very appreciated activities.
+                            We are looking for passionate musicians who want to contribute to the daily vibe and events.
                         </p>
 
                         <p className={'Volunteer__text'}>
