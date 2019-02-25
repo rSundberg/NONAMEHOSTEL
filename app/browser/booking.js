@@ -360,7 +360,7 @@ export default class Booking extends Component {
                                 </p>
 
                                 <div className={'Booking__donation-button'}>
-                                    <a href={'https://www.gofundme.com/nonamehostel/donate'}>No Name gofundme page</a>
+                                    <a href={'https://www.gofundme.com/nonamehostel/donate'}>Donate now</a>
                                 </div>
                             </div>
                             : null

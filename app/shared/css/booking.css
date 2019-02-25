@@ -124,6 +124,8 @@
 and (min-device-width : 768px) 
 and (max-device-width : 1024px)  {
     .Booking {
+        margin-top: 5vw;
+
         &__title {
             width: 60vw;
         }
@@ -137,7 +139,7 @@ and (max-device-width : 1024px)  {
 @media only screen 
 and (max-device-width : 667px) {
     .Booking {
-        margin-top: 5vh;
+        margin-top: 10vw;
 
         & > div {
             margin: 5vw auto;            

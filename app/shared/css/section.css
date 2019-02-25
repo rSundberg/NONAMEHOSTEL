@@ -6,9 +6,13 @@
     width: 100%;
     box-sizing: border-box;
     padding: 10vw 5vw;
-    margin: 20vh 0;
+    margin-bottom: 20vh;
     position: relative;
     overflow: hidden;
+
+    &:first-of-type {
+        margin: 0;
+    }
 
     &__title {
         padding: 5vw;
