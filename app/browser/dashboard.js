@@ -61,24 +61,35 @@ export default class Dashboard extends Component {
     componentDidMount() {
         this.setState({loading: true})
 
-        anime({
-            targets: this.dashboardRef.current,
-            duration: 650,
-            easing: 'easeInQuart',
-            opacity: [0, 1]
-        })
+        this.getBookingCount()
+            .then(({ size }) => {
+                anime({
+                    targets: this.dashboardRef.current,
+                    duration: 650,
+                    easing: 'easeInQuart',
+                    opacity: [0, 1]
+                })
 
-        this.props.auth.onAuthStateChanged(user => {
-            if (user) {
-                this.setState({ user: user, loading: false })
-            } else {
-                this.setState({ user: null, loading: false })
-            }
-        }, err => {
-            console.log(err)
-            this.setState({ user: null, loading: false })
-        })
+                this.props.auth.onAuthStateChanged(user => {
+                    if (user) {
+                        this.setState({ user: user, loading: false })
+                    } else {
+                        this.setState({ user: null, loading: false })
+                    }
+                }, err => {
+                    console.log(err)
+                    this.setState({ user: null, loading: false })
+                })
+
+                this.setState({
+                    newBookings: size !== parseInt(window.localStorage.getItem('bookingCount'))
+                })
+            })
+
+
     }
+
+    getBookingCount = () => this.props.firestore.collection('locations').doc('goa').collection('beds').get()
 
     getBoxContent = box => {
         const {firestore, moment, auth, storage} = this.props
@@ -122,10 +133,19 @@ export default class Dashboard extends Component {
         }
     }
     
-    setActiveBox = boxId => this.setState({activeBox: this.state.activeBox === boxId ? false : boxId})
+    setActiveBox = boxId => this.setState({activeBox: this.state.activeBox === boxId ? false : boxId}, () => {
+        if (this.state.activeBox === 1) {
+            this.getBookingCount()
+                .then(({ size }) => {
+                    this.setState({
+                        newBookings: size !== parseInt(window.localStorage.getItem('bookingCount'))
+                    })
+                })
+        }
+    })
     
     render() {
-        const {boxes, activeBox, user, loading} = this.state
+        const {boxes, activeBox, user, loading, newBookings} = this.state
 
         return (
             <div className={'Dashboard'} ref={this.dashboardRef}>
@@ -168,7 +188,14 @@ export default class Dashboard extends Component {
 
                             <div className={'Dashboard__home'}>
                                 {boxes.map((box, i) =>
-                                    <Box key={i} name={box} id={i} isOpen={activeBox === i} onClick={this.setActiveBox}>
+                                    <Box
+                                        key={i}
+                                        name={box}
+                                        id={i}
+                                        isOpen={activeBox === i}
+                                        onClick={this.setActiveBox}
+                                        notification={box === 'Bookings' ? newBookings : false}
+                                    >
                                         {this.getBoxContent(box)}
                                     </Box>
                                 )}

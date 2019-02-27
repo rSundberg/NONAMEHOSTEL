@@ -12,7 +12,6 @@ import GoogleIcon from '../shared/media/google.svg'
 
 export default class LandingPage extends Component {
     handleButtonPress() {
-        console.log('ey')
         this.buttonPressTimer = setTimeout(() => this.props.onClick(), 1500);
     }
 

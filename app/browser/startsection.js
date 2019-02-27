@@ -349,10 +349,6 @@ export default class StartSection extends Component {
 
                         <br></br>
 
-                        Febuary 16 - 19
-
-                        <br></br>
-
                         March 20 - 24
                         
                         <div className={'Section__spacer'}></div>
@@ -615,7 +611,7 @@ export default class StartSection extends Component {
                     </div>
 
                     <div className={'Section__link'}>
-                        <a href={'https://www.gofundme.com/nonamehostel'}>No name go fund me page</a>
+                        <a href={'https://www.gofundme.com/nonamehostel'}>Donate now</a>
                     </div>
                 </Section>
             </Fragment>

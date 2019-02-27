@@ -71,12 +71,12 @@ export default class Box extends Component {
     triggerClick = () => this.props.onClick(this.props.id)
 
     render() {
-        const {name, id, isOpen, onClick, children} = this.props
+        const {name, id, isOpen, onClick, children, notification} = this.props
 
         return (
             <Fragment>
                 <span
-                    className={'Dashboard__box-title'}
+                    className={`Dashboard__box-title ${notification ? 'Dashboard__box-title--notification' : ''}`}
                     ref={this.titleRef}
                     onClick={this.triggerClick}
                 >

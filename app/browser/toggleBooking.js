@@ -51,7 +51,7 @@ export default class ToggleBooking extends Component {
         if (this.state.animationDirection === 'in') {
             return anime({
                 targets: this.toggleBookingContainer.current,
-                translateY: ['-6vh', '0vw'],
+                translateY: ['-35px', '0px'],
                 duration: 650,
                 easing: 'easeOutQuart',
                 autoplay: false
@@ -59,7 +59,7 @@ export default class ToggleBooking extends Component {
         } else {
             return anime({
                 targets: this.toggleBookingContainer.current,
-                translateY: ['0vw', '-6vh'],
+                translateY: ['0vw', '-35px'],
                 duration: 650,
                 easing: 'easeInQuart',
                 autoplay: false

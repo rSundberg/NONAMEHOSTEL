@@ -35,17 +35,23 @@ export default class Bookings extends Component {
         this.setState({recentLoading: true, recent: []})
 
         this.bedsRef().get()
-            .then(({ docs }) =>
-                docs.map(({ id }) =>
+            .then(({ docs, size }) => {
+                window.localStorage.setItem('bookingCount', size)
+
+                return docs.map(({ id }) =>
                     this.bedsRef().doc(id)
                         .collection('bookings')
                         .where('status', '==', 'booked')
                         .where('start_date', '>=', this.props.moment().format('YYYY-MM-DD'))
-                        .get()
-            ))
+                        .get())
+
+            })
             .then(bookings => Promise.all(bookings))
             .then(bookings => bookings.map(({ docs }) => docs))
-            .then(bookings => bookings.reduce((flatArr, booking) => [...flatArr, ...booking], []))
+            .then(bookings => bookings
+                .reduce((flatArr, booking) => [...flatArr, ...booking], [])
+                .sort((a, b) => this.props.moment(b.data().booking_date).unix() - this.props.moment(a.data().booking_date).unix())
+            )
             .then(bookings => this.setState({ recent: bookings, recentLoading: false }))
             .catch(err => console.log(err))
     }
@@ -61,6 +67,7 @@ export default class Bookings extends Component {
             .then(({ docs }) =>
                 docs.map(({ id }) => {
                     let bookingsRef = this.bedsRef().doc(id).collection('bookings')
+
                     if (!filter) {
                         return bookingsRef
                             .where('start_date', '>=', start)
@@ -77,7 +84,9 @@ export default class Bookings extends Component {
             )
             .then(bookings => Promise.all(bookings))
             .then(bookings => bookings.map(({ docs }) => docs))
-            .then(bookings => bookings.reduce((flatArr, booking) => [...flatArr, ...booking], []))
+            .then(bookings => bookings
+                .reduce((flatArr, booking) => [...flatArr, ...booking], [])
+            )
             .then(bookings => this.setState({ searchResults: bookings, searchLoading: false }))
             .catch(err => console.log(err))
     }
