@@ -43,14 +43,21 @@ export default class Members extends Component {
 
         this.setState({members: [], loadingMembers: true})
 
-        members
-            .get()
-            .then(query =>
-                this.setState({
-                    members: query.docs || [],
-                    loadingMembers: false
-                })
-            )
+        // members
+        //     .get()
+        //     .then(query =>
+        //         this.setState({
+        //             members: query.docs || [],
+        //             loadingMembers: false
+        //         })
+        //     )
+
+        members.onSnapshot(({docs}) => {
+            this.setState({
+                loadingMembers: false,
+                members: docs
+            })
+        })
     }
 
     addMember = (detailObj = {}) => {
@@ -65,12 +72,8 @@ export default class Members extends Component {
             .add({...detailObj, ...created})
             .then(docRef => {
                 this.uploadPicture(docRef)
-                    .then(() => docRef.get())
                     .then(doc => {
-                        this.setState(({ members }) => ({
-                            members: members.concat(doc),
-                            loading: false
-                        }))
+                        this.setState({loading: false})
 
                         this.toggleAddMember()
                     })
