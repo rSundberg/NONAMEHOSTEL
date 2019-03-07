@@ -22,16 +22,16 @@
 
     &__main-info {
         display: grid;
-        grid: 1fr 2fr / 1fr;
+        grid: 1fr 1fr / 1fr;
         grid-gap: 2vw;
         align-items: center;
-        justify-items: center;
+        justify-items: flex-start;
 
         & h2 {
             font-size: var(--font-big);
             cursor: pointer;
             text-transform: capitalize;
-            text-align: center;
+            align-self: flex-end;
         }
 
         &--active {
@@ -45,16 +45,18 @@
         font-weight: normal;
         word-wrap: break-word;
         margin-bottom: 10px;
+    }
 
-        &:first-of-type {
-            text-transform: capitalize;
-            font-weight: bold;
-        }
+    &__status {
+        border: 2px solid black;
+        padding: 6px 24px;
+        text-transform: capitalize;
+        border-radius: 3px;
     }
 
     &__main-bar {
         display: grid;
-        grid: 1fr / 1fr 3fr 1fr;
+        grid: 1fr / 2fr 1fr 1fr;
         grid-gap: 5vw;
         align-items: center;
     }

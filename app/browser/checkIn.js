@@ -10,6 +10,7 @@ export default class CheckIn extends Component {
         locations: [],
         pending: [],
         todays: [],
+        tomorrow: [],
         loadingTodays: false,
         loadingPending: false,
         ticketsLoading: []
@@ -55,26 +56,36 @@ export default class CheckIn extends Component {
     setLocation = location => this.setState({location: location, loading: true}, () => {
         this.getPending()
         this.getTodays()
+        this.getTomorrow()
     })
+
+    getConfirmedBookings = day => this.bedsRef().get()
+        .then(({ docs }) =>
+            docs.map(({ id }) =>
+                this.bedsRef().doc(id)
+                    .collection('bookings')
+                    .where('status', '==', 'confirmed')
+                    .where('start_date', '==', day)
+                    .get()
+        ))
+        .then(bookings => Promise.all(bookings))
+        .then(bookings => bookings.map(({ docs }) => docs).reduce((flatArr, booking) => [...flatArr, ...booking], []))
+        .catch(err => console.log(err))
 
     getTodays = () => {
         this.setState({loadingTodays: true, todays: []})
 
-        this.bedsRef().get()
-            .then(({ docs }) =>
-                docs.map(({ id }) =>
-                    this.bedsRef().doc(id)
-                        .collection('bookings')
-                        .where('status', '==', 'confirmed')
-                        .where('start_date', '==', this.props.moment().format('YYYY-MM-DD'))
-                        .get()
-            ))
-            .then(bookings => Promise.all(bookings))
-            .then(bookings => bookings.map(({ docs }) => docs))
-            .then(bookings => bookings.reduce((flatArr, booking) => [...flatArr, ...booking], []))
+        this.getConfirmedBookings(this.props.moment().format('YYYY-MM-DD'))
             .then(bookings => this.setState({ todays: bookings, loadingTodays: false }))
-            .catch(err => console.log(err))
     }
+
+    getTomorrow = () => {
+        this.setState({ loadingTomorrow: true, tomorrow: [] })
+
+        this.getConfirmedBookings(this.props.moment().add(1, 'days').format('YYYY-MM-DD'))
+            .then(bookings => this.setState({ tomorrow: bookings, loadingTomorrow: false }))
+    }
+
 
     getPending = () => {
         this.setState({ loadingPending: true, pending: []})
@@ -89,15 +100,13 @@ export default class CheckIn extends Component {
                         .get()
             ))
             .then(bookings => Promise.all(bookings))
-            .then(bookings => bookings.map(({docs}) => docs))
-            .then(bookings => bookings.reduce((flatArr, booking) => [...flatArr, ...booking], []))
-            .then(bookings => bookings.reverse())
+            .then(bookings => bookings.map(({docs}) => docs).reduce((flatArr, booking) => [...flatArr, ...booking], []).reverse())
             .then(bookings => this.setState({pending: bookings, loadingPending: false}))
             .catch(err => console.log(err))
     }
     
     render() {
-        const { pending, todays, loadingTodays, loadingPending, ticketsLoading } = this.state
+        const { pending, todays, tomorrow, loadingTodays, loadingTomorrow, loadingPending, ticketsLoading } = this.state
 
         return (
             <div className={'CheckIn'}>
@@ -112,6 +121,20 @@ export default class CheckIn extends Component {
                 />
 
                 { loadingTodays
+                    ? <Loader pastDelay={true} height={40} />
+                    : null
+                }
+
+                <Tickets
+                    title={'Tomorrow'}
+                    data={tomorrow}
+                    onCancelClick={this.cancelBooking}
+                    reload={this.getTomorrow}
+                    loading={ticketsLoading}
+                    moment={this.props.moment}
+                />
+
+                { loadingTomorrow
                     ? <Loader pastDelay={true} height={40} />
                     : null
                 }
