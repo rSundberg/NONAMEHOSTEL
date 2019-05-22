@@ -117,10 +117,6 @@ export default class Ticket extends Component {
                             }
 
                             <div className={'Ticket__info'}>
-                                {status}
-                            </div>
-
-                            <div className={'Ticket__info'}>
                                 {message}
                             </div>
                         </div>

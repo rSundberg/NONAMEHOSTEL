@@ -249,7 +249,7 @@ export default class Volunteer extends Component {
 
                 <div className={'Volunteer__divider'}>
                     <div className={'Volunteer__link'}>
-                        <a href={'https://goo.gl/forms/dOTVSU5Z5p5QWJEs1'}>Application form</a>
+                        <a href={'https://forms.gle/Yt4P4XSJfZRkr1so6'}>Application form</a>
                     </div>
                 </div>
             </Fragment>
