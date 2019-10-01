@@ -70,7 +70,7 @@ export default class LandingPage extends Component {
                                 LandingPage__title
                                 ${activeSection ? 'LandingPage__title--sticky' : ''}
                                 ${activeSection === 'whatwedo' ? 'LandingPage__title--active' : ''}
-                            `}>No Name experience</h2>
+                            `}>No Name</h2>
 
                             <img
                                 className={'LandingPage__background-image'}
@@ -93,7 +93,7 @@ export default class LandingPage extends Component {
                                 LandingPage__title
                                 ${activeSection ? 'LandingPage__title--sticky' : ''}
                                 ${activeSection === 'whywedo' ? 'LandingPage__title--active' : ''}
-                            `}>A global network</h2>
+                            `}>Global network</h2>
 
                             <img
                                 className={'LandingPage__background-image'}

@@ -272,8 +272,27 @@ export default class Booking extends Component {
                                     activeBed={activeBed}
                                 />
 
-                                {activeBed === 'room'
-                                    ? <Counter limit={bed_count} showAll={true} title={'Number of rooms?'} count={room_count} updateCount={this.updateRoomCount} />
+                                {activeBed === 'free'
+                                    ? <div className={'Booking__info'}>
+                                        <h2>Free</h2>
+
+                                        <div>
+                                            Tent in our campsite and shared bathroom in exchange for one daily help.
+                                        </div>
+
+                                        <h2>Camp Beds</h2>
+
+                                        <div>
+                                            Space & bedding in a shared tent.
+                                        </div>
+
+                                        <h2>Pitch your tent</h2>
+
+                                        <div>
+                                            Tent spot in our campsite
+                                            (rent bedding for 100 rupees per night).
+                                        </div>
+                                    </div>
                                     : null
                                 }
 
@@ -284,15 +303,44 @@ export default class Booking extends Component {
                                             onClick={() => this.updateBedType('camp')}>
                                             <CampStay />
                                             Camp beds
-                                </div>
+                                        </div>
 
                                         <div
                                             className={`Beds__card ${bed_type === 'tent' ? 'Beds__card--active' : ''}`}
                                             onClick={() => this.updateBedType('tent')}>
                                             <FreeStay />
                                             Pitch your tent
-                                </div>
+                                        </div>
                                     </div>
+                                    : null
+                                }
+
+                                {activeBed === 'dorm'
+                                    ? <div className={'Booking__info'}>
+                                        <h2>Dorm</h2>
+
+                                        <div>
+                                            Single and Double bunk beds in 8 people dormitory.
+                                            Members pay 200 rupees per night.
+                                        </div>
+                                    </div>
+                                    : null
+                                }
+
+                                {activeBed === 'room'
+                                    ? <div className={'Booking__info'}>
+                                        <h2>Room</h2>
+
+                                        <div>
+                                            Double bedroom with bathroom and balcony.
+                                            Members pay 700 rupees per night and 200 rupees per extra bedding.
+                                        </div>
+                                    </div>
+                                    : null
+                                }
+
+                                {activeBed === 'room'
+                                    ? <Counter limit={bed_count} showAll={true} title={'Number of rooms?'} count={room_count} updateCount={this.updateRoomCount} />
                                     : null
                                 }
 

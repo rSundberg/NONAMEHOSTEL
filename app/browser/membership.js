@@ -31,6 +31,10 @@ export default class Membership extends Component {
                 <div>
                     For any queries regarding membership, write to us - <strong>freedormculture@nonamehostel.com</strong>
                 </div>
+
+                <div className={'Section__link'}>
+                    <a href={'https://www.gofundme.com/nonamehostel'}>Contribute here</a>
+                </div>
             </div>
         );
     }
