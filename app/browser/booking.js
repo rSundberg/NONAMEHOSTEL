@@ -30,9 +30,13 @@ function PriceTag({type, beds = 0, rooms = 0, days = 0}) {
             }
 
             { type === 'room'
-                ? beds > rooms ? `${((rooms * 700) + ((beds - (rooms * 2)) * 200) * days)} rps` : `${((rooms * 700) * days)} rps`
+                ? 'Please contact us for more information'
                 : null
             }
+            {/* type === 'room'
+                ? beds > rooms ? `${((rooms * 700) + ((beds - (rooms * 2)) * 200) * days)} rps` : `${((rooms * 700) * days)} rps`
+                : null
+            */}
         </div>
     )
 }
@@ -333,7 +337,6 @@ export default class Booking extends Component {
 
                                         <div>
                                             Double bedroom with bathroom and balcony.
-                                            Members pay 700 rupees per night and 200 rupees per extra bedding.
                                         </div>
                                     </div>
                                     : null
