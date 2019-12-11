@@ -18,8 +18,8 @@ export default class Membership extends Component {
 
                 <div>
                     To join us as a Home Collective member, we ask for a contribution on
-                    our funding campaign with a minimum of 12€
-                    (approximately equal to 1000 Indian Rupees).
+                    our funding campaign with a minimum of 15€
+                    (approximately equal to 1200 Indian Rupees).
                 </div>
 
                 <div>

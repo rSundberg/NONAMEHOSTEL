@@ -406,7 +406,7 @@ export default class Booking extends Component {
                                 <h2>To stay with us you need to be a home collective member.</h2>
 
                                 <p>
-                                    Please contribute a minimum of {bed_count * 12} euros
+                                    Please contribute a minimum of {bed_count * 15} euros
                                     on our crowdfunding to initiate your membership and confirm the booking.
                                 </p>
 
